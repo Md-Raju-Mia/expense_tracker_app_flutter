@@ -50,3 +50,6 @@ app.*.map.json
 # Local FVM SDK symlink
 .fvm/
 /expense_tracker_old/
+
+# Local conversion planning notes
+/docs/expense_tracker_conversion.md

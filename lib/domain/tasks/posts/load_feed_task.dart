@@ -1,7 +1,7 @@
-import '../../core/base/base_task.dart';
-import '../../core/base/task_chain.dart';
-import '../entities/feed.dart';
-import '../repositories/posts_repository.dart';
+import '../../../core/base/base_task.dart';
+import '../../../core/base/task_chain.dart';
+import '../../entities/feed.dart';
+import '../../repositories/posts_repository.dart';
 
 /// One request returns an accumulated snapshot. Offsets count server rows,
 /// including duplicates, while the rendered collection contains unique IDs.

@@ -38,3 +38,6 @@ Never put credentials, tokens, signing files, or real user data in this memory.
 - Place each feature task in `lib/domain/tasks/<feature>`, never directly under `lib/domain/tasks` or in the UI layer.
 - The Java User app is the source of observable behavior. The Flutter template, including its posts/DummyJSON feature, does not define User-app contracts.
 
+
+## Architecture alignment, 30 October 2026
+- Aligned sample posts code and guides: PostsWriteAction lives in lib/domain/actions; feature tasks live in lib/domain/tasks/posts. Navigation and localized messages remain in presentation.

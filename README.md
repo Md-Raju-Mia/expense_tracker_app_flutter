@@ -45,6 +45,10 @@ The list uses lazy `ListView.builder` rendering. Append loading is a footer,
 not the blocking workflow overlay. Core BaseViewModel, ContentViewModel,
 BaseAction, task-chain, networking, and disposal contracts are unchanged.
 
+### Canonical feature placement
+
+Presentation belongs in `lib/ui/<feature>/{screens,widgets,view_models}`. Workflow actions belong in `lib/domain/actions`, named `<Feature><Purpose>Action`. Individual tasks belong in `lib/domain/tasks/<feature>`. Actions coordinate injected tasks through `TaskChain` and `runTask`; navigation remains in presentation. These rules also apply to sample code. See [.agents/ARCHITECTURE.md](.agents/ARCHITECTURE.md).
+
 ### Files to follow
 
 - `lib/core/widgets/paging_view.dart`: reusable scroll detection and pull-to-refresh.
@@ -52,7 +56,7 @@ BaseAction, task-chain, networking, and disposal contracts are unchanged.
 - `lib/ui/posts/widgets`: feed sections, post cards, actions, and comments.
 - `lib/ui/posts/view_models/posts_view_model.dart`: pagination and retry decisions.
 - `lib/domain/entities/feed.dart`: typed posts, comments, query, and page snapshot.
-- `lib/domain/tasks/load_feed_task.dart`: pagination merging and the ordered
+- `lib/domain/tasks/posts/load_feed_task.dart`: pagination merging and the ordered
   post/comments detail workflow.
 - `lib/domain/repositories/posts_repository.dart`: transport-independent posts contract.
 - `lib/data/datasources/remote`: endpoint calls and response decoding.
@@ -63,7 +67,7 @@ BaseAction, task-chain, networking, and disposal contracts are unchanged.
 - `lib/injection/injection.dart`: injected tasks, repositories, data sources,
   view models, and shared transport ownership.
 
-`PostsRequest`, `PostsTask`, and `WritePost` retain the underlying documented
+`PostsRequest`, `PostsTask`, and `PostsWriteAction` retain the underlying documented
 API operations for future workflows. The old endpoint-selector/JSON-explorer UI
 has been replaced by the feed. DummyJSON simulates writes without persistence;
 there is no automatic write retry or implication that those operations save data.

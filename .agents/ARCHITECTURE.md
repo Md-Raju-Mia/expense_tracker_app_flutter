@@ -28,10 +28,10 @@ responsibilities in a convenient single file:
 | `lib/ui/<feature>/screens` | Own route-level BaseView composition, navigation, and user intent. |
 | `lib/ui/<feature>/widgets` | Hold focused feature UI sections used by screens or other feature widgets. |
 | `lib/ui/<feature>/view_models` | Own observable presentation state and start injected actions/tasks. |
-| `lib/ui/<feature>/actions` | Orchestrate presentation workflows through domain tasks. |
+| `lib/domain/actions` | Coordinate business workflows through injected tasks, without UI dependencies. |
 | `lib/domain/entities` | Transport- and framework-independent business data. |
 | `lib/domain/repositories` | Abstract contracts consumed by domain tasks. |
-| `lib/domain/tasks` | Implement individual application operations against repository contracts. |
+| `lib/domain/tasks/<feature>` | Implement individual application operations against repository contracts. |
 | `lib/data/models` | Freezed API/storage DTOs with json_serializable factories. |
 | `lib/data/mappers` | Convert data models to domain entities. |
 | `lib/data/datasources/remote` | Own endpoint calls, response validation, and decoding to data models. |

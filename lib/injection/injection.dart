@@ -14,9 +14,9 @@ import '../data/repositories/posts_repository_impl.dart';
 import '../domain/entities/feed.dart';
 import '../domain/entities/posts_request.dart';
 import '../domain/repositories/posts_repository.dart';
-import '../domain/tasks/load_feed_task.dart';
-import '../domain/tasks/posts_task.dart';
-import '../ui/posts/actions/write_post.dart';
+import '../domain/tasks/posts/load_feed_task.dart';
+import '../domain/tasks/posts/posts_task.dart';
+import '../domain/actions/posts_write_action.dart';
 import '../ui/posts/view_models/post_detail_view_model.dart';
 import '../ui/posts/view_models/posts_view_model.dart';
 
@@ -68,8 +68,8 @@ void configureDependencies(
   container.registerFactoryParam<PostsTask, PostsRequest, void>(
     (request, _) => PostsTask(container<PostsRepository>(), request),
   );
-  container.registerFactoryParam<WritePost, PostsRequest, void>(
-    (request, _) => WritePost(container<PostsTask>(param1: request)),
+  container.registerFactoryParam<PostsWriteAction, PostsRequest, void>(
+    (request, _) => PostsWriteAction(container<PostsTask>(param1: request)),
   );
   container.registerFactory<PostsViewModel>(
     () => PostsViewModel(

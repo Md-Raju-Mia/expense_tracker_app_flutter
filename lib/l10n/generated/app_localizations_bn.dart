@@ -278,4 +278,37 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get expenseTrackerTitle => 'আয় ব্যয়ের হিসাব';
+
+  @override
+  String get expenseAddTransaction => 'লেনদেন যোগ করুন';
+
+  @override
+  String get expenseAmount => 'পরিমাণ';
+
+  @override
+  String get expenseAmountInvalid => 'সঠিক পরিমাণ লিখুন';
+
+  @override
+  String get expenseCategory => 'বিভাগ';
+
+  @override
+  String get expenseDate => 'তারিখ';
+
+  @override
+  String get expenseGoHome => 'হিসাবে ফিরে যান';
+
+  @override
+  String get expenseSaveTransaction => 'লেনদেন সংরক্ষণ করুন';
+
+  @override
+  String get expenseTitle => 'শিরোনাম';
+
+  @override
+  String get expenseTitleRequired => 'একটি শিরোনাম লিখুন';
+
+  @override
+  String get expenseTransactionType => 'লেনদেনের ধরন';
+
+  @override
+  String get expenseTypeExpense => 'ব্যয়';
 }

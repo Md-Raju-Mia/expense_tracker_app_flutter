@@ -44,7 +44,9 @@ void main() {
       final platform = tester.binding.platformDispatcher;
       addTearDown(platform.clearLocalesTestValue);
       platform.localesTestValue = [const Locale('en')];
-      await tester.pumpWidget(const PostsApp());
+      await tester.pumpWidget(
+        const ExpenseTrackerApp(initialLocation: '/posts'),
+      );
       await tester.pumpAndSettle();
       expect(find.text('Your feed'), findsOneWidget);
       final model = tester
@@ -89,7 +91,7 @@ void main() {
     platform.textScaleFactorTestValue = 2;
     addTearDown(platform.clearLocalesTestValue);
     addTearDown(platform.clearTextScaleFactorTestValue);
-    await tester.pumpWidget(const PostsApp());
+    await tester.pumpWidget(const ExpenseTrackerApp(initialLocation: '/posts'));
     await tester.pumpAndSettle();
     await tester.ensureVisible(find.text('আপনার ফিড'));
     expect(tester.takeException(), isNull);

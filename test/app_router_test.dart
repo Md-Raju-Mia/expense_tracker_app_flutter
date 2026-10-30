@@ -17,8 +17,10 @@ void main() {
     getIt<Dio>().httpClientAdapter = FeedAdapter();
   });
   tearDown(() => getIt.reset());
-  testWidgets('app opens the social feed automatically', (tester) async {
-    await tester.pumpWidget(const PostsApp());
+  testWidgets('posts sample remains available at its explicit route', (
+    tester,
+  ) async {
+    await tester.pumpWidget(const ExpenseTrackerApp(initialLocation: '/posts'));
     await tester.pumpAndSettle();
     expect(find.byType(PostsScreen), findsOneWidget);
     expect(find.text('Your feed'), findsOneWidget);
@@ -46,7 +48,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(model.isDisposed, isTrue);
     expect(find.text('Page not found'), findsOneWidget);
-    await tester.tap(find.text('Go to posts'));
+    router.go('/posts');
     await tester.pumpAndSettle();
     expect(
       tester.element(find.byType(PostsScreen)).read<PostsViewModel>(),

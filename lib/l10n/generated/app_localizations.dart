@@ -601,6 +601,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Expense Tracker'**
   String get expenseTrackerTitle;
+
+  /// Expense tracker: expenseAddTransaction
+  ///
+  /// In en, this message translates to:
+  /// **'Add Transaction'**
+  String get expenseAddTransaction;
+
+  /// Expense tracker: expenseAmount
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get expenseAmount;
+
+  /// Expense tracker: expenseAmountInvalid
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid amount'**
+  String get expenseAmountInvalid;
+
+  /// Expense tracker: expenseCategory
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get expenseCategory;
+
+  /// Expense tracker: expenseDate
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get expenseDate;
+
+  /// Expense tracker: expenseGoHome
+  ///
+  /// In en, this message translates to:
+  /// **'Go to expense tracker'**
+  String get expenseGoHome;
+
+  /// Expense tracker: expenseSaveTransaction
+  ///
+  /// In en, this message translates to:
+  /// **'Save Transaction'**
+  String get expenseSaveTransaction;
+
+  /// Expense tracker: expenseTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get expenseTitle;
+
+  /// Expense tracker: expenseTitleRequired
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a title'**
+  String get expenseTitleRequired;
+
+  /// Expense tracker: expenseTransactionType
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction Type'**
+  String get expenseTransactionType;
+
+  /// Expense tracker: expenseTypeExpense
+  ///
+  /// In en, this message translates to:
+  /// **'Expense'**
+  String get expenseTypeExpense;
 }
 
 class _AppLocalizationsDelegate

@@ -3,8 +3,9 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
-import 'package:path/path.dart' as path;
+
+import 'support/load_expense_fonts.dart';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:fleet_wise_user_app/domain/entities/expense.dart';
@@ -79,28 +80,7 @@ Future<void> showHome(
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  setUpAll(() async {
-    // Match Android's font rather than the wide Ahem test font.
-    final fonts = path.normalize(
-      path.join(
-        path.dirname(Platform.resolvedExecutable),
-        '..',
-        '..',
-        'material_fonts',
-      ),
-    );
-    final loader = FontLoader('Roboto');
-    for (final name in ['roboto-regular.ttf', 'roboto-bold.ttf']) {
-      final bytes = await File(path.join(fonts, name)).readAsBytes();
-      loader.addFont(Future.value(ByteData.sublistView(bytes)));
-    }
-    await loader.load();
-    final icons = FontLoader('MaterialIcons');
-    final iconBytes = await File(path.join(fonts, 'materialicons-regular.otf'))
-        .readAsBytes();
-    icons.addFont(Future.value(ByteData.sublistView(iconBytes)));
-    await icons.load();
-  });
+  setUpAll(loadExpenseFonts);
   testWidgets(
     'empty home preserves English light appearance and Add callback',
     (tester) async {

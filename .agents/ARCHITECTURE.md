@@ -83,7 +83,7 @@ Define routes and route-level providers in `lib/routes/app_pages.dart`.
 constants and _Paths contains private path definitions. Follow the existing
 named-route and pathParameters convention.
 
-`PostsApp` in `lib/main.dart` creates and disposes one router for its lifetime.
+`ExpenseTrackerApp` in `lib/main.dart` creates and disposes one router for its lifetime.
 Keep one root MaterialApp; do not create routers or app roots inside features.
 Navigate from presentation code. Use goNamed to navigate to a destination and
 pushNamed when the previous page should remain on the navigation stack.

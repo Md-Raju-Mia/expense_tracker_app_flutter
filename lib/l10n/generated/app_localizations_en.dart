@@ -279,4 +279,37 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get expenseTrackerTitle => 'Expense Tracker';
+
+  @override
+  String get expenseAddTransaction => 'Add Transaction';
+
+  @override
+  String get expenseAmount => 'Amount';
+
+  @override
+  String get expenseAmountInvalid => 'Enter a valid amount';
+
+  @override
+  String get expenseCategory => 'Category';
+
+  @override
+  String get expenseDate => 'Date';
+
+  @override
+  String get expenseGoHome => 'Go to expense tracker';
+
+  @override
+  String get expenseSaveTransaction => 'Save Transaction';
+
+  @override
+  String get expenseTitle => 'Title';
+
+  @override
+  String get expenseTitleRequired => 'Please enter a title';
+
+  @override
+  String get expenseTransactionType => 'Transaction Type';
+
+  @override
+  String get expenseTypeExpense => 'Expense';
 }

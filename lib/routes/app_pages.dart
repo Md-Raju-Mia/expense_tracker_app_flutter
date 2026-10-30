@@ -4,6 +4,10 @@ import 'package:provider/provider.dart';
 
 import '../injection/injection.dart';
 import '../l10n/l10n.dart';
+import '../ui/expense/screens/add_expense_screen.dart';
+import '../ui/expense/screens/expense_home_screen.dart';
+import '../ui/expense/view_models/add_expense_view_model.dart';
+import '../ui/expense/view_models/expense_home_view_model.dart';
 import '../ui/posts/view_models/post_detail_view_model.dart';
 import '../ui/posts/view_models/posts_view_model.dart';
 import '../ui/posts/screens/post_detail_screen.dart';
@@ -19,7 +23,36 @@ class AppPages {
   static const INITIAL = Routes.MAIN;
 
   static final routes = <RouteBase>[
-    GoRoute(path: _Paths.MAIN, redirect: (_, _) => Routes.POSTS),
+    GoRoute(path: _Paths.MAIN, redirect: (_, _) => Routes.EXPENSES),
+    ShellRoute(
+      // The expense journey owns home state while the form is on top.
+      builder: (_, state, child) => ChangeNotifierProvider(
+        create: (_) => getIt<ExpenseHomeViewModel>()..initialize(),
+        child: child,
+      ),
+      routes: [
+        GoRoute(
+          name: Routes.EXPENSES,
+          path: _Paths.EXPENSES,
+          builder: (context, state) => ExpenseHomeScreen(
+            onAddTransaction: () => context.pushNamed(Routes.ADD_EXPENSE),
+          ),
+          routes: [
+            GoRoute(
+              name: Routes.ADD_EXPENSE,
+              path: 'add',
+              builder: (context, state) {
+                final home = context.read<ExpenseHomeViewModel>();
+                return ChangeNotifierProvider(
+                  create: (_) => getIt<AddExpenseViewModel>(),
+                  child: AddExpenseScreen(onSaved: home.refresh),
+                );
+              },
+            ),
+          ],
+        ),
+      ],
+    ),
     GoRoute(
       name: Routes.POSTS,
       path: _Paths.POSTS,
@@ -59,8 +92,8 @@ class AppPages {
       appBar: AppBar(title: Text(context.l10n.pageNotFound)),
       body: Center(
         child: FilledButton(
-          onPressed: () => context.go(Routes.POSTS),
-          child: Text(context.l10n.goToPosts),
+          onPressed: () => context.go(Routes.EXPENSES),
+          child: Text(context.l10n.expenseGoHome),
         ),
       ),
     ),

@@ -8,18 +8,22 @@ import 'package:go_router/go_router.dart';
 
 void main() {
   configureDependencies(getIt);
-  runApp(const PostsApp());
+  runApp(const ExpenseTrackerApp());
 }
 
-class PostsApp extends StatefulWidget {
-  const PostsApp({super.key});
+class ExpenseTrackerApp extends StatefulWidget {
+  const ExpenseTrackerApp({super.key, this.initialLocation});
+
+  final String? initialLocation;
 
   @override
-  State<PostsApp> createState() => _PostsAppState();
+  State<ExpenseTrackerApp> createState() => _ExpenseTrackerAppState();
 }
 
-class _PostsAppState extends State<PostsApp> {
-  late final GoRouter _router = AppPages.createRouter();
+class _ExpenseTrackerAppState extends State<ExpenseTrackerApp> {
+  late final GoRouter _router = AppPages.createRouter(
+    initialLocation: widget.initialLocation,
+  );
 
   @override
   void dispose() {
@@ -29,7 +33,9 @@ class _PostsAppState extends State<PostsApp> {
 
   @override
   Widget build(BuildContext context) => MaterialApp.router(
-    onGenerateTitle: (context) => context.l10n.appTitle,
+    debugShowCheckedModeBanner: false,
+    onGenerateTitle: (_) =>
+        lookupAppLocalizations(const Locale('en')).expenseTrackerTitle,
     localizationsDelegates: AppLocalizations.localizationsDelegates,
     supportedLocales: AppLocalizations.supportedLocales,
     theme: AppTheme.light,

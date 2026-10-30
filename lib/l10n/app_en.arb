@@ -370,5 +370,49 @@
   "expenseTrackerTitle": "Expense Tracker",
   "@expenseTrackerTitle": {
     "description": "Expense tracker: expenseTrackerTitle"
+  },
+  "expenseAddTransaction": "Add Transaction",
+  "@expenseAddTransaction": {
+    "description": "Expense tracker: expenseAddTransaction"
+  },
+  "expenseAmount": "Amount",
+  "@expenseAmount": {
+    "description": "Expense tracker: expenseAmount"
+  },
+  "expenseAmountInvalid": "Enter a valid amount",
+  "@expenseAmountInvalid": {
+    "description": "Expense tracker: expenseAmountInvalid"
+  },
+  "expenseCategory": "Category",
+  "@expenseCategory": {
+    "description": "Expense tracker: expenseCategory"
+  },
+  "expenseDate": "Date",
+  "@expenseDate": {
+    "description": "Expense tracker: expenseDate"
+  },
+  "expenseGoHome": "Go to expense tracker",
+  "@expenseGoHome": {
+    "description": "Expense tracker: expenseGoHome"
+  },
+  "expenseSaveTransaction": "Save Transaction",
+  "@expenseSaveTransaction": {
+    "description": "Expense tracker: expenseSaveTransaction"
+  },
+  "expenseTitle": "Title",
+  "@expenseTitle": {
+    "description": "Expense tracker: expenseTitle"
+  },
+  "expenseTitleRequired": "Please enter a title",
+  "@expenseTitleRequired": {
+    "description": "Expense tracker: expenseTitleRequired"
+  },
+  "expenseTransactionType": "Transaction Type",
+  "@expenseTransactionType": {
+    "description": "Expense tracker: expenseTransactionType"
+  },
+  "expenseTypeExpense": "Expense",
+  "@expenseTypeExpense": {
+    "description": "Expense tracker: expenseTypeExpense"
   }
 }

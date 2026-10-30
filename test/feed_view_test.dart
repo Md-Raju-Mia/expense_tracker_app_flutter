@@ -22,7 +22,7 @@ void main() {
   tearDown(() => getIt.reset());
 
   testWidgets('opens as a social feed without API controls', (tester) async {
-    await tester.pumpWidget(const PostsApp());
+    await tester.pumpWidget(const ExpenseTrackerApp(initialLocation: '/posts'));
     await tester.pumpAndSettle();
     expect(adapter.requests, hasLength(1));
     expect(find.text('A story from post 1'), findsOneWidget);
@@ -35,7 +35,7 @@ void main() {
   testWidgets('scroll appends without blocking feed or duplicating requests', (
     tester,
   ) async {
-    await tester.pumpWidget(const PostsApp());
+    await tester.pumpWidget(const ExpenseTrackerApp(initialLocation: '/posts'));
     await tester.pumpAndSettle();
     adapter.gate = Completer<void>();
     final list = find.byType(ListView);
@@ -68,7 +68,9 @@ void main() {
   testWidgets(
     'comments open by post ID and back preserves the feed model and scroll',
     (tester) async {
-      await tester.pumpWidget(const PostsApp());
+      await tester.pumpWidget(
+        const ExpenseTrackerApp(initialLocation: '/posts'),
+      );
       await tester.pumpAndSettle();
       final model = tester
           .element(find.byType(PostsScreen))
@@ -97,7 +99,7 @@ void main() {
   testWidgets('search resets paging and the filter can be cleared', (
     tester,
   ) async {
-    await tester.pumpWidget(const PostsApp());
+    await tester.pumpWidget(const ExpenseTrackerApp(initialLocation: '/posts'));
     await tester.pumpAndSettle();
     await tester.enterText(find.byType(TextField), 'love');
     await tester.testTextInput.receiveAction(TextInputAction.search);
@@ -112,7 +114,7 @@ void main() {
   });
 
   testWidgets('pull to refresh returns to the first page', (tester) async {
-    await tester.pumpWidget(const PostsApp());
+    await tester.pumpWidget(const ExpenseTrackerApp(initialLocation: '/posts'));
     await tester.pumpAndSettle();
     await tester.drag(find.byType(ListView), const Offset(0, 450));
     await tester.pumpAndSettle();

@@ -29,7 +29,7 @@ implementation; Flutter does not load this file at runtime.
 
 ## App theme
 
-`PostsApp` applies `AppTheme.light`, `AppTheme.dark`, and `ThemeMode.system` to
+`ExpenseTrackerApp` applies `AppTheme.light`, `AppTheme.dark`, and `ThemeMode.system` to
 `MaterialApp.router`. All routes inherit it. Keep one root MaterialApp per app entry point; do not
 create another inside a feature. Retain Material 3 and the default platform font.
 Both palettes are generated from `AppTheme.seedColor` (teal). Change the seed in
@@ -143,3 +143,7 @@ Read LOCALIZATION.md alongside this guide. Use context.l10n for all visible
 strings, input labels, hints, validation messages, and accessibility labels.
 The illustrative English literals in the layout example represent ARB messages;
 replace them with the feature's localization keys in generated screens.
+
+## Expense tracker source appearance
+
+The expense routes reproduce the local expense_tracker_old source. ExpenseTheme in lib/core/theme/expense_theme.dart preserves its Material defaults, Roboto font, teal app bar, and original dimensions/colors. Expense screens use English/light presentation and nonblocking writes, including their dialogs. They still extend BaseView and observe route-owned models, but render the source scaffold without the shared blocking overlay or error region. Keep these source-specific choices confined to expense routes; the posts sample retains the shared responsive/localized theme.

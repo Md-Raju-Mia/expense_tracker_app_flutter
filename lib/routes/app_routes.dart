@@ -8,6 +8,8 @@ abstract class Routes {
 
   static const MAIN = _Paths.MAIN;
   static const POSTS = _Paths.POSTS;
+  static const EXPENSES = _Paths.EXPENSES;
+  static const ADD_EXPENSE = '/expenses/add';
   static const POST_DETAIL = '/posts/:postId';
 }
 
@@ -16,4 +18,5 @@ abstract class _Paths {
 
   static const MAIN = '/';
   static const POSTS = '/posts';
+  static const EXPENSES = '/expenses';
 }

@@ -20,7 +20,7 @@ void main() {
     final dispatcher = tester.binding.platformDispatcher;
     addTearDown(dispatcher.clearPlatformBrightnessTestValue);
     dispatcher.platformBrightnessTestValue = Brightness.light;
-    await tester.pumpWidget(const PostsApp());
+    await tester.pumpWidget(const ExpenseTrackerApp(initialLocation: '/posts'));
     await tester.pumpAndSettle();
     final light = Theme.of(tester.element(find.byType(PostsScreen)));
     expect(light.brightness, Brightness.light);
@@ -43,7 +43,7 @@ void main() {
     addTearDown(
       tester.binding.platformDispatcher.clearTextScaleFactorTestValue,
     );
-    await tester.pumpWidget(const PostsApp());
+    await tester.pumpWidget(const ExpenseTrackerApp(initialLocation: '/posts'));
     await tester.pumpAndSettle();
     await tester.ensureVisible(find.text('Your feed'));
     expect(tester.takeException(), isNull);

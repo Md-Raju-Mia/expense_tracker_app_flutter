@@ -83,5 +83,16 @@
   "expenseSpendingAnalysis": "ব্যয়ের বিশ্লেষণ",
   "expenseSpent": "ব্যয় হয়েছে",
   "expenseTotalBalance": "মোট ব্যালেন্স",
-  "expenseTrackerTitle": "আয় ব্যয়ের হিসাব"
+  "expenseTrackerTitle": "আয় ব্যয়ের হিসাব",
+  "expenseAddTransaction": "লেনদেন যোগ করুন",
+  "expenseAmount": "পরিমাণ",
+  "expenseAmountInvalid": "সঠিক পরিমাণ লিখুন",
+  "expenseCategory": "বিভাগ",
+  "expenseDate": "তারিখ",
+  "expenseGoHome": "হিসাবে ফিরে যান",
+  "expenseSaveTransaction": "লেনদেন সংরক্ষণ করুন",
+  "expenseTitle": "শিরোনাম",
+  "expenseTitleRequired": "একটি শিরোনাম লিখুন",
+  "expenseTransactionType": "লেনদেনের ধরন",
+  "expenseTypeExpense": "ব্যয়"
 }

@@ -236,4 +236,47 @@ class AppLocalizationsEn extends AppLocalizations {
   String responseStatus(int status) {
     return 'Response · HTTP $status';
   }
+
+  @override
+  String get expenseAddTask => 'Add Task';
+
+  @override
+  String get expenseCancel => 'Cancel';
+
+  @override
+  String get expenseDelete => 'Delete';
+
+  @override
+  String get expenseDeletePrompt =>
+      'Are you sure you want to delete this transaction?';
+
+  @override
+  String get expenseDeleteTitle => 'Delete Transaction';
+
+  @override
+  String get expenseExpenses => 'Expenses';
+
+  @override
+  String get expenseIncome => 'Income';
+
+  @override
+  String get expenseNoTransactions => 'No transactions yet!';
+
+  @override
+  String get expenseRecentTransactions => 'Recent Transactions';
+
+  @override
+  String get expenseSeeAll => 'See All';
+
+  @override
+  String get expenseSpendingAnalysis => 'Spending Analysis';
+
+  @override
+  String get expenseSpent => 'Spent';
+
+  @override
+  String get expenseTotalBalance => 'Total Balance';
+
+  @override
+  String get expenseTrackerTitle => 'Expense Tracker';
 }

@@ -517,6 +517,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Response · HTTP {status}'**
   String responseStatus(int status);
+
+  /// Expense tracker: expenseAddTask
+  ///
+  /// In en, this message translates to:
+  /// **'Add Task'**
+  String get expenseAddTask;
+
+  /// Expense tracker: expenseCancel
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get expenseCancel;
+
+  /// Expense tracker: expenseDelete
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get expenseDelete;
+
+  /// Expense tracker: expenseDeletePrompt
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this transaction?'**
+  String get expenseDeletePrompt;
+
+  /// Expense tracker: expenseDeleteTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Transaction'**
+  String get expenseDeleteTitle;
+
+  /// Expense tracker: expenseExpenses
+  ///
+  /// In en, this message translates to:
+  /// **'Expenses'**
+  String get expenseExpenses;
+
+  /// Expense tracker: expenseIncome
+  ///
+  /// In en, this message translates to:
+  /// **'Income'**
+  String get expenseIncome;
+
+  /// Expense tracker: expenseNoTransactions
+  ///
+  /// In en, this message translates to:
+  /// **'No transactions yet!'**
+  String get expenseNoTransactions;
+
+  /// Expense tracker: expenseRecentTransactions
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Transactions'**
+  String get expenseRecentTransactions;
+
+  /// Expense tracker: expenseSeeAll
+  ///
+  /// In en, this message translates to:
+  /// **'See All'**
+  String get expenseSeeAll;
+
+  /// Expense tracker: expenseSpendingAnalysis
+  ///
+  /// In en, this message translates to:
+  /// **'Spending Analysis'**
+  String get expenseSpendingAnalysis;
+
+  /// Expense tracker: expenseSpent
+  ///
+  /// In en, this message translates to:
+  /// **'Spent'**
+  String get expenseSpent;
+
+  /// Expense tracker: expenseTotalBalance
+  ///
+  /// In en, this message translates to:
+  /// **'Total Balance'**
+  String get expenseTotalBalance;
+
+  /// Expense tracker: expenseTrackerTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Expense Tracker'**
+  String get expenseTrackerTitle;
 }
 
 class _AppLocalizationsDelegate

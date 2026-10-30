@@ -69,5 +69,19 @@
   "previousResponse": "অনুরোধ ব্যর্থ। আগের সফল উত্তর নিচে দেখানো হয়েছে।",
   "requiredField": "একটি মান দিন।",
   "invalidNumber": "অন্তত {minimum} পূর্ণসংখ্যা দিন।",
-  "responseStatus": "উত্তর · HTTP {status}"
+  "responseStatus": "উত্তর · HTTP {status}",
+  "expenseAddTask": "যোগ করুন",
+  "expenseCancel": "বাতিল",
+  "expenseDelete": "মুছুন",
+  "expenseDeletePrompt": "আপনি কি এই লেনদেন মুছতে চান?",
+  "expenseDeleteTitle": "লেনদেন মুছুন",
+  "expenseExpenses": "ব্যয়",
+  "expenseIncome": "আয়",
+  "expenseNoTransactions": "এখনো কোনো লেনদেন নেই!",
+  "expenseRecentTransactions": "সাম্প্রতিক লেনদেন",
+  "expenseSeeAll": "সব দেখুন",
+  "expenseSpendingAnalysis": "ব্যয়ের বিশ্লেষণ",
+  "expenseSpent": "ব্যয় হয়েছে",
+  "expenseTotalBalance": "মোট ব্যালেন্স",
+  "expenseTrackerTitle": "আয় ব্যয়ের হিসাব"
 }

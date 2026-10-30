@@ -236,4 +236,46 @@ class AppLocalizationsBn extends AppLocalizations {
   String responseStatus(int status) {
     return 'উত্তর · HTTP $status';
   }
+
+  @override
+  String get expenseAddTask => 'যোগ করুন';
+
+  @override
+  String get expenseCancel => 'বাতিল';
+
+  @override
+  String get expenseDelete => 'মুছুন';
+
+  @override
+  String get expenseDeletePrompt => 'আপনি কি এই লেনদেন মুছতে চান?';
+
+  @override
+  String get expenseDeleteTitle => 'লেনদেন মুছুন';
+
+  @override
+  String get expenseExpenses => 'ব্যয়';
+
+  @override
+  String get expenseIncome => 'আয়';
+
+  @override
+  String get expenseNoTransactions => 'এখনো কোনো লেনদেন নেই!';
+
+  @override
+  String get expenseRecentTransactions => 'সাম্প্রতিক লেনদেন';
+
+  @override
+  String get expenseSeeAll => 'সব দেখুন';
+
+  @override
+  String get expenseSpendingAnalysis => 'ব্যয়ের বিশ্লেষণ';
+
+  @override
+  String get expenseSpent => 'ব্যয় হয়েছে';
+
+  @override
+  String get expenseTotalBalance => 'মোট ব্যালেন্স';
+
+  @override
+  String get expenseTrackerTitle => 'আয় ব্যয়ের হিসাব';
 }

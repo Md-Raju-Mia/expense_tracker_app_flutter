@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
+import 'expense_injection.dart';
+
 import '../core/config/app_config.dart';
 import '../core/network/api_client.dart';
 import '../core/network/api_config.dart';
@@ -36,6 +38,7 @@ void configureDependencies(
       appConfig ??
       AppConfig.fromEnvironment(api: apiConfig ?? const ApiConfig());
   config.validate();
+  configureExpenseDependencies(container);
   container.registerSingleton<AppConfig>(config);
   container.registerSingleton<ApiConfig>(config.api);
   container.registerLazySingleton<AppPackageInfo>(PlatformAppPackageInfo.new);

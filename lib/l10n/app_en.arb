@@ -1,0 +1,318 @@
+{
+  "yourFeed": "Your feed",
+  "@yourFeed": {
+    "description": "Social feed: yourFeed"
+  },
+  "feedIntro": "Discover stories, ideas, and conversations.",
+  "@feedIntro": {
+    "description": "Social feed: feedIntro"
+  },
+  "feedAuthor": "User {id}",
+  "@feedAuthor": {
+    "description": "Social feed: feedAuthor",
+    "placeholders": {
+      "id": {
+        "type": "int"
+      }
+    }
+  },
+  "publicPost": "Public post",
+  "@publicPost": {
+    "description": "Social feed: publicPost"
+  },
+  "feedLikes": "{count} likes",
+  "@feedLikes": {
+    "description": "Social feed: feedLikes",
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "feedDislikes": "{count} dislikes",
+  "@feedDislikes": {
+    "description": "Social feed: feedDislikes",
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "feedViews": "{count} views",
+  "@feedViews": {
+    "description": "Social feed: feedViews",
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "readPost": "Read post",
+  "@readPost": {
+    "description": "Social feed: readPost"
+  },
+  "comments": "Comments",
+  "@comments": {
+    "description": "Social feed: comments"
+  },
+  "copyPostLink": "Copy link",
+  "@copyPostLink": {
+    "description": "Social feed: copyPostLink"
+  },
+  "postLinkCopied": "Post link copied",
+  "@postLinkCopied": {
+    "description": "Social feed: postLinkCopied"
+  },
+  "refreshFeed": "Refresh feed",
+  "@refreshFeed": {
+    "description": "Social feed: refreshFeed"
+  },
+  "clearFilter": "Clear filter",
+  "@clearFilter": {
+    "description": "Social feed: clearFilter"
+  },
+  "loadingPosts": "Loading posts",
+  "@loadingPosts": {
+    "description": "Social feed: loadingPosts"
+  },
+  "retry": "Try again",
+  "@retry": {
+    "description": "Social feed: retry"
+  },
+  "noPosts": "No posts found. Try another search.",
+  "@noPosts": {
+    "description": "Social feed: noPosts"
+  },
+  "noComments": "No comments yet.",
+  "@noComments": {
+    "description": "Social feed: noComments"
+  },
+  "feedEnd": "You're all caught up",
+  "@feedEnd": {
+    "description": "Social feed: feedEnd"
+  },
+  "@@locale": "en",
+  "pageNotFound": "Page not found",
+  "@pageNotFound": {
+    "description": "UI message: pageNotFound"
+  },
+  "loading": "Loading",
+  "@loading": {
+    "description": "UI message: loading"
+  },
+  "operation": "Operation",
+  "@operation": {
+    "description": "UI message: operation"
+  },
+  "operationFailed": "{operation} failed. Please try again.",
+  "@operationFailed": {
+    "description": "Failure feedback with a localized operation label",
+    "placeholders": {
+      "operation": {
+        "type": "String"
+      }
+    }
+  },
+  "networkTimeout": "The request timed out.",
+  "@networkTimeout": {
+    "description": "Feedback when a network request exceeds its time limit."
+  },
+  "networkConnection": "Could not connect to the server.",
+  "@networkConnection": {
+    "description": "Feedback when the server cannot be reached."
+  },
+  "networkCancelled": "The request was cancelled.",
+  "@networkCancelled": {
+    "description": "Neutral feedback for a cancelled request; does not imply rollback."
+  },
+  "networkCertificate": "The server's identity could not be verified.",
+  "@networkCertificate": {
+    "description": "Feedback when the server certificate cannot be verified."
+  },
+  "networkUnauthorized": "Authentication is required.",
+  "@networkUnauthorized": {
+    "description": "Feedback when a request requires authentication."
+  },
+  "networkForbidden": "You do not have permission for this request.",
+  "@networkForbidden": {
+    "description": "Feedback when access to an operation is forbidden."
+  },
+  "networkNotFound": "The requested information was not found.",
+  "@networkNotFound": {
+    "description": "Feedback when a requested resource does not exist."
+  },
+  "networkRateLimited": "Too many requests. Please try again later.",
+  "@networkRateLimited": {
+    "description": "Feedback when the server rate limits requests."
+  },
+  "networkServer": "The server could not complete the request.",
+  "@networkServer": {
+    "description": "Feedback for a server failure."
+  },
+  "networkResponse": "The request was rejected.",
+  "@networkResponse": {
+    "description": "Fallback for other rejected HTTP responses."
+  },
+  "networkInvalidData": "The server returned invalid data.",
+  "@networkInvalidData": {
+    "description": "Feedback for a malformed server response."
+  },
+  "appTitle": "Posts",
+  "@appTitle": {
+    "description": "Posts explorer: appTitle"
+  },
+  "goToPosts": "Go to posts",
+  "@goToPosts": {
+    "description": "Posts explorer: goToPosts"
+  },
+  "explorerIntro": "Choose an operation, enter its inputs, then send a real HTTP request. Inspect the request and JSON response below.",
+  "@explorerIntro": {
+    "description": "Posts explorer: explorerIntro"
+  },
+  "simulatedWrites": "DummyJSON simulates writes. Add, update, and delete return a response but do not change server data. Read again to see the original data.",
+  "@simulatedWrites": {
+    "description": "Posts explorer: simulatedWrites"
+  },
+  "listPosts": "List posts",
+  "@listPosts": {
+    "description": "Posts explorer: listPosts"
+  },
+  "singlePost": "Get one post",
+  "@singlePost": {
+    "description": "Posts explorer: singlePost"
+  },
+  "searchPosts": "Search posts",
+  "@searchPosts": {
+    "description": "Posts explorer: searchPosts"
+  },
+  "postTags": "Get tags",
+  "@postTags": {
+    "description": "Posts explorer: postTags"
+  },
+  "tagList": "Get tag names",
+  "@tagList": {
+    "description": "Posts explorer: tagList"
+  },
+  "postsByTag": "Posts by tag",
+  "@postsByTag": {
+    "description": "Posts explorer: postsByTag"
+  },
+  "postsByUser": "Posts by user",
+  "@postsByUser": {
+    "description": "Posts explorer: postsByUser"
+  },
+  "postComments": "Post comments",
+  "@postComments": {
+    "description": "Posts explorer: postComments"
+  },
+  "addPost": "Add post",
+  "@addPost": {
+    "description": "Posts explorer: addPost"
+  },
+  "updatePost": "Update post",
+  "@updatePost": {
+    "description": "Posts explorer: updatePost"
+  },
+  "deletePost": "Delete post",
+  "@deletePost": {
+    "description": "Posts explorer: deletePost"
+  },
+  "postId": "Post ID",
+  "@postId": {
+    "description": "Posts explorer: postId"
+  },
+  "userId": "User ID",
+  "@userId": {
+    "description": "Posts explorer: userId"
+  },
+  "searchQuery": "Search words",
+  "@searchQuery": {
+    "description": "Posts explorer: searchQuery"
+  },
+  "tag": "Tag slug (for example, life)",
+  "@tag": {
+    "description": "Posts explorer: tag"
+  },
+  "pageLimit": "Limit (0 = all results)",
+  "@pageLimit": {
+    "description": "Posts explorer: pageLimit"
+  },
+  "pageSkip": "Skip (pagination offset)",
+  "@pageSkip": {
+    "description": "Posts explorer: pageSkip"
+  },
+  "selectFields": "Fields (comma-separated; blank = all)",
+  "@selectFields": {
+    "description": "Posts explorer: selectFields"
+  },
+  "sortBy": "Sort by field",
+  "@sortBy": {
+    "description": "Posts explorer: sortBy"
+  },
+  "sortOrder": "Sort order",
+  "@sortOrder": {
+    "description": "Posts explorer: sortOrder"
+  },
+  "ascending": "Ascending",
+  "@ascending": {
+    "description": "Posts explorer: ascending"
+  },
+  "descending": "Descending",
+  "@descending": {
+    "description": "Posts explorer: descending"
+  },
+  "postTitle": "Title",
+  "@postTitle": {
+    "description": "Posts explorer: postTitle"
+  },
+  "postBody": "Body",
+  "@postBody": {
+    "description": "Posts explorer: postBody"
+  },
+  "sendRequest": "Send request",
+  "@sendRequest": {
+    "description": "Posts explorer: sendRequest"
+  },
+  "sendWrite": "Send simulated write",
+  "@sendWrite": {
+    "description": "Posts explorer: sendWrite"
+  },
+  "lastRequest": "Last request",
+  "@lastRequest": {
+    "description": "Posts explorer: lastRequest"
+  },
+  "responseJson": "Inspect response JSON",
+  "@responseJson": {
+    "description": "Posts explorer: responseJson"
+  },
+  "noResults": "No results. Try different inputs.",
+  "@noResults": {
+    "description": "Posts explorer: noResults"
+  },
+  "previousResponse": "The request failed. The previous successful response is shown below.",
+  "@previousResponse": {
+    "description": "Posts explorer: previousResponse"
+  },
+  "requiredField": "Enter a value.",
+  "@requiredField": {
+    "description": "Posts explorer: requiredField"
+  },
+  "invalidNumber": "Enter a whole number of at least {minimum}.",
+  "@invalidNumber": {
+    "description": "Posts explorer: invalidNumber",
+    "placeholders": {
+      "minimum": {
+        "type": "int"
+      }
+    }
+  },
+  "responseStatus": "Response · HTTP {status}",
+  "@responseStatus": {
+    "description": "Posts explorer: responseStatus",
+    "placeholders": {
+      "status": {
+        "type": "int"
+      }
+    }
+  }
+}

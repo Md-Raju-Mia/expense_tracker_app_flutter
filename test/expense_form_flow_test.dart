@@ -116,7 +116,7 @@ void main() {
     );
     expect(home.expenses.single.title, 'Lunch');
     expect(repository.rows.single.category, ExpenseCategory.food);
-    expect(repository.rows.single.amount, 12.5);
+    expect(repository.rows.single.amountMinor, 1250);
     await tester.pumpWidget(const SizedBox.shrink());
     expect(home.isDisposed, isTrue);
   });
@@ -146,7 +146,7 @@ void main() {
       final home = tester
           .element(find.byType(ExpenseHomeScreen))
           .read<ExpenseHomeViewModel>();
-      expect(home.contentState.data!.totalIncome, 100);
+      expect(home.contentState.data!.totalIncomeMinor, BigInt.from(10000));
       await tester.pumpWidget(const SizedBox.shrink());
     },
   );
@@ -163,7 +163,7 @@ void main() {
       await tester.enterText(find.byType(TextFormField).at(0), '  Lunch  ');
       await tapSave(tester);
       expect(repository.rows.single.title, 'Lunch');
-      expect(repository.rows.single.amount, 12.5);
+      expect(repository.rows.single.amountMinor, 1250);
       await tester.pumpWidget(const SizedBox.shrink());
     },
   );

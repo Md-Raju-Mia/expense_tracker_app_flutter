@@ -39,11 +39,11 @@ class AddExpenseViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  Future<ActionState> save({required String title, required double amount}) {
+  Future<ActionState> save({required String title, required int amountMinor}) {
     final expense = Expense(
       title: title,
       currencyCode: currencyCode,
-      amount: amount,
+      amountMinor: amountMinor,
       date: selectedDate,
       category: isIncome ? ExpenseCategory.income : selectedCategory,
       isIncome: isIncome,

@@ -8,7 +8,9 @@ The default route is /expenses. Use Settings in the Home app bar to select count
 
 Each transaction retains its own currency code. Home totals and the spending chart use the selected currency; recent transactions include all currencies with their original amounts. Existing dollar-denominated data upgrades as USD without conversion. New transactions use the saved preferred currency. Settings survive restart; leaving settings without saving discards the draft.
 
-New transactions require a nonblank title and a positive amount with up to two decimal places. Amount input accepts English or Bengali digits without grouping commas. Existing stored records remain unchanged. Input validation uses integer minor units; storage and report totals currently still use doubles.
+New transactions require a nonblank title and a positive amount with up to two decimal places. Amount input accepts English or Bengali digits without grouping commas. Amounts use integer minor units throughout input, domain and SQLite storage (1250 means 12.50). Report totals use BigInt and display exact cents in English/Bengali; only chart drawing proportions use doubles.
+
+Database v4 adds amountMinor. Upgrading v1/v2/v3 preserves the original amount column, IDs, sync IDs, dates and currencies. Legacy amounts round to the nearest minor unit, with ties away from zero (12.345 becomes 1235, -12.345 becomes -1235); zero and negative legacy rows remain in totals. Rounding each old row can change totals for records with more than two decimals. New rows use amountMinor and leave the old REAL amount column empty. If an old value is nonnumeric, nonfinite or outside the SQLite INTEGER range, the upgrade rolls back rather than dropping or clamping data; that record needs repair before opening the database again.
 
 The UI uses a high-contrast teal balance card, an Add Transaction action below the scrollable content, and layouts that wrap for large text. The expense journey currently uses a light theme.
 

@@ -56,7 +56,7 @@ class FakeExpenseRepository implements ExpenseRepository {
 Expense expense({int? id}) => Expense(
   id: id,
   title: 'Lunch',
-  amount: 12,
+  amountMinor: 1200,
   date: DateTime(2026, 4, 9),
   category: ExpenseCategory.food,
 );
@@ -84,7 +84,7 @@ void main() {
     final model = homeModel(repository);
     addTearDown(model.dispose);
     await model.initialize();
-    expect(model.contentState.data!.balance, -12);
+    expect(model.contentState.data!.balanceMinor, BigInt.from(-1200));
     await model.initialize();
     expect(repository.calls, ['load']);
     final result = await model.deleteExpense(1);
@@ -153,10 +153,10 @@ void main() {
     model.selectIncome(false);
     expect(model.selectedCategory, ExpenseCategory.shopping);
     model.selectDate(DateTime(2026, 3, 1));
-    await model.save(title: 'Lunch', amount: 5);
+    await model.save(title: 'Lunch', amountMinor: 500);
     final saved = repository.rows.single;
     expect(saved.title, 'Lunch');
-    expect(saved.amount, 5);
+    expect(saved.amountMinor, 500);
     expect(saved.category, ExpenseCategory.shopping);
     expect(saved.date, DateTime(2026, 3, 1));
   });
@@ -169,7 +169,7 @@ void main() {
       addTearDown(model.dispose);
       model.selectCategory(ExpenseCategory.health);
       model.selectIncome(true);
-      await model.save(title: 'Salary', amount: 100);
+      await model.save(title: 'Salary', amountMinor: 10000);
       expect(repository.rows.single.category, ExpenseCategory.income);
       expect(repository.rows.single.isIncome, isTrue);
       model.selectIncome(false);
@@ -188,7 +188,7 @@ void main() {
       await home.initialize();
       var notifications = 0;
       form.addListener(() => notifications++);
-      final pending = form.save(title: 'Lunch', amount: 12);
+      final pending = form.save(title: 'Lunch', amountMinor: 1200);
       form.dispose();
       final beforeCompletion = notifications;
       save.complete(1);
@@ -208,18 +208,21 @@ void main() {
         ..pendingSave = Completer<int>();
       final model = formModel(repository);
       addTearDown(model.dispose);
-      final pending = model.save(title: 'One', amount: 1);
-      await expectLater(model.save(title: 'Two', amount: 2), throwsStateError);
+      final pending = model.save(title: 'One', amountMinor: 100);
+      await expectLater(
+        model.save(title: 'Two', amountMinor: 200),
+        throwsStateError,
+      );
       repository.pendingSave!.complete(1);
       await pending;
       expect(repository.rows, hasLength(1));
       final failure = StateError('cannot save');
       repository.saveError = failure;
-      final failed = await model.save(title: 'Retry', amount: 3);
+      final failed = await model.save(title: 'Retry', amountMinor: 300);
       expect(failed.error, same(failure));
       expect(failed.failedTask, 'Save expense');
       repository.saveError = null;
-      await model.save(title: 'Retry', amount: 3);
+      await model.save(title: 'Retry', amountMinor: 300);
       expect(repository.rows, hasLength(2));
     },
   );
@@ -227,26 +230,19 @@ void main() {
     final repository = FakeExpenseRepository();
     final model = formModel(repository);
     addTearDown(model.dispose);
-    for (final amount in [
-      0.0,
-      -5.0,
-      double.nan,
-      double.infinity,
-      1.234,
-      1e14,
-    ]) {
-      final outcome = await model.save(title: 'Lunch', amount: amount);
+    for (final amount in [0, -500, 1000000000000000]) {
+      final outcome = await model.save(title: 'Lunch', amountMinor: amount);
       expect(outcome.status, ActionStatus.failed);
       expect(outcome.failedTask, 'Save expense');
     }
-    final blank = await model.save(title: '   ', amount: 10);
+    final blank = await model.save(title: '   ', amountMinor: 1000);
     expect(blank.status, ActionStatus.failed);
     expect(repository.calls, isEmpty);
     expect(repository.rows, isEmpty);
     expect(
-      (await model.save(title: 'Lunch', amount: .29)).status,
+      (await model.save(title: 'Lunch', amountMinor: 29)).status,
       ActionStatus.succeeded,
     );
-    expect(repository.rows.single.amount, .29);
+    expect(repository.rows.single.amountMinor, 29);
   });
 }

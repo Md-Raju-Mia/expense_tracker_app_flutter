@@ -52,7 +52,7 @@ class AddExpenseScreen extends BaseView<AddExpenseViewModel> {
       onSubmit: (title, amount) {
         // Capture the callback before popping. No BuildContext is used later.
         final refreshHome = onSaved;
-        final pending = viewModel.save(title: title, amount: amount);
+        final pending = viewModel.save(title: title, amountMinor: amount);
         pending.then((outcome) {
           if (outcome.status == ActionStatus.succeeded) refreshHome();
         });

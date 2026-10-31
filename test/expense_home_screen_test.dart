@@ -43,7 +43,7 @@ Expense row(
 }) => Expense(
   id: id,
   title: category.name,
-  amount: amount,
+  amountMinor: (amount * 100).round(),
   date: DateTime(2026, 4, 9, 12, 30 - id),
   category: category,
   isIncome: income,

@@ -67,7 +67,7 @@ class ExpenseTransactionList extends StatelessWidget {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          '${expense.isIncome ? '+' : '-'}${expenseAmount(expense.amount, expense.currencyCode, text.localeName)}',
+                          '${expense.isIncome ? '+' : '-'}${expenseAmount(BigInt.from(expense.amountMinor), expense.currencyCode, text.localeName)}',
                           style: theme.textTheme.titleMedium?.copyWith(
                             color: expense.isIncome
                                 ? ExpenseTheme.incomeColor

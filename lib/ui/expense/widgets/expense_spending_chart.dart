@@ -15,9 +15,9 @@ class ExpenseSpendingChart extends StatelessWidget {
   final ExpenseSummary summary;
   @override
   Widget build(BuildContext context) {
-    final totals = summary.categoryTotals;
+    final totals = summary.categoryTotalsMinor;
     final amountText = expenseAmount(
-      summary.totalExpense,
+      summary.totalExpenseMinor,
       summary.currencyCode,
       context.l10n.localeName,
     );
@@ -46,7 +46,8 @@ class ExpenseSpendingChart extends StatelessWidget {
                     centerSpaceRadius: 55,
                     sections: totals.entries.map((entry) {
                       return PieChartSectionData(
-                        value: entry.value,
+                        // The chart needs doubles only for drawing proportions.
+                        value: entry.value.toDouble(),
                         showTitle: false,
                         radius: 40,
                         color: entry.key.color,
@@ -70,7 +71,7 @@ class ExpenseSpendingChart extends StatelessWidget {
                       ),
                       Text(
                         expenseAmount(
-                          summary.totalExpense,
+                          summary.totalExpenseMinor,
                           summary.currencyCode,
                           context.l10n.localeName,
                         ),
@@ -92,7 +93,7 @@ class ExpenseSpendingChart extends StatelessWidget {
             ),
             Text(
               expenseAmount(
-                summary.totalExpense,
+                summary.totalExpenseMinor,
                 summary.currencyCode,
                 context.l10n.localeName,
               ),
@@ -108,8 +109,10 @@ class ExpenseSpendingChart extends StatelessWidget {
             children: totals.entries.map((entry) {
               final percent = NumberFormat('0.0', context.l10n.localeName)
                   .format(
-                    summary.totalExpense > 0
-                        ? entry.value / summary.totalExpense * 100
+                    summary.totalExpenseMinor > BigInt.zero
+                        ? entry.value.toDouble() /
+                              summary.totalExpenseMinor.toDouble() *
+                              100
                         : 0,
                   );
               return Row(

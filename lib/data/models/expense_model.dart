@@ -11,7 +11,9 @@ abstract class ExpenseModel with _$ExpenseModel {
     String? syncId,
     @Default('USD') String currencyCode,
     required String title,
-    required double amount,
+    required int amountMinor,
+    // Only old rows have this original REAL value. Never used in new totals.
+    @JsonKey(name: 'amount') double? legacyAmount,
     required String date,
     required int category,
     required int isIncome,

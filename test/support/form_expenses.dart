@@ -20,7 +20,7 @@ class FormExpenses implements ExpenseRepository {
         id: id,
         title: expense.title,
         currencyCode: expense.currencyCode,
-        amount: expense.amount,
+        amountMinor: expense.amountMinor,
         date: expense.date,
         category: expense.category,
         isIncome: expense.isIncome,

@@ -6,7 +6,7 @@ class Expense {
     this.syncId,
     this.currencyCode = 'USD',
     required this.title,
-    required this.amount,
+    required this.amountMinor,
     required this.date,
     required this.category,
     this.isIncome = false,
@@ -18,7 +18,8 @@ class Expense {
   final String? syncId;
   final String currencyCode;
   final String title;
-  final double amount;
+  // Two-decimal currencies: 1250 means 12.50 taka/rupees/dollars.
+  final int amountMinor;
   final DateTime date;
   final ExpenseCategory category;
   final bool isIncome;

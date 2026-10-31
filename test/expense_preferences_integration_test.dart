@@ -62,12 +62,12 @@ void main() {
     await tester.tap(find.text('লেনদেন সংরক্ষণ করুন'));
     await tester.pumpAndSettle();
     expect(expenses.rows.single.currencyCode, 'BDT');
-    expect(expenses.rows.single.amount, 25.5);
+    expect(expenses.rows.single.amountMinor, 2550);
     final home = tester
         .element(find.byType(ExpenseHomeScreen))
         .read<ExpenseHomeViewModel>();
     expect(home.contentState.data!.currencyCode, 'BDT');
-    expect(home.contentState.data!.totalExpense, 25.5);
+    expect(home.contentState.data!.totalExpenseMinor, BigInt.from(2550));
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());
   });
@@ -81,14 +81,14 @@ void main() {
         Expense(
           id: 1,
           title: 'Old dollars',
-          amount: 12,
+          amountMinor: 1200,
           date: DateTime(2026, 4, 9),
           category: ExpenseCategory.food,
         ),
         Expense(
           id: 2,
           title: 'Taka',
-          amount: 100,
+          amountMinor: 10000,
           date: DateTime(2026, 4, 10),
           category: ExpenseCategory.shopping,
           currencyCode: 'BDT',
@@ -98,7 +98,7 @@ void main() {
       final home = tester
           .element(find.byType(ExpenseHomeScreen))
           .read<ExpenseHomeViewModel>();
-      expect(home.contentState.data!.totalExpense, 12);
+      expect(home.contentState.data!.totalExpenseMinor, BigInt.from(1200));
       await tester.tap(find.byIcon(Icons.settings_outlined));
       await tester.pumpAndSettle();
       await tester.tap(find.byType(DropdownButtonFormField<UserCountry>));
@@ -112,12 +112,12 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.text('আয় ব্যয়ের হিসাব'), findsOneWidget);
       expect(home.contentState.data!.currencyCode, 'BDT');
-      expect(home.contentState.data!.totalExpense, 100);
+      expect(home.contentState.data!.totalExpenseMinor, BigInt.from(10000));
       expect(
         home.expenses.firstWhere((row) => row.id == 1).currencyCode,
         'USD',
       );
-      expect(home.expenses.firstWhere((row) => row.id == 1).amount, 12);
+      expect(home.expenses.firstWhere((row) => row.id == 1).amountMinor, 1200);
       await tester.scrollUntilVisible(find.text('USD'), 240);
       expect(find.text('USD'), findsOneWidget);
       final saved = await preferences.load();
@@ -129,7 +129,10 @@ void main() {
       final reopenedHome = tester
           .element(find.byType(ExpenseHomeScreen))
           .read<ExpenseHomeViewModel>();
-      expect(reopenedHome.contentState.data!.totalExpense, 100);
+      expect(
+        reopenedHome.contentState.data!.totalExpenseMinor,
+        BigInt.from(10000),
+      );
       expect(reopenedHome.contentState.data!.currencyCode, 'BDT');
       expect(tester.takeException(), isNull);
       await tester.pumpWidget(const SizedBox.shrink());
@@ -168,7 +171,7 @@ void main() {
         Expense(
           id: 1,
           title: 'খাবার',
-          amount: 100,
+          amountMinor: 10000,
           date: DateTime(2026, 4, 9),
           category: ExpenseCategory.food,
           currencyCode: 'BDT',

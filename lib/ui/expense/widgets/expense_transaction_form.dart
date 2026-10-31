@@ -17,7 +17,7 @@ class ExpenseTransactionForm extends StatefulWidget {
     required this.onSubmit,
   });
   final AddExpenseViewModel viewModel;
-  final void Function(String title, double amount) onSubmit;
+  final void Function(String title, int amountMinor) onSubmit;
 
   @override
   State<ExpenseTransactionForm> createState() => _ExpenseTransactionFormState();
@@ -26,7 +26,7 @@ class ExpenseTransactionForm extends StatefulWidget {
 class _ExpenseTransactionFormState extends State<ExpenseTransactionForm> {
   final _formKey = GlobalKey<FormState>();
   String _title = '';
-  double _amount = 0;
+  int _amount = 0;
 
   void _submit() {
     if (!_formKey.currentState!.validate()) return;
@@ -97,7 +97,7 @@ class _ExpenseTransactionFormState extends State<ExpenseTransactionForm> {
                   } on RangeError {
                     return text.expenseAmountTooLarge(
                       expenseAmount(
-                        TransactionAmount.maxMinorUnits / 100,
+                        BigInt.from(TransactionAmount.maxMinorUnits),
                         model.currencyCode,
                         text.localeName,
                       ),
@@ -108,7 +108,7 @@ class _ExpenseTransactionFormState extends State<ExpenseTransactionForm> {
                 },
                 onSaved: (value) => _amount = TransactionAmount.parse(
                   normalizeAmountInput(value!),
-                ).value,
+                ).minorUnits,
               ),
               const SizedBox(height: 24),
               if (!model.isIncome) ...[

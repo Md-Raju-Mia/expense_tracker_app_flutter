@@ -32,7 +32,7 @@ class ExpenseSummaryCard extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             expenseAmount(
-              summary.balance,
+              summary.balanceMinor,
               summary.currencyCode,
               text.localeName,
             ),
@@ -66,7 +66,7 @@ class ExpenseSummaryCard extends StatelessWidget {
                     child: _item(
                       context,
                       text.expenseIncome,
-                      summary.totalIncome,
+                      summary.totalIncomeMinor,
                       Icons.arrow_downward,
                     ),
                   ),
@@ -75,7 +75,7 @@ class ExpenseSummaryCard extends StatelessWidget {
                     child: _item(
                       context,
                       text.expenseExpenses,
-                      summary.totalExpense,
+                      summary.totalExpenseMinor,
                       Icons.arrow_upward,
                     ),
                   ),
@@ -91,7 +91,7 @@ class ExpenseSummaryCard extends StatelessWidget {
   Widget _item(
     BuildContext context,
     String label,
-    double amount,
+    BigInt amount,
     IconData icon,
   ) {
     return Row(

@@ -17,7 +17,7 @@ class SaveExpenseTask extends BaseTask<int> {
     if (expense.title.trim().isEmpty) {
       throw const FormatException('Transaction title is required');
     }
-    TransactionAmount.fromDouble(expense.amount);
+    TransactionAmount.fromMinorUnits(expense.amountMinor);
     return repository.insertExpense(expense);
   }
 }

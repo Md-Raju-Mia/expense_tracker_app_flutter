@@ -38,7 +38,7 @@ void main() {
       expect(form, isNot(same(secondForm)));
       final expense = Expense(
         title: 'Food',
-        amount: 10,
+        amountMinor: 1000,
         date: DateTime(2026, 4, 9),
         category: ExpenseCategory.food,
       );

@@ -1,9 +1,11 @@
 import 'package:sqflite/sqflite.dart';
 
+import 'legacy_expense_amount.dart';
+
 class ExpenseDatabaseMigrations {
   ExpenseDatabaseMigrations({required this.createSyncId});
 
-  static const version = 3;
+  static const version = 4;
   final String Function() createSyncId;
 
   Future<void> create(Database db, int newVersion) async {
@@ -44,6 +46,26 @@ class ExpenseDatabaseMigrations {
       await db.execute(
         "ALTER TABLE expenses ADD COLUMN currencyCode TEXT NOT NULL DEFAULT 'USD'",
       );
+    }
+    if (oldVersion < 4 && newVersion >= 4) {
+      await db.execute(
+        'ALTER TABLE expenses ADD COLUMN amountMinor INTEGER NOT NULL DEFAULT 0',
+      );
+      final rows = await db.query('expenses', columns: ['id', 'amount']);
+      for (final row in rows) {
+        final original = row['amount'];
+        if (original is! num) {
+          throw const FormatException('Legacy amount must be numeric');
+        }
+        await db.update(
+          'expenses',
+          {'amountMinor': legacyExpenseAmountToMinor(original)},
+          where: 'id = ?',
+          whereArgs: [row['id']],
+        );
+      }
+      // Preserve the original amount column for recovery/audit.
+      // onUpgrade is transactional: conversion errors roll everything back.
     }
   }
 }

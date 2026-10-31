@@ -10,10 +10,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:path/path.dart' as path;
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-Expense transaction(DateTime date, {double amount = 12.5}) {
+Expense transaction(DateTime date, {int amountMinor = 1250}) {
   return Expense(
     title: 'Lunch',
-    amount: amount,
+    amountMinor: amountMinor,
     date: date,
     category: ExpenseCategory.food,
   );
@@ -22,13 +22,13 @@ Expense transaction(DateTime date, {double amount = 12.5}) {
 void main() {
   sqfliteFfiInit();
 
-  test('mapper preserves old row format and all category indices', () {
+  test('mapper preserves minor units and all category indices', () {
     for (final category in ExpenseCategory.values) {
       final original = Expense(
         id: 9,
         syncId: 'saved-transaction-id',
         title: '  unchanged  ',
-        amount: -12.5,
+        amountMinor: -1250,
         date: DateTime(2026, 4, 9, 14, 30, 15, 123, 456),
         category: category,
         isIncome: true,
@@ -39,7 +39,8 @@ void main() {
         'syncId': 'saved-transaction-id',
         'currencyCode': 'USD',
         'title': '  unchanged  ',
-        'amount': -12.5,
+        'amount': null,
+        'amountMinor': -1250,
         'date': original.date.toIso8601String(),
         'category': category.index,
         'isIncome': 1,
@@ -49,7 +50,7 @@ void main() {
       expect(restored.syncId, original.syncId);
       expect(restored.category, category);
       expect(restored.isIncome, isTrue);
-      expect(restored.amount, -12.5);
+      expect(restored.amountMinor, -1250);
     }
   });
 
@@ -74,10 +75,10 @@ void main() {
       await directory.delete(recursive: true);
     });
 
-    test('creates version 3 schema and shares concurrent opening', () async {
+    test('creates version 4 schema and shares concurrent opening', () async {
       final databases = await Future.wait([source.database, source.database]);
       expect(identical(databases[0], databases[1]), isTrue);
-      expect(await databases[0].getVersion(), 3);
+      expect(await databases[0].getVersion(), 4);
       final columns = await databases[0].rawQuery(
         'PRAGMA table_info(expenses)',
       );
@@ -90,6 +91,7 @@ void main() {
         'isIncome',
         'syncId',
         'currencyCode',
+        'amountMinor',
       ]);
       expect(await repository.getExpenses(), isEmpty);
     });
@@ -98,13 +100,16 @@ void main() {
       'inserts, sorts by date descending, deletes only the requested row',
       () async {
         final older = transaction(DateTime(2026, 4, 8));
-        final newer = transaction(DateTime(2026, 4, 9, 15, 20), amount: -5);
+        final newer = transaction(
+          DateTime(2026, 4, 9, 15, 20),
+          amountMinor: -500,
+        );
         final olderId = await repository.insertExpense(older);
         final newerId = await repository.insertExpense(newer);
         final rows = await repository.getExpenses();
         expect(rows.map((row) => row.id).toList(), [newerId, olderId]);
         expect(rows.first.date, newer.date);
-        expect(rows.first.amount, -5);
+        expect(rows.first.amountMinor, -500);
         expect(rows.first.isIncome, isFalse);
         expect(await repository.deleteExpense(newerId), 1);
         expect(await repository.deleteExpense(newerId), 0);
@@ -140,7 +145,7 @@ void main() {
         await legacy.close();
         final salary = (await repository.getExpenses()).single;
         expect(salary.id, 42);
-        expect(salary.amount, 30000);
+        expect(salary.amountMinor, 3000000);
         expect(salary.category, ExpenseCategory.income);
         expect(salary.isIncome, isTrue);
         expect(salary.currencyCode, 'USD');
@@ -171,13 +176,50 @@ void main() {
       },
     );
 
+    test(
+      'minor units are stored as INTEGER and survive reopening exactly',
+      () async {
+        for (final amount in [1, 10, 20, 29, 999999999999999]) {
+          await repository.insertExpense(
+            transaction(DateTime(2026), amountMinor: amount),
+          );
+        }
+        final db = await source.database;
+        final stored = await db.rawQuery(
+          'SELECT amount, amountMinor, typeof(amountMinor) AS type FROM expenses ORDER BY id',
+        );
+        expect(stored.map((row) => row['amountMinor']), [
+          1,
+          10,
+          20,
+          29,
+          999999999999999,
+        ]);
+        expect(
+          stored.every(
+            (row) => row['type'] == 'integer' && row['amount'] == null,
+          ),
+          isTrue,
+        );
+        await source.close();
+        final reopened = await repository.getExpenses();
+        expect(reopened.map((row) => row.amountMinor).toSet(), {
+          1,
+          10,
+          20,
+          29,
+          999999999999999,
+        });
+      },
+    );
+
     test('transaction currencies survive storage and reopening', () async {
       for (final currency in ['BDT', 'INR', 'USD']) {
         await repository.insertExpense(
           Expense(
             title: currency,
             currencyCode: currency,
-            amount: 12.5,
+            amountMinor: 1250,
             date: DateTime(2026, 4, 9),
             category: ExpenseCategory.food,
           ),
@@ -192,7 +234,7 @@ void main() {
       });
       expect(
         rows.every(
-          (row) => row.title == row.currencyCode && row.amount == 12.5,
+          (row) => row.title == row.currencyCode && row.amountMinor == 1250,
         ),
         isTrue,
       );
@@ -218,7 +260,7 @@ void main() {
         final imported = Expense(
           syncId: 'f2d16538-1a90-4cba-8742-90125963bbaa',
           title: 'Imported',
-          amount: 5,
+          amountMinor: 500,
           date: DateTime(2026, 4, 11),
           category: ExpenseCategory.food,
         );

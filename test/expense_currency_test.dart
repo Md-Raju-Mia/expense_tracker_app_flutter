@@ -8,20 +8,20 @@ void main() {
     final rows = [
       Expense(
         title: 'USD expense',
-        amount: 12,
+        amountMinor: 1200,
         date: DateTime(2026),
         category: ExpenseCategory.food,
       ),
       Expense(
         title: 'BDT expense',
-        amount: 100,
+        amountMinor: 10000,
         date: DateTime(2026),
         category: ExpenseCategory.shopping,
         currencyCode: 'BDT',
       ),
       Expense(
         title: 'BDT income',
-        amount: 200,
+        amountMinor: 20000,
         date: DateTime(2026),
         category: ExpenseCategory.income,
         currencyCode: 'BDT',
@@ -29,22 +29,24 @@ void main() {
       ),
       Expense(
         title: 'INR expense',
-        amount: 40,
+        amountMinor: 4000,
         date: DateTime(2026),
         category: ExpenseCategory.health,
         currencyCode: 'INR',
       ),
     ];
     final taka = ExpenseSummary(rows, currencyCode: 'BDT');
-    expect(taka.totalIncome, 200);
-    expect(taka.totalExpense, 100);
-    expect(taka.balance, 100);
-    expect(taka.categoryTotals, {ExpenseCategory.shopping: 100});
+    expect(taka.totalIncomeMinor, BigInt.from(20000));
+    expect(taka.totalExpenseMinor, BigInt.from(10000));
+    expect(taka.balanceMinor, BigInt.from(10000));
+    expect(taka.categoryTotalsMinor, {
+      ExpenseCategory.shopping: BigInt.from(10000),
+    });
     expect(taka.expenses, hasLength(4));
     final dollars = ExpenseSummary(rows);
-    expect(dollars.totalExpense, 12);
-    expect(dollars.balance, -12);
-    expect(rows[0].amount, 12);
+    expect(dollars.totalExpenseMinor, BigInt.from(1200));
+    expect(dollars.balanceMinor, BigInt.from(-1200));
+    expect(rows[0].amountMinor, 1200);
     expect(rows[0].currencyCode, 'USD');
   });
 }

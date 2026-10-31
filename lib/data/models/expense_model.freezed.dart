@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ExpenseModel {
 
- int? get id; String? get syncId; String get currencyCode; String get title; double get amount; String get date; int get category; int get isIncome;
+ int? get id; String? get syncId; String get currencyCode; String get title; int get amountMinor;@JsonKey(name: 'amount') double? get legacyAmount; String get date; int get category; int get isIncome;
 /// Create a copy of ExpenseModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -30,20 +30,20 @@ $ExpenseModelCopyWith<ExpenseModel> get copyWith => _$ExpenseModelCopyWithImpl<E
 @override
 bool operator ==(Object other) {
   final _this = this as ExpenseModel;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ExpenseModel&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.syncId, _this.syncId) || other.syncId == _this.syncId)&&(identical(other.currencyCode, _this.currencyCode) || other.currencyCode == _this.currencyCode)&&(identical(other.title, _this.title) || other.title == _this.title)&&(identical(other.amount, _this.amount) || other.amount == _this.amount)&&(identical(other.date, _this.date) || other.date == _this.date)&&(identical(other.category, _this.category) || other.category == _this.category)&&(identical(other.isIncome, _this.isIncome) || other.isIncome == _this.isIncome));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ExpenseModel&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.syncId, _this.syncId) || other.syncId == _this.syncId)&&(identical(other.currencyCode, _this.currencyCode) || other.currencyCode == _this.currencyCode)&&(identical(other.title, _this.title) || other.title == _this.title)&&(identical(other.amountMinor, _this.amountMinor) || other.amountMinor == _this.amountMinor)&&(identical(other.legacyAmount, _this.legacyAmount) || other.legacyAmount == _this.legacyAmount)&&(identical(other.date, _this.date) || other.date == _this.date)&&(identical(other.category, _this.category) || other.category == _this.category)&&(identical(other.isIncome, _this.isIncome) || other.isIncome == _this.isIncome));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as ExpenseModel;
-  return Object.hash(runtimeType,_this.id,_this.syncId,_this.currencyCode,_this.title,_this.amount,_this.date,_this.category,_this.isIncome);
+  return Object.hash(runtimeType,_this.id,_this.syncId,_this.currencyCode,_this.title,_this.amountMinor,_this.legacyAmount,_this.date,_this.category,_this.isIncome);
 }
 
 @override
 String toString() {
   final _this = this as ExpenseModel;
-  return 'ExpenseModel(id: ${_this.id}, syncId: ${_this.syncId}, currencyCode: ${_this.currencyCode}, title: ${_this.title}, amount: ${_this.amount}, date: ${_this.date}, category: ${_this.category}, isIncome: ${_this.isIncome})';
+  return 'ExpenseModel(id: ${_this.id}, syncId: ${_this.syncId}, currencyCode: ${_this.currencyCode}, title: ${_this.title}, amountMinor: ${_this.amountMinor}, legacyAmount: ${_this.legacyAmount}, date: ${_this.date}, category: ${_this.category}, isIncome: ${_this.isIncome})';
 }
 
 
@@ -54,7 +54,7 @@ abstract mixin class $ExpenseModelCopyWith<$Res>  {
   factory $ExpenseModelCopyWith(ExpenseModel value, $Res Function(ExpenseModel) _then) = _$ExpenseModelCopyWithImpl;
 @useResult
 $Res call({
- int? id, String? syncId, String currencyCode, String title, double amount, String date, int category, int isIncome
+ int? id, String? syncId, String currencyCode, String title, int amountMinor,@JsonKey(name: 'amount') double? legacyAmount, String date, int category, int isIncome
 });
 
 
@@ -71,14 +71,15 @@ class _$ExpenseModelCopyWithImpl<$Res>
 
 /// Create a copy of ExpenseModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? syncId = freezed,Object? currencyCode = null,Object? title = null,Object? amount = null,Object? date = null,Object? category = null,Object? isIncome = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? syncId = freezed,Object? currencyCode = null,Object? title = null,Object? amountMinor = null,Object? legacyAmount = freezed,Object? date = null,Object? category = null,Object? isIncome = null,}) {
   return _then(ExpenseModel(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,syncId: freezed == syncId ? _self.syncId : syncId // ignore: cast_nullable_to_non_nullable
 as String?,currencyCode: null == currencyCode ? _self.currencyCode : currencyCode // ignore: cast_nullable_to_non_nullable
 as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
-as String,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
-as double,date: null == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
+as String,amountMinor: null == amountMinor ? _self.amountMinor : amountMinor // ignore: cast_nullable_to_non_nullable
+as int,legacyAmount: freezed == legacyAmount ? _self.legacyAmount : legacyAmount // ignore: cast_nullable_to_non_nullable
+as double?,date: null == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
 as String,category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
 as int,isIncome: null == isIncome ? _self.isIncome : isIncome // ignore: cast_nullable_to_non_nullable
 as int,
@@ -166,10 +167,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? id,  String? syncId,  String currencyCode,  String title,  double amount,  String date,  int category,  int isIncome)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? id,  String? syncId,  String currencyCode,  String title,  int amountMinor, @JsonKey(name: 'amount')  double? legacyAmount,  String date,  int category,  int isIncome)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ExpenseModel() when $default != null:
-return $default(_that.id,_that.syncId,_that.currencyCode,_that.title,_that.amount,_that.date,_that.category,_that.isIncome);case _:
+return $default(_that.id,_that.syncId,_that.currencyCode,_that.title,_that.amountMinor,_that.legacyAmount,_that.date,_that.category,_that.isIncome);case _:
   return orElse();
 
 }
@@ -187,10 +188,10 @@ return $default(_that.id,_that.syncId,_that.currencyCode,_that.title,_that.amoun
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? id,  String? syncId,  String currencyCode,  String title,  double amount,  String date,  int category,  int isIncome)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? id,  String? syncId,  String currencyCode,  String title,  int amountMinor, @JsonKey(name: 'amount')  double? legacyAmount,  String date,  int category,  int isIncome)  $default,) {final _that = this;
 switch (_that) {
 case _ExpenseModel():
-return $default(_that.id,_that.syncId,_that.currencyCode,_that.title,_that.amount,_that.date,_that.category,_that.isIncome);case _:
+return $default(_that.id,_that.syncId,_that.currencyCode,_that.title,_that.amountMinor,_that.legacyAmount,_that.date,_that.category,_that.isIncome);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -207,10 +208,10 @@ return $default(_that.id,_that.syncId,_that.currencyCode,_that.title,_that.amoun
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? id,  String? syncId,  String currencyCode,  String title,  double amount,  String date,  int category,  int isIncome)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? id,  String? syncId,  String currencyCode,  String title,  int amountMinor, @JsonKey(name: 'amount')  double? legacyAmount,  String date,  int category,  int isIncome)?  $default,) {final _that = this;
 switch (_that) {
 case _ExpenseModel() when $default != null:
-return $default(_that.id,_that.syncId,_that.currencyCode,_that.title,_that.amount,_that.date,_that.category,_that.isIncome);case _:
+return $default(_that.id,_that.syncId,_that.currencyCode,_that.title,_that.amountMinor,_that.legacyAmount,_that.date,_that.category,_that.isIncome);case _:
   return null;
 
 }
@@ -222,14 +223,15 @@ return $default(_that.id,_that.syncId,_that.currencyCode,_that.title,_that.amoun
 @JsonSerializable()
 
 class _ExpenseModel implements ExpenseModel {
-  const _ExpenseModel({this.id, this.syncId, this.currencyCode = 'USD', required this.title, required this.amount, required this.date, required this.category, required this.isIncome});
+  const _ExpenseModel({this.id, this.syncId, this.currencyCode = 'USD', required this.title, required this.amountMinor, @JsonKey(name: 'amount') this.legacyAmount, required this.date, required this.category, required this.isIncome});
   factory _ExpenseModel.fromJson(Map<String, dynamic> json) => _$ExpenseModelFromJson(json);
 
 @override final  int? id;
 @override final  String? syncId;
 @override@JsonKey() final  String currencyCode;
 @override final  String title;
-@override final  double amount;
+@override final  int amountMinor;
+@override@JsonKey(name: 'amount') final  double? legacyAmount;
 @override final  String date;
 @override final  int category;
 @override final  int isIncome;
@@ -247,18 +249,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ExpenseModel&&(identical(other.id, id) || other.id == id)&&(identical(other.syncId, syncId) || other.syncId == syncId)&&(identical(other.currencyCode, currencyCode) || other.currencyCode == currencyCode)&&(identical(other.title, title) || other.title == title)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.date, date) || other.date == date)&&(identical(other.category, category) || other.category == category)&&(identical(other.isIncome, isIncome) || other.isIncome == isIncome));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ExpenseModel&&(identical(other.id, id) || other.id == id)&&(identical(other.syncId, syncId) || other.syncId == syncId)&&(identical(other.currencyCode, currencyCode) || other.currencyCode == currencyCode)&&(identical(other.title, title) || other.title == title)&&(identical(other.amountMinor, amountMinor) || other.amountMinor == amountMinor)&&(identical(other.legacyAmount, legacyAmount) || other.legacyAmount == legacyAmount)&&(identical(other.date, date) || other.date == date)&&(identical(other.category, category) || other.category == category)&&(identical(other.isIncome, isIncome) || other.isIncome == isIncome));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,id,syncId,currencyCode,title,amount,date,category,isIncome);
+    return Object.hash(runtimeType,id,syncId,currencyCode,title,amountMinor,legacyAmount,date,category,isIncome);
 }
 
 @override
 String toString() {
-    return 'ExpenseModel(id: $id, syncId: $syncId, currencyCode: $currencyCode, title: $title, amount: $amount, date: $date, category: $category, isIncome: $isIncome)';
+    return 'ExpenseModel(id: $id, syncId: $syncId, currencyCode: $currencyCode, title: $title, amountMinor: $amountMinor, legacyAmount: $legacyAmount, date: $date, category: $category, isIncome: $isIncome)';
 }
 
 
@@ -269,7 +271,7 @@ abstract mixin class _$ExpenseModelCopyWith<$Res> implements $ExpenseModelCopyWi
   factory _$ExpenseModelCopyWith(_ExpenseModel value, $Res Function(_ExpenseModel) _then) = __$ExpenseModelCopyWithImpl;
 @override @useResult
 $Res call({
- int? id, String? syncId, String currencyCode, String title, double amount, String date, int category, int isIncome
+ int? id, String? syncId, String currencyCode, String title, int amountMinor,@JsonKey(name: 'amount') double? legacyAmount, String date, int category, int isIncome
 });
 
 
@@ -286,14 +288,15 @@ class __$ExpenseModelCopyWithImpl<$Res>
 
 /// Create a copy of ExpenseModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? syncId = freezed,Object? currencyCode = null,Object? title = null,Object? amount = null,Object? date = null,Object? category = null,Object? isIncome = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? syncId = freezed,Object? currencyCode = null,Object? title = null,Object? amountMinor = null,Object? legacyAmount = freezed,Object? date = null,Object? category = null,Object? isIncome = null,}) {
   return _then(_ExpenseModel(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,syncId: freezed == syncId ? _self.syncId : syncId // ignore: cast_nullable_to_non_nullable
 as String?,currencyCode: null == currencyCode ? _self.currencyCode : currencyCode // ignore: cast_nullable_to_non_nullable
 as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
-as String,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
-as double,date: null == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
+as String,amountMinor: null == amountMinor ? _self.amountMinor : amountMinor // ignore: cast_nullable_to_non_nullable
+as int,legacyAmount: freezed == legacyAmount ? _self.legacyAmount : legacyAmount // ignore: cast_nullable_to_non_nullable
+as double?,date: null == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
 as String,category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
 as int,isIncome: null == isIncome ? _self.isIncome : isIncome // ignore: cast_nullable_to_non_nullable
 as int,

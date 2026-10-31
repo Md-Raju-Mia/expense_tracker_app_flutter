@@ -18,7 +18,7 @@ void main() {
       final amount = TransactionAmount.parse(entry.key);
       expect(amount.minorUnits, entry.value, reason: entry.key);
       expect(
-        TransactionAmount.fromDouble(amount.value).minorUnits,
+        TransactionAmount.fromMinorUnits(amount.minorUnits).minorUnits,
         entry.value,
       );
     }
@@ -55,7 +55,7 @@ void main() {
     final maximum = TransactionAmount.parse('9999999999999.99');
     expect(maximum.minorUnits, TransactionAmount.maxMinorUnits);
     expect(
-      TransactionAmount.fromDouble(maximum.value).minorUnits,
+      TransactionAmount.fromMinorUnits(maximum.minorUnits).minorUnits,
       maximum.minorUnits,
     );
     expect(() => TransactionAmount.parse('10000000000000'), throwsRangeError);
@@ -65,26 +65,15 @@ void main() {
     );
   });
 
-  test(
-    'rejects nonfinite and over-precision doubles at the write boundary',
-    () {
-      for (final value in [
-        double.nan,
-        double.infinity,
-        double.negativeInfinity,
-        0.0,
-        -1.0,
-        1.234,
-        0.1 + 0.2,
-      ]) {
-        expect(
-          () => TransactionAmount.fromDouble(value),
-          throwsFormatException,
-          reason: '$value',
-        );
-      }
-    },
-  );
+  test('rejects nonpositive minor units at the write boundary', () {
+    for (final value in [0, -1]) {
+      expect(
+        () => TransactionAmount.fromMinorUnits(value),
+        throwsFormatException,
+        reason: '$value',
+      );
+    }
+  });
 
   test('Bengali and mixed-script digits normalize without changing decimal meaning', () {
     expect(

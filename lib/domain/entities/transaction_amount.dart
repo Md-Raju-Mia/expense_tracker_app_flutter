@@ -2,7 +2,7 @@
 class TransactionAmount {
   const TransactionAmount._(this.minorUnits);
 
-  // Keep each amount safely representable through the existing double boundary.
+  // A generous per-transaction limit, stored safely as a SQLite INTEGER.
   static const maxMinorUnits = 999999999999999;
   final int minorUnits;
 
@@ -29,11 +29,11 @@ class TransactionAmount {
     return TransactionAmount._(minorUnits);
   }
 
-  factory TransactionAmount.fromDouble(double amount) {
-    if (!amount.isFinite) throw const FormatException('Amount must be finite');
-    return TransactionAmount.parse(amount.toString());
+  factory TransactionAmount.fromMinorUnits(int minorUnits) {
+    if (minorUnits <= 0) {
+      throw const FormatException('Amount must be greater than zero');
+    }
+    if (minorUnits > maxMinorUnits) throw RangeError('Amount is too large');
+    return TransactionAmount._(minorUnits);
   }
-
-  // Compatibility with Expense.amount; integer storage/totals are a separate step.
-  double get value => minorUnits / 100;
 }

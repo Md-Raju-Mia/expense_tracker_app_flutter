@@ -10,7 +10,7 @@ Expense transaction(
 }) {
   return Expense(
     title: 'Transaction',
-    amount: amount,
+    amountMinor: (amount * 100).round(),
     date: DateTime(2026, 4, 9),
     category: category,
     isIncome: isIncome,
@@ -21,10 +21,10 @@ void main() {
   test('empty transactions have zero totals and no category totals', () {
     final summary = ExpenseSummary([]);
 
-    expect(summary.totalIncome, 0);
-    expect(summary.totalExpense, 0);
-    expect(summary.balance, 0);
-    expect(summary.categoryTotals, isEmpty);
+    expect(summary.totalIncomeMinor, BigInt.from(0));
+    expect(summary.totalExpenseMinor, BigInt.from(0));
+    expect(summary.balanceMinor, BigInt.from(0));
+    expect(summary.categoryTotalsMinor, isEmpty);
   });
 
   test('reference screenshot transactions produce the original totals', () {
@@ -37,17 +37,17 @@ void main() {
       transaction(30000, ExpenseCategory.income, isIncome: true),
     ]);
 
-    expect(summary.totalIncome, 30000);
-    expect(summary.totalExpense, 17000);
-    expect(summary.balance, 13000);
-    expect(summary.categoryTotals, {
-      ExpenseCategory.others: 1000,
-      ExpenseCategory.health: 2000,
-      ExpenseCategory.transport: 3000,
-      ExpenseCategory.shopping: 6000,
-      ExpenseCategory.food: 5000,
+    expect(summary.totalIncomeMinor, BigInt.from(3000000));
+    expect(summary.totalExpenseMinor, BigInt.from(1700000));
+    expect(summary.balanceMinor, BigInt.from(1300000));
+    expect(summary.categoryTotalsMinor, {
+      ExpenseCategory.others: BigInt.from(100000),
+      ExpenseCategory.health: BigInt.from(200000),
+      ExpenseCategory.transport: BigInt.from(300000),
+      ExpenseCategory.shopping: BigInt.from(600000),
+      ExpenseCategory.food: BigInt.from(500000),
     });
-    expect(summary.categoryTotals.keys.toList(), [
+    expect(summary.categoryTotalsMinor.keys.toList(), [
       ExpenseCategory.others,
       ExpenseCategory.health,
       ExpenseCategory.transport,
@@ -63,10 +63,13 @@ void main() {
       transaction(2.25, ExpenseCategory.food),
     ]);
 
-    expect(summary.totalExpense, 19.75);
-    expect(summary.balance, -19.75);
-    expect(summary.categoryTotals[ExpenseCategory.food], 12.75);
-    expect(summary.categoryTotals.keys.toList(), [
+    expect(summary.totalExpenseMinor, BigInt.from(1975));
+    expect(summary.balanceMinor, BigInt.from(-1975));
+    expect(
+      summary.categoryTotalsMinor[ExpenseCategory.food],
+      BigInt.from(1275),
+    );
+    expect(summary.categoryTotalsMinor.keys.toList(), [
       ExpenseCategory.food,
       ExpenseCategory.transport,
     ]);
@@ -77,10 +80,10 @@ void main() {
       transaction(50, ExpenseCategory.income, isIncome: true),
     ]);
 
-    expect(summary.totalIncome, 50);
-    expect(summary.totalExpense, 0);
-    expect(summary.balance, 50);
-    expect(summary.categoryTotals, isEmpty);
+    expect(summary.totalIncomeMinor, BigInt.from(5000));
+    expect(summary.totalExpenseMinor, BigInt.from(0));
+    expect(summary.balanceMinor, BigInt.from(5000));
+    expect(summary.categoryTotalsMinor, isEmpty);
   });
 
   test('zero and negative amounts remain part of the calculations', () {
@@ -90,12 +93,12 @@ void main() {
       transaction(-5, ExpenseCategory.income, isIncome: true),
     ]);
 
-    expect(summary.totalIncome, -5);
-    expect(summary.totalExpense, -10);
-    expect(summary.balance, 5);
-    expect(summary.categoryTotals, {
-      ExpenseCategory.food: 0,
-      ExpenseCategory.transport: -10,
+    expect(summary.totalIncomeMinor, BigInt.from(-500));
+    expect(summary.totalExpenseMinor, BigInt.from(-1000));
+    expect(summary.balanceMinor, BigInt.from(500));
+    expect(summary.categoryTotalsMinor, {
+      ExpenseCategory.food: BigInt.from(0),
+      ExpenseCategory.transport: BigInt.from(-1000),
     });
   });
 
@@ -105,9 +108,11 @@ void main() {
       transaction(7, ExpenseCategory.income),
     ]);
 
-    expect(summary.totalIncome, 20);
-    expect(summary.totalExpense, 7);
-    expect(summary.categoryTotals, {ExpenseCategory.income: 7});
+    expect(summary.totalIncomeMinor, BigInt.from(2000));
+    expect(summary.totalExpenseMinor, BigInt.from(700));
+    expect(summary.categoryTotalsMinor, {
+      ExpenseCategory.income: BigInt.from(700),
+    });
   });
 
   test('summary keeps its snapshot when the input list changes', () {
@@ -115,7 +120,7 @@ void main() {
     final summary = ExpenseSummary(expenses);
     expenses.clear();
 
-    expect(summary.totalExpense, 12);
+    expect(summary.totalExpenseMinor, BigInt.from(1200));
     expect(() => summary.expenses.clear(), throwsUnsupportedError);
   });
 

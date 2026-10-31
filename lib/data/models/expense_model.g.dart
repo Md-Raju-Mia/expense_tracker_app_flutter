@@ -16,13 +16,14 @@ _ExpenseModel _$ExpenseModelFromJson(Map<String, dynamic> json) =>
           (v) => v as String? ?? 'USD',
         ),
         title: $checkedConvert('title', (v) => v as String),
-        amount: $checkedConvert('amount', (v) => (v as num).toDouble()),
+        amountMinor: $checkedConvert('amountMinor', (v) => (v as num).toInt()),
+        legacyAmount: $checkedConvert('amount', (v) => (v as num?)?.toDouble()),
         date: $checkedConvert('date', (v) => v as String),
         category: $checkedConvert('category', (v) => (v as num).toInt()),
         isIncome: $checkedConvert('isIncome', (v) => (v as num).toInt()),
       );
       return val;
-    });
+    }, fieldKeyMap: const {'legacyAmount': 'amount'});
 
 Map<String, dynamic> _$ExpenseModelToJson(_ExpenseModel instance) =>
     <String, dynamic>{
@@ -30,7 +31,8 @@ Map<String, dynamic> _$ExpenseModelToJson(_ExpenseModel instance) =>
       'syncId': instance.syncId,
       'currencyCode': instance.currencyCode,
       'title': instance.title,
-      'amount': instance.amount,
+      'amountMinor': instance.amountMinor,
+      'amount': instance.legacyAmount,
       'date': instance.date,
       'category': instance.category,
       'isIncome': instance.isIncome,

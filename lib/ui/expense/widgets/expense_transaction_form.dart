@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../core/theme/expense_theme.dart';
+import '../../../domain/entities/transaction_amount.dart';
+import '../utils/normalize_amount_input.dart';
+import 'expense_amount.dart';
 import '../view_models/add_expense_view_model.dart';
 import 'expense_category_picker.dart';
 import 'expense_date_picker.dart';
@@ -70,23 +73,42 @@ class _ExpenseTransactionFormState extends State<ExpenseTransactionForm> {
                   prefixIcon: const Icon(Icons.title),
                 ),
                 textInputAction: TextInputAction.next,
-                validator: (value) =>
-                    value!.isEmpty ? text.expenseTitleRequired : null,
-                onSaved: (value) => _title = value!,
+                validator: (value) => value == null || value.trim().isEmpty
+                    ? text.expenseTitleRequired
+                    : null,
+                onSaved: (value) => _title = value!.trim(),
               ),
               const SizedBox(height: 16),
               TextFormField(
                 decoration: InputDecoration(
                   labelText: text.expenseAmountCurrency(model.currencyCode),
-                  prefixIcon: const Icon(Icons.attach_money),
+                  prefixIcon: const Icon(Icons.payments_outlined),
+                  helperText: text.expenseAmountHint,
+                  helperMaxLines: 3,
+                  errorMaxLines: 6,
                 ),
                 keyboardType: const TextInputType.numberWithOptions(
                   decimal: true,
                 ),
-                validator: (value) => double.tryParse(value!) == null
-                    ? text.expenseAmountInvalid
-                    : null,
-                onSaved: (value) => _amount = double.parse(value!),
+                validator: (value) {
+                  try {
+                    TransactionAmount.parse(normalizeAmountInput(value ?? ''));
+                    return null;
+                  } on RangeError {
+                    return text.expenseAmountTooLarge(
+                      expenseAmount(
+                        TransactionAmount.maxMinorUnits / 100,
+                        model.currencyCode,
+                        text.localeName,
+                      ),
+                    );
+                  } on FormatException {
+                    return text.expenseAmountInvalid;
+                  }
+                },
+                onSaved: (value) => _amount = TransactionAmount.parse(
+                  normalizeAmountInput(value!),
+                ).value,
               ),
               const SizedBox(height: 24),
               if (!model.isIncome) ...[
@@ -117,8 +139,8 @@ class _ExpenseTransactionFormState extends State<ExpenseTransactionForm> {
                       horizontal: 20,
                       vertical: 16,
                     ),
-                    backgroundColor: Colors.teal,
-                    foregroundColor: Colors.white,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    foregroundColor: Theme.of(context).colorScheme.onPrimary,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),

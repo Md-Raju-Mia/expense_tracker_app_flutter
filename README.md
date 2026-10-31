@@ -8,6 +8,8 @@ The default route is /expenses. Use Settings in the Home app bar to select count
 
 Each transaction retains its own currency code. Home totals and the spending chart use the selected currency; recent transactions include all currencies with their original amounts. Existing dollar-denominated data upgrades as USD without conversion. New transactions use the saved preferred currency. Settings survive restart; leaving settings without saving discards the draft.
 
+New transactions require a nonblank title and a positive amount with up to two decimal places. Amount input accepts English or Bengali digits without grouping commas. Existing stored records remain unchanged. Input validation uses integer minor units; storage and report totals currently still use doubles.
+
 The UI uses a high-contrast teal balance card, an Add Transaction action below the scrollable content, and layouts that wrap for large text. The expense journey currently uses a light theme.
 
 ## Posts sample (/posts)

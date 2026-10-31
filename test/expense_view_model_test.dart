@@ -153,10 +153,10 @@ void main() {
     model.selectIncome(false);
     expect(model.selectedCategory, ExpenseCategory.shopping);
     model.selectDate(DateTime(2026, 3, 1));
-    await model.save(title: '  ', amount: -5);
+    await model.save(title: 'Lunch', amount: 5);
     final saved = repository.rows.single;
-    expect(saved.title, '  ');
-    expect(saved.amount, -5);
+    expect(saved.title, 'Lunch');
+    expect(saved.amount, 5);
     expect(saved.category, ExpenseCategory.shopping);
     expect(saved.date, DateTime(2026, 3, 1));
   });
@@ -223,4 +223,30 @@ void main() {
       expect(repository.rows, hasLength(2));
     },
   );
+  test('new writes reject invalid amounts and blank titles before repository access', () async {
+    final repository = FakeExpenseRepository();
+    final model = formModel(repository);
+    addTearDown(model.dispose);
+    for (final amount in [
+      0.0,
+      -5.0,
+      double.nan,
+      double.infinity,
+      1.234,
+      1e14,
+    ]) {
+      final outcome = await model.save(title: 'Lunch', amount: amount);
+      expect(outcome.status, ActionStatus.failed);
+      expect(outcome.failedTask, 'Save expense');
+    }
+    final blank = await model.save(title: '   ', amount: 10);
+    expect(blank.status, ActionStatus.failed);
+    expect(repository.calls, isEmpty);
+    expect(repository.rows, isEmpty);
+    expect(
+      (await model.save(title: 'Lunch', amount: .29)).status,
+      ActionStatus.succeeded,
+    );
+    expect(repository.rows.single.amount, .29);
+  });
 }

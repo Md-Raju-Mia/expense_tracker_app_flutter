@@ -287,7 +287,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get expenseAmount => 'Amount';
 
   @override
-  String get expenseAmountInvalid => 'Enter a valid amount';
+  String get expenseAmountInvalid =>
+      'Enter a positive amount with up to 2 decimal places.';
 
   @override
   String get expenseCategory => 'Category';
@@ -413,5 +414,13 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String expenseTotalsCurrency(String currency) {
     return 'Totals in $currency';
+  }
+
+  @override
+  String get expenseAmountHint => 'Example: 1250.50 (no commas)';
+
+  @override
+  String expenseAmountTooLarge(String maximum) {
+    return 'Amount must not exceed $maximum.';
   }
 }

@@ -379,7 +379,7 @@
   "@expenseAmount": {
     "description": "Expense tracker: expenseAmount"
   },
-  "expenseAmountInvalid": "Enter a valid amount",
+  "expenseAmountInvalid": "Enter a positive amount with up to 2 decimal places.",
   "@expenseAmountInvalid": {
     "description": "Expense tracker: expenseAmountInvalid"
   },
@@ -552,5 +552,18 @@
       }
     },
     "description": "Expense currency/language integration: expenseTotalsCurrency"
+  },
+  "expenseAmountHint": "Example: 1250.50 (no commas)",
+  "expenseAmountTooLarge": "Amount must not exceed {maximum}.",
+  "@expenseAmountHint": {
+    "description": "Example of an accepted transaction amount"
+  },
+  "@expenseAmountTooLarge": {
+    "description": "Transaction amount exceeds the supported input limit",
+    "placeholders": {
+      "maximum": {
+        "type": "String"
+      }
+    }
   }
 }

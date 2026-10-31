@@ -617,7 +617,7 @@ abstract class AppLocalizations {
   /// Expense tracker: expenseAmountInvalid
   ///
   /// In en, this message translates to:
-  /// **'Enter a valid amount'**
+  /// **'Enter a positive amount with up to 2 decimal places.'**
   String get expenseAmountInvalid;
 
   /// Expense tracker: expenseCategory
@@ -847,6 +847,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Totals in {currency}'**
   String expenseTotalsCurrency(String currency);
+
+  /// Example of an accepted transaction amount
+  ///
+  /// In en, this message translates to:
+  /// **'Example: 1250.50 (no commas)'**
+  String get expenseAmountHint;
+
+  /// Transaction amount exceeds the supported input limit
+  ///
+  /// In en, this message translates to:
+  /// **'Amount must not exceed {maximum}.'**
+  String expenseAmountTooLarge(String maximum);
 }
 
 class _AppLocalizationsDelegate

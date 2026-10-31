@@ -86,7 +86,7 @@
   "expenseTrackerTitle": "আয় ব্যয়ের হিসাব",
   "expenseAddTransaction": "লেনদেন যোগ করুন",
   "expenseAmount": "পরিমাণ",
-  "expenseAmountInvalid": "সঠিক পরিমাণ লিখুন",
+  "expenseAmountInvalid": "শূন্যের বেশি অঙ্ক লিখুন (সর্বোচ্চ ২ ঘর দশমিক)।",
   "expenseCategory": "বিভাগ",
   "expenseDate": "তারিখ",
   "expenseGoHome": "হিসাবে ফিরে যান",
@@ -124,5 +124,7 @@
   "expenseCategoryPercent": "{category}: {percent}%",
   "expenseCategoryShopping": "কেনাকাটা",
   "expenseCategoryTransport": "যাতায়াত",
-  "expenseTotalsCurrency": "{currency}-এ মোট হিসাব"
+  "expenseTotalsCurrency": "{currency}-এ মোট হিসাব",
+  "expenseAmountHint": "যেমন: ১২৫০.৫০ (কমা ছাড়া)",
+  "expenseAmountTooLarge": "{maximum}-এর বেশি অঙ্ক দেওয়া যাবে না।"
 }

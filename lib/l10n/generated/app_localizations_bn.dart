@@ -286,7 +286,8 @@ class AppLocalizationsBn extends AppLocalizations {
   String get expenseAmount => 'পরিমাণ';
 
   @override
-  String get expenseAmountInvalid => 'সঠিক পরিমাণ লিখুন';
+  String get expenseAmountInvalid =>
+      'শূন্যের বেশি অঙ্ক লিখুন (সর্বোচ্চ ২ ঘর দশমিক)।';
 
   @override
   String get expenseCategory => 'বিভাগ';
@@ -412,5 +413,13 @@ class AppLocalizationsBn extends AppLocalizations {
   @override
   String expenseTotalsCurrency(String currency) {
     return '$currency-এ মোট হিসাব';
+  }
+
+  @override
+  String get expenseAmountHint => 'যেমন: ১২৫০.৫০ (কমা ছাড়া)';
+
+  @override
+  String expenseAmountTooLarge(String maximum) {
+    return '$maximum-এর বেশি অঙ্ক দেওয়া যাবে না।';
   }
 }

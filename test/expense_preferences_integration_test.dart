@@ -57,17 +57,17 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('পরিমাণ (BDT)'), findsOneWidget);
     await tester.enterText(find.byType(TextFormField).at(0), 'Lunch');
-    await tester.enterText(find.byType(TextFormField).at(1), '25');
+    await tester.enterText(find.byType(TextFormField).at(1), '২৫.৫০');
     await tester.ensureVisible(find.text('লেনদেন সংরক্ষণ করুন'));
     await tester.tap(find.text('লেনদেন সংরক্ষণ করুন'));
     await tester.pumpAndSettle();
     expect(expenses.rows.single.currencyCode, 'BDT');
-    expect(expenses.rows.single.amount, 25);
+    expect(expenses.rows.single.amount, 25.5);
     final home = tester
         .element(find.byType(ExpenseHomeScreen))
         .read<ExpenseHomeViewModel>();
     expect(home.contentState.data!.currencyCode, 'BDT');
-    expect(home.contentState.data!.totalExpense, 25);
+    expect(home.contentState.data!.totalExpense, 25.5);
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());
   });

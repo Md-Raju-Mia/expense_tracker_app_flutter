@@ -91,7 +91,10 @@ void main() {
     await tester.pumpAndSettle();
     await tapSave(tester);
     expect(find.text('Please enter a title'), findsOneWidget);
-    expect(find.text('Enter a valid amount'), findsOneWidget);
+    expect(
+      find.text('Enter a positive amount with up to 2 decimal places.'),
+      findsOneWidget,
+    );
     expect(repository.rows, isEmpty);
     await tester.enterText(find.byType(TextFormField).at(0), 'Lunch');
     await tester.enterText(find.byType(TextFormField).at(1), '12.5');
@@ -148,21 +151,44 @@ void main() {
     },
   );
 
-  testWidgets('whitespace title and negative amount remain accepted', (
+  testWidgets(
+    'blank titles are blocked and Bengali input is normalized on save',
+    (tester) async {
+      await openApp(tester, initialLocation: '/expenses/add');
+      await tester.enterText(find.byType(TextFormField).at(0), '   ');
+      await tester.enterText(find.byType(TextFormField).at(1), '১২.৫০');
+      await tapSave(tester);
+      expect(repository.rows, isEmpty);
+      expect(find.text('Please enter a title'), findsOneWidget);
+      await tester.enterText(find.byType(TextFormField).at(0), '  Lunch  ');
+      await tapSave(tester);
+      expect(repository.rows.single.title, 'Lunch');
+      expect(repository.rows.single.amount, 12.5);
+      await tester.pumpWidget(const SizedBox.shrink());
+    },
+  );
+
+  testWidgets('invalid amount strings stay on the form without saving', (
     tester,
   ) async {
     await openApp(tester, initialLocation: '/expenses/add');
-    await tester.enterText(find.byType(TextFormField).at(0), '   ');
-    await tester.enterText(find.byType(TextFormField).at(1), '-5');
-    // Income avoids asking the chart library to draw negative expense sections.
-    await tester.tap(find.text('Income'));
-    await tester.pumpAndSettle();
-    await tapSave(tester);
-    expect(repository.rows.single.title, '   ');
-    expect(repository.rows.single.amount, -5);
+    await tester.enterText(find.byType(TextFormField).at(0), 'Lunch');
+    for (final amount in [
+      '0',
+      '-5',
+      'NaN',
+      'Infinity',
+      '1.234',
+      '1,000.00',
+      '10000000000000',
+    ]) {
+      await tester.enterText(find.byType(TextFormField).at(1), amount);
+      await tapSave(tester);
+      expect(repository.rows, isEmpty, reason: amount);
+      expect(find.byType(AddExpenseScreen), findsOneWidget);
+    }
     await tester.pumpWidget(const SizedBox.shrink());
   });
-
   testWidgets(
     'date picker range, cancellation, selection and back without saving',
     (tester) async {

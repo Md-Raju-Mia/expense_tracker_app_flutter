@@ -18,6 +18,8 @@ class UserPreferencesViewModel extends ContentViewModel<UserPreferences> {
   createSaveAction;
   UserPreferences _draft = const UserPreferences();
   UserPreferences get draft => _draft;
+  UserPreferences? _savedPreferences;
+  UserPreferences? get savedPreferences => _savedPreferences;
 
   @override
   bool isEmptyResult(UserPreferences data) => false;
@@ -27,6 +29,7 @@ class UserPreferencesViewModel extends ContentViewModel<UserPreferences> {
     final outcome = await loadContent(createLoadTask());
     if (!isDisposed && outcome.data != null && !outcome.hasError) {
       _draft = outcome.data!;
+      _savedPreferences = outcome.data!;
       notifyListeners();
     }
   }
@@ -62,6 +65,20 @@ class UserPreferencesViewModel extends ContentViewModel<UserPreferences> {
     if (isFetching || !contentState.hasData) {
       throw StateError('Preferences have not loaded');
     }
-    return execute(createSaveAction(_draft));
+    final selected = _draft;
+    return execute(createSaveAction(selected)).then((outcome) {
+      if (!isDisposed && outcome.status == ActionStatus.succeeded) {
+        _savedPreferences = selected;
+        notifyListeners();
+      }
+      return outcome;
+    });
+  }
+
+  void discardChanges() {
+    if (isDisposed || isLoading) return;
+    _draft = _savedPreferences ?? const UserPreferences();
+    resetState();
+    notifyListeners();
   }
 }

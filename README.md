@@ -1,10 +1,18 @@
-# Posts social feed
+# Expense Tracker
 
-A Flutter social reading screen backed by the [DummyJSON posts API](https://dummyjson.com/docs/posts), using Provider MVVM, get_it, go_router, and the shared Dio client.
+An offline Flutter expense tracker using Provider MVVM, get_it, go_router, and SQLite.
 
-## Use the app
+## Expense app
 
-Open the app to load the first ten posts automatically. Scroll to discover more,
+The default route is /expenses. Use Settings in the Home app bar to select country, currency and language, and save your choices. Fresh preferences default to Bangladesh, BDT and Bengali. Bangladesh, India and the United States are currently available; currency and language can be overridden independently.
+
+Each transaction retains its own currency code. Home totals and the spending chart use the selected currency; recent transactions include all currencies with their original amounts. Existing dollar-denominated data upgrades as USD without conversion. New transactions use the saved preferred currency. Settings survive restart; leaving settings without saving discards the draft.
+
+The UI uses a high-contrast teal balance card, an Add Transaction action below the scrollable content, and layouts that wrap for large text. The expense journey currently uses a light theme.
+
+## Posts sample (/posts)
+
+Open /posts to load the first ten sample posts automatically. Scroll to discover more,
 pull down or use the refresh icon to reload, search for words, or tap a tag to
 filter the feed. Read post / Comments opens the complete post and its comments.
 Returning keeps the feed's loaded posts and scroll position. Copy link copies

@@ -113,5 +113,16 @@
   "preferencesStorageError": "পছন্দ লোড বা সংরক্ষণ করা যায়নি। আবার চেষ্টা করুন।",
   "preferencesSupportHint": "এখন বাংলাদেশ, ভারত ও যুক্তরাষ্ট্র এবং বাংলা ও English সমর্থিত।",
   "preferencesTitle": "আপনার পছন্দ",
-  "preferencesAppBar": "সেটিংস"
+  "preferencesAppBar": "সেটিংস",
+  "expenseAllCurrencies": "সাম্প্রতিক লেনদেনে প্রতিটির নিজস্ব মুদ্রা দেখানো হয়েছে।",
+  "expenseAmountCurrency": "পরিমাণ ({currency})",
+  "expenseCategoryEntertainment": "বিনোদন",
+  "expenseCategoryFood": "খাবার",
+  "expenseCategoryHealth": "স্বাস্থ্য",
+  "expenseCategoryIncome": "আয়",
+  "expenseCategoryOthers": "অন্যান্য",
+  "expenseCategoryPercent": "{category}: {percent}%",
+  "expenseCategoryShopping": "কেনাকাটা",
+  "expenseCategoryTransport": "যাতায়াত",
+  "expenseTotalsCurrency": "{currency}-এ মোট হিসাব"
 }

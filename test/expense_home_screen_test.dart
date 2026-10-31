@@ -55,14 +55,15 @@ Future<void> showHome(
   VoidCallback? onAdd,
 }) async {
   final model = ExpenseHomeViewModel(
-    createLoadTask: () => LoadExpensesTask(repository),
+    createLoadTask: (currencyCode) =>
+        LoadExpensesTask(repository, currencyCode: currencyCode),
     createDeleteAction: (id) =>
         ExpenseDeleteAction(DeleteExpenseTask(repository, id)),
   );
   await model.initialize();
   await tester.pumpWidget(
     MaterialApp(
-      locale: const Locale('bn'),
+      locale: const Locale('en'),
       theme: ThemeData.dark(),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
@@ -91,7 +92,7 @@ void main() {
       expect(find.byType(CircularProgressIndicator), findsNothing);
       final context = tester.element(find.text('Expense Tracker'));
       expect(Theme.of(context).brightness, Brightness.light);
-      await tester.tap(find.text('Add Task'));
+      await tester.tap(find.text('Add Transaction'));
       expect(adds, 1);
     },
   );
@@ -116,8 +117,7 @@ void main() {
     );
     expect(find.text(r'$13000.00'), findsOneWidget);
     expect(find.text(r'$30000.00'), findsOneWidget);
-    expect(find.text(r'$17000.00'), findsOneWidget);
-    expect(find.text(r'$17000'), findsOneWidget);
+    expect(find.text(r'$17000.00'), findsNWidgets(2));
     expect(find.text('others: 5.9%'), findsOneWidget);
     expect(find.text('food: 29.4%'), findsOneWidget);
     expect(tester.takeException(), isNull);
@@ -149,12 +149,14 @@ void main() {
     await tester.tap(find.text('See All'));
     await tester.pumpAndSettle();
     expect(find.byType(ExpenseHomeScreen), findsOneWidget);
+    await tester.ensureVisible(find.byIcon(Icons.delete_outline));
     await tester.tap(find.byIcon(Icons.delete_outline));
     await tester.pumpAndSettle();
     expect(find.text('Delete Transaction'), findsOneWidget);
     await tester.tap(find.text('Cancel'));
     await tester.pumpAndSettle();
     expect(repository.deletes, 0);
+    await tester.ensureVisible(find.byIcon(Icons.delete_outline));
     await tester.tap(find.byIcon(Icons.delete_outline));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Delete'));

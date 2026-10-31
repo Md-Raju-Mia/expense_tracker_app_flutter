@@ -11,9 +11,19 @@ class ExpenseHomeViewModel extends ContentViewModel<ExpenseSummary> {
     required this.createDeleteAction,
   });
 
-  final LoadExpensesTask Function() createLoadTask;
+  final LoadExpensesTask Function(String currencyCode) createLoadTask;
   final ExpenseDeleteAction Function(int id) createDeleteAction;
   Future<void>? _pendingLoad;
+  String _currencyCode = 'USD';
+
+  Future<void> useCurrency(String currencyCode) async {
+    if (isDisposed) return;
+    if (_currencyCode == currencyCode && (contentState.hasData || isFetching)) {
+      return;
+    }
+    _currencyCode = currencyCode;
+    await refresh();
+  }
 
   List<Expense> get expenses => contentState.data?.expenses ?? const [];
 
@@ -35,7 +45,7 @@ class ExpenseHomeViewModel extends ContentViewModel<ExpenseSummary> {
     // A write can finish during the initial read. Wait, then read fresh rows.
     await previousLoad;
     if (isDisposed) return;
-    await loadContent(createLoadTask());
+    await loadContent(createLoadTask(_currencyCode));
   }
 
   Future<ActionState> deleteExpense(int id) async {

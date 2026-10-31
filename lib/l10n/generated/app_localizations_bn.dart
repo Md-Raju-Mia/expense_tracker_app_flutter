@@ -373,4 +373,44 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get preferencesAppBar => 'সেটিংস';
+
+  @override
+  String get expenseAllCurrencies =>
+      'সাম্প্রতিক লেনদেনে প্রতিটির নিজস্ব মুদ্রা দেখানো হয়েছে।';
+
+  @override
+  String expenseAmountCurrency(String currency) {
+    return 'পরিমাণ ($currency)';
+  }
+
+  @override
+  String get expenseCategoryEntertainment => 'বিনোদন';
+
+  @override
+  String get expenseCategoryFood => 'খাবার';
+
+  @override
+  String get expenseCategoryHealth => 'স্বাস্থ্য';
+
+  @override
+  String get expenseCategoryIncome => 'আয়';
+
+  @override
+  String get expenseCategoryOthers => 'অন্যান্য';
+
+  @override
+  String expenseCategoryPercent(String category, String percent) {
+    return '$category: $percent%';
+  }
+
+  @override
+  String get expenseCategoryShopping => 'কেনাকাটা';
+
+  @override
+  String get expenseCategoryTransport => 'যাতায়াত';
+
+  @override
+  String expenseTotalsCurrency(String currency) {
+    return '$currency-এ মোট হিসাব';
+  }
 }

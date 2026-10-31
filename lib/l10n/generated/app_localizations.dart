@@ -781,6 +781,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Settings'**
   String get preferencesAppBar;
+
+  /// Expense currency/language integration: expenseAllCurrencies
+  ///
+  /// In en, this message translates to:
+  /// **'Recent transactions keep their original currencies.'**
+  String get expenseAllCurrencies;
+
+  /// Expense currency/language integration: expenseAmountCurrency
+  ///
+  /// In en, this message translates to:
+  /// **'Amount ({currency})'**
+  String expenseAmountCurrency(String currency);
+
+  /// Expense currency/language integration: expenseCategoryEntertainment
+  ///
+  /// In en, this message translates to:
+  /// **'Entertainment'**
+  String get expenseCategoryEntertainment;
+
+  /// Expense currency/language integration: expenseCategoryFood
+  ///
+  /// In en, this message translates to:
+  /// **'Food'**
+  String get expenseCategoryFood;
+
+  /// Expense currency/language integration: expenseCategoryHealth
+  ///
+  /// In en, this message translates to:
+  /// **'Health'**
+  String get expenseCategoryHealth;
+
+  /// Expense currency/language integration: expenseCategoryIncome
+  ///
+  /// In en, this message translates to:
+  /// **'Income'**
+  String get expenseCategoryIncome;
+
+  /// Expense currency/language integration: expenseCategoryOthers
+  ///
+  /// In en, this message translates to:
+  /// **'Others'**
+  String get expenseCategoryOthers;
+
+  /// Expense currency/language integration: expenseCategoryPercent
+  ///
+  /// In en, this message translates to:
+  /// **'{category}: {percent}%'**
+  String expenseCategoryPercent(String category, String percent);
+
+  /// Expense currency/language integration: expenseCategoryShopping
+  ///
+  /// In en, this message translates to:
+  /// **'Shopping'**
+  String get expenseCategoryShopping;
+
+  /// Expense currency/language integration: expenseCategoryTransport
+  ///
+  /// In en, this message translates to:
+  /// **'Transport'**
+  String get expenseCategoryTransport;
+
+  /// Expense currency/language integration: expenseTotalsCurrency
+  ///
+  /// In en, this message translates to:
+  /// **'Totals in {currency}'**
+  String expenseTotalsCurrency(String currency);
 }
 
 class _AppLocalizationsDelegate

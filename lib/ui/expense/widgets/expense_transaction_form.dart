@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../l10n/l10n.dart';
+import '../../../core/theme/expense_theme.dart';
 import '../view_models/add_expense_view_model.dart';
 import 'expense_category_picker.dart';
 import 'expense_date_picker.dart';
@@ -50,14 +51,14 @@ class _ExpenseTransactionFormState extends State<ExpenseTransactionForm> {
                   ExpenseTypeChip(
                     label: text.expenseTypeExpense,
                     isSelected: !model.isIncome,
-                    color: Colors.red,
+                    color: ExpenseTheme.expenseColor,
                     onTap: () => model.selectIncome(false),
                   ),
                   const SizedBox(width: 12),
                   ExpenseTypeChip(
                     label: text.expenseIncome,
                     isSelected: model.isIncome,
-                    color: Colors.green,
+                    color: ExpenseTheme.incomeColor,
                     onTap: () => model.selectIncome(true),
                   ),
                 ],
@@ -76,7 +77,7 @@ class _ExpenseTransactionFormState extends State<ExpenseTransactionForm> {
               const SizedBox(height: 16),
               TextFormField(
                 decoration: InputDecoration(
-                  labelText: text.expenseAmount,
+                  labelText: text.expenseAmountCurrency(model.currencyCode),
                   prefixIcon: const Icon(Icons.attach_money),
                 ),
                 keyboardType: const TextInputType.numberWithOptions(
@@ -104,12 +105,18 @@ class _ExpenseTransactionFormState extends State<ExpenseTransactionForm> {
                 onSelected: model.selectDate,
               ),
               const SizedBox(height: 40),
-              SizedBox(
-                width: double.infinity,
-                height: 55,
+              ConstrainedBox(
+                constraints: const BoxConstraints(
+                  minWidth: double.infinity,
+                  minHeight: 56,
+                ),
                 child: ElevatedButton(
                   onPressed: _submit,
                   style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 16,
+                    ),
                     backgroundColor: Colors.teal,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
@@ -119,6 +126,7 @@ class _ExpenseTransactionFormState extends State<ExpenseTransactionForm> {
                   ),
                   child: Text(
                     text.expenseSaveTransaction,
+                    textAlign: TextAlign.center,
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,

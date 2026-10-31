@@ -374,4 +374,44 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get preferencesAppBar => 'Settings';
+
+  @override
+  String get expenseAllCurrencies =>
+      'Recent transactions keep their original currencies.';
+
+  @override
+  String expenseAmountCurrency(String currency) {
+    return 'Amount ($currency)';
+  }
+
+  @override
+  String get expenseCategoryEntertainment => 'Entertainment';
+
+  @override
+  String get expenseCategoryFood => 'Food';
+
+  @override
+  String get expenseCategoryHealth => 'Health';
+
+  @override
+  String get expenseCategoryIncome => 'Income';
+
+  @override
+  String get expenseCategoryOthers => 'Others';
+
+  @override
+  String expenseCategoryPercent(String category, String percent) {
+    return '$category: $percent%';
+  }
+
+  @override
+  String get expenseCategoryShopping => 'Shopping';
+
+  @override
+  String get expenseCategoryTransport => 'Transport';
+
+  @override
+  String expenseTotalsCurrency(String currency) {
+    return 'Totals in $currency';
+  }
 }

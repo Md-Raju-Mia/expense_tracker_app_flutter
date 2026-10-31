@@ -4,6 +4,9 @@ import '../../../domain/entities/expense_summary.dart';
 import '../../../l10n/l10n.dart';
 
 import 'package:fl_chart/fl_chart.dart';
+import 'package:intl/intl.dart';
+
+import 'expense_amount.dart';
 
 import 'expense_category_style.dart';
 
@@ -13,6 +16,14 @@ class ExpenseSpendingChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final totals = summary.categoryTotals;
+    final amountText = expenseAmount(
+      summary.totalExpense,
+      summary.currencyCode,
+      context.l10n.localeName,
+    );
+    final showAmountBelowChart =
+        MediaQuery.textScalerOf(context).scale(16) > 24 ||
+        amountText.length > 8;
     if (totals.isEmpty) return const SizedBox.shrink();
 
     return Container(
@@ -49,36 +60,58 @@ class ExpenseSpendingChart extends StatelessWidget {
                     }).toList(),
                   ),
                 ),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      context.l10n.expenseSpent,
-                      style: TextStyle(color: Colors.grey[600], fontSize: 14),
-                    ),
-                    Text(
-                      '\$${summary.totalExpense.toStringAsFixed(0)}',
-                      style: const TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
+                if (!showAmountBelowChart)
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        context.l10n.expenseSpent,
+                        style: TextStyle(color: Colors.grey[600], fontSize: 14),
                       ),
-                    ),
-                  ],
-                ),
+                      Text(
+                        expenseAmount(
+                          summary.totalExpense,
+                          summary.currencyCode,
+                          context.l10n.localeName,
+                        ),
+                        style: const TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
               ],
             ),
           ),
+          if (showAmountBelowChart) ...[
+            const SizedBox(height: 16),
+            Text(
+              context.l10n.expenseSpent,
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            Text(
+              expenseAmount(
+                summary.totalExpense,
+                summary.currencyCode,
+                context.l10n.localeName,
+              ),
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+          ],
           const SizedBox(height: 24),
           Wrap(
             spacing: 20,
             runSpacing: 10,
             alignment: WrapAlignment.center,
             children: totals.entries.map((entry) {
-              final percent = summary.totalExpense > 0
-                  ? (entry.value / summary.totalExpense * 100).toStringAsFixed(
-                      1,
-                    )
-                  : '0.0';
+              final percent = NumberFormat('0.0', context.l10n.localeName)
+                  .format(
+                    summary.totalExpense > 0
+                        ? entry.value / summary.totalExpense * 100
+                        : 0,
+                  );
               return Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -91,11 +124,16 @@ class ExpenseSpendingChart extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  Text(
-                    '${entry.key.name}: $percent%',
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
+                  Flexible(
+                    child: Text(
+                      context.l10n.expenseCategoryPercent(
+                        entry.key.label(context).toLowerCase(),
+                        percent,
+                      ),
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                 ],

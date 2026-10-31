@@ -8,8 +8,16 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:fleet_wise_user_app/main.dart';
 import 'package:fleet_wise_user_app/injection/injection.dart';
-import 'package:fleet_wise_user_app/domain/entities/expense.dart';
 import 'package:fleet_wise_user_app/domain/entities/expense_category.dart';
+import 'package:fleet_wise_user_app/domain/entities/user_country.dart';
+import 'package:fleet_wise_user_app/domain/entities/user_currency.dart';
+import 'package:fleet_wise_user_app/domain/entities/user_language.dart';
+import 'package:fleet_wise_user_app/domain/entities/user_preferences.dart';
+import 'package:fleet_wise_user_app/domain/repositories/user_preferences_repository.dart';
+
+import 'support/memory_user_preferences.dart';
+import 'support/form_expenses.dart';
+
 import 'package:fleet_wise_user_app/domain/repositories/expense_repository.dart';
 import 'package:fleet_wise_user_app/ui/expense/screens/add_expense_screen.dart';
 import 'package:fleet_wise_user_app/ui/expense/screens/expense_home_screen.dart';
@@ -18,38 +26,6 @@ import 'package:fleet_wise_user_app/ui/expense/view_models/expense_home_view_mod
 import 'package:fleet_wise_user_app/ui/expense/widgets/expense_category_picker.dart';
 
 import 'support/load_expense_fonts.dart';
-
-class FormExpenses implements ExpenseRepository {
-  final rows = <Expense>[];
-  Completer<int>? pendingSave;
-  Object? saveError;
-  @override
-  Future<List<Expense>> getExpenses() async => List.of(rows.reversed);
-  @override
-  Future<int> insertExpense(Expense expense) async {
-    if (saveError != null) throw saveError!;
-    final id = pendingSave == null
-        ? rows.length + 1
-        : await pendingSave!.future;
-    rows.add(
-      Expense(
-        id: id,
-        title: expense.title,
-        amount: expense.amount,
-        date: expense.date,
-        category: expense.category,
-        isIncome: expense.isIncome,
-      ),
-    );
-    return id;
-  }
-
-  @override
-  Future<int> deleteExpense(int id) async {
-    rows.removeWhere((row) => row.id == id);
-    return 1;
-  }
-}
 
 Future<void> savePreview(WidgetTester tester, String name) async {
   if (!const bool.fromEnvironment('SAVE_EXPENSE_PREVIEW')) return;
@@ -87,6 +63,16 @@ void main() {
   late FormExpenses repository;
   setUp(() async {
     configureDependencies(getIt);
+    await getIt.unregister<UserPreferencesRepository>();
+    getIt.registerSingleton<UserPreferencesRepository>(
+      MemoryUserPreferences(
+        const UserPreferences(
+          country: UserCountry.unitedStates,
+          currency: UserCurrency.usd,
+          language: UserLanguage.english,
+        ),
+      ),
+    );
     repository = FormExpenses();
     await getIt.unregister<ExpenseRepository>();
     getIt.registerSingleton<ExpenseRepository>(repository);
@@ -101,7 +87,7 @@ void main() {
     final home = tester
         .element(find.byType(ExpenseHomeScreen))
         .read<ExpenseHomeViewModel>();
-    await tester.tap(find.text('Add Task'));
+    await tester.tap(find.text('Add Transaction'));
     await tester.pumpAndSettle();
     await tapSave(tester);
     expect(find.text('Please enter a title'), findsOneWidget);

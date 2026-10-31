@@ -1,5 +1,9 @@
 # Agent instructions
 
+## Current expense product scope
+
+This workspace now develops the offline Expense Tracker product. The expense_tracker_old conversion is complete; newly requested product features may change its behavior and appearance. Historical iFleet/Java migration notes below are not the current expense app's behavior contract. Keep the documented Flutter architecture, domain actions, feature tasks, constructor injection, and route-owned providers. Planning notes stay local/ignored at the user's request.
+
 ## Current User migration conventions
 
 These rules supersede older conflicting guidance. Use `UserAppJava` as the Java behavior and UI reference; preserve observable behavior and known defects.

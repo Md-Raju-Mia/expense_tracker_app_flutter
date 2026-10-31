@@ -5,10 +5,14 @@ import '../../../domain/entities/expense.dart';
 import '../../../domain/entities/expense_category.dart';
 
 class AddExpenseViewModel extends BaseViewModel {
-  AddExpenseViewModel({required this.createSaveAction, DateTime? initialDate})
-    : _selectedDate = initialDate ?? DateTime.now();
+  AddExpenseViewModel({
+    required this.createSaveAction,
+    DateTime? initialDate,
+    this.currencyCode = 'USD',
+  }) : _selectedDate = initialDate ?? DateTime.now();
 
   final ExpenseSaveAction Function(Expense expense) createSaveAction;
+  final String currencyCode;
   DateTime _selectedDate;
   ExpenseCategory _selectedCategory = ExpenseCategory.food;
   bool _isIncome = false;
@@ -38,6 +42,7 @@ class AddExpenseViewModel extends BaseViewModel {
   Future<ActionState> save({required String title, required double amount}) {
     final expense = Expense(
       title: title,
+      currencyCode: currencyCode,
       amount: amount,
       date: selectedDate,
       category: isIncome ? ExpenseCategory.income : selectedCategory,

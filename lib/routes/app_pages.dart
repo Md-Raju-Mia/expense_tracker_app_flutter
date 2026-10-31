@@ -8,6 +8,9 @@ import '../ui/expense/screens/add_expense_screen.dart';
 import '../ui/expense/screens/expense_home_screen.dart';
 import '../ui/expense/view_models/add_expense_view_model.dart';
 import '../ui/expense/view_models/expense_home_view_model.dart';
+import '../ui/expense/widgets/expense_journey.dart';
+import '../ui/preferences/screens/user_preferences_screen.dart';
+import '../ui/preferences/view_models/user_preferences_view_model.dart';
 import '../ui/posts/view_models/post_detail_view_model.dart';
 import '../ui/posts/view_models/posts_view_model.dart';
 import '../ui/posts/screens/post_detail_screen.dart';
@@ -26,9 +29,14 @@ class AppPages {
     GoRoute(path: _Paths.MAIN, redirect: (_, _) => Routes.EXPENSES),
     ShellRoute(
       // The expense journey owns home state while the form is on top.
-      builder: (_, state, child) => ChangeNotifierProvider(
-        create: (_) => getIt<ExpenseHomeViewModel>()..initialize(),
-        child: child,
+      builder: (_, state, child) => MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (_) => getIt<UserPreferencesViewModel>()..load(),
+          ),
+          ChangeNotifierProvider(create: (_) => getIt<ExpenseHomeViewModel>()),
+        ],
+        child: ExpenseJourney(child: child),
       ),
       routes: [
         GoRoute(
@@ -36,6 +44,7 @@ class AppPages {
           path: _Paths.EXPENSES,
           builder: (context, state) => ExpenseHomeScreen(
             onAddTransaction: () => context.pushNamed(Routes.ADD_EXPENSE),
+            onOpenPreferences: () => context.pushNamed(Routes.PREFERENCES),
           ),
           routes: [
             GoRoute(
@@ -44,8 +53,27 @@ class AppPages {
               builder: (context, state) {
                 final home = context.read<ExpenseHomeViewModel>();
                 return ChangeNotifierProvider(
-                  create: (_) => getIt<AddExpenseViewModel>(),
+                  create: (_) => getIt<AddExpenseViewModel>(
+                    param1: context
+                        .read<UserPreferencesViewModel>()
+                        .savedPreferences!
+                        .currency
+                        .code,
+                  ),
                   child: AddExpenseScreen(onSaved: home.refresh),
+                );
+              },
+            ),
+            GoRoute(
+              name: Routes.PREFERENCES,
+              path: 'preferences',
+              builder: (context, state) {
+                final preferences = context.read<UserPreferencesViewModel>();
+                return PopScope(
+                  onPopInvokedWithResult: (didPop, result) {
+                    if (didPop) preferences.discardChanges();
+                  },
+                  child: UserPreferencesScreen(onSaved: (_) => context.pop()),
                 );
               },
             ),

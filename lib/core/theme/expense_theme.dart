@@ -1,29 +1,17 @@
 import 'package:flutter/material.dart';
 
-// Preserve the source app's Material defaults instead of inheriting posts styling.
+import 'app_theme.dart';
+
 abstract final class ExpenseTheme {
-  static final light = ThemeData(
-    colorScheme: ColorScheme.fromSeed(
-      seedColor: Colors.teal,
-      primary: Colors.teal,
-      secondary: Colors.tealAccent,
-    ),
-    useMaterial3: true,
-    fontFamily: 'Roboto',
-    appBarTheme: const AppBarTheme(
-      backgroundColor: Colors.teal,
-      foregroundColor: Colors.white,
-      elevation: 0,
-      centerTitle: true,
-    ),
-    cardTheme: CardThemeData(
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-    ),
-    inputDecorationTheme: InputDecorationTheme(
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-      filled: true,
-      fillColor: Colors.grey[50],
+  static const incomeColor = Color(0xFF176534);
+  static const expenseColor = Color(0xFFB3261E);
+  static const balanceColors = [Color(0xFF075E55), Color(0xFF08766A)];
+
+  static final light = AppTheme.light.copyWith(
+    appBarTheme: AppTheme.light.appBarTheme.copyWith(
+      backgroundColor: AppTheme.light.colorScheme.primary,
+      foregroundColor: AppTheme.light.colorScheme.onPrimary,
+      centerTitle: false,
     ),
   );
 }

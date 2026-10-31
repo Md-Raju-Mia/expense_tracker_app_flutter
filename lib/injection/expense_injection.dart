@@ -21,8 +21,11 @@ void configureExpenseDependencies(GetIt container) {
   container.registerLazySingleton<ExpenseRepository>(
     () => ExpenseRepositoryImpl(container<ExpenseLocalDataSource>()),
   );
-  container.registerFactory<LoadExpensesTask>(
-    () => LoadExpensesTask(container<ExpenseRepository>()),
+  container.registerFactoryParam<LoadExpensesTask, String?, void>(
+    (currencyCode, _) => LoadExpensesTask(
+      container<ExpenseRepository>(),
+      currencyCode: currencyCode ?? 'USD',
+    ),
   );
   container.registerFactoryParam<SaveExpenseTask, Expense, void>(
     (expense, _) => SaveExpenseTask(container<ExpenseRepository>(), expense),
@@ -39,12 +42,14 @@ void configureExpenseDependencies(GetIt container) {
   );
   container.registerFactory<ExpenseHomeViewModel>(
     () => ExpenseHomeViewModel(
-      createLoadTask: () => container<LoadExpensesTask>(),
+      createLoadTask: (currencyCode) =>
+          container<LoadExpensesTask>(param1: currencyCode),
       createDeleteAction: (id) => container<ExpenseDeleteAction>(param1: id),
     ),
   );
-  container.registerFactory<AddExpenseViewModel>(
-    () => AddExpenseViewModel(
+  container.registerFactoryParam<AddExpenseViewModel, String?, void>(
+    (currencyCode, _) => AddExpenseViewModel(
+      currencyCode: currencyCode ?? 'USD',
       createSaveAction: (expense) =>
           container<ExpenseSaveAction>(param1: expense),
     ),

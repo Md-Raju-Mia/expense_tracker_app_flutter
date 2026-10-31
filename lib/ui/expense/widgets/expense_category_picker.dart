@@ -20,19 +20,15 @@ class ExpenseCategoryPicker extends StatelessWidget {
           .where((cat) => cat != ExpenseCategory.income)
           .map(
             (cat) => ChoiceChip(
-              label: Text(cat.name.toUpperCase()),
-              avatar: Icon(
-                cat.icon,
-                size: 18,
-                color: selectedCategory == cat ? Colors.white : cat.color,
-              ),
+              label: Text(cat.label(context).toUpperCase()),
+              avatar: Icon(cat.icon, size: 18, color: cat.color),
               selected: selectedCategory == cat,
               onSelected: (selected) {
                 if (selected) onSelected(cat);
               },
-              selectedColor: cat.color,
+              selectedColor: cat.color.withValues(alpha: 0.16),
               labelStyle: TextStyle(
-                color: selectedCategory == cat ? Colors.white : Colors.black,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
           )

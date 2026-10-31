@@ -9,23 +9,22 @@ import '../widgets/expense_empty_state.dart';
 import '../widgets/expense_home_content.dart';
 
 class ExpenseHomeScreen extends BaseView<ExpenseHomeViewModel> {
-  const ExpenseHomeScreen({super.key, required this.onAddTransaction});
+  const ExpenseHomeScreen({
+    super.key,
+    required this.onAddTransaction,
+    this.onOpenPreferences,
+  });
 
   final VoidCallback onAddTransaction;
+  final VoidCallback? onOpenPreferences;
 
   @override
   Widget build(BuildContext context) {
-    // Keep the old app's English/light appearance and nonblocking writes.
-    // The route still owns the model; this view only observes it.
-    return Localizations.override(
-      context: context,
-      locale: const Locale('en'),
-      child: Theme(
-        data: ExpenseTheme.light,
-        child: Builder(
-          builder: (context) =>
-              pageScaffold(context, context.watch<ExpenseHomeViewModel>()),
-        ),
+    return Theme(
+      data: ExpenseTheme.light,
+      child: Builder(
+        builder: (context) =>
+            pageScaffold(context, context.watch<ExpenseHomeViewModel>()),
       ),
     );
   }
@@ -39,11 +38,22 @@ class ExpenseHomeScreen extends BaseView<ExpenseHomeViewModel> {
     ExpenseHomeViewModel viewModel,
   ) {
     return AppBar(
+      toolbarHeight: MediaQuery.textScalerOf(context).scale(24) + 32,
       title: Text(
         context.l10n.expenseTrackerTitle,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
         style: const TextStyle(fontWeight: FontWeight.bold),
       ),
       elevation: 0,
+      actions: [
+        if (onOpenPreferences != null)
+          IconButton(
+            onPressed: onOpenPreferences,
+            tooltip: context.l10n.preferencesAppBar,
+            icon: const Icon(Icons.settings_outlined),
+          ),
+      ],
     );
   }
 
@@ -64,15 +74,34 @@ class ExpenseHomeScreen extends BaseView<ExpenseHomeViewModel> {
   }
 
   @override
-  Widget floatingActionButton(
+  Widget bottomNavigationBar(
     BuildContext context,
     ExpenseHomeViewModel viewModel,
   ) {
-    return FloatingActionButton.extended(
-      onPressed: onAddTransaction,
-      label: Text(context.l10n.expenseAddTask),
-      icon: const Icon(Icons.add),
-      backgroundColor: Colors.teal,
+    final colors = Theme.of(context).colorScheme;
+    return Container(
+      decoration: BoxDecoration(
+        color: colors.surface,
+        border: Border(top: BorderSide(color: colors.outlineVariant)),
+      ),
+      child: SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: FilledButton.icon(
+            onPressed: onAddTransaction,
+            style: FilledButton.styleFrom(
+              minimumSize: const Size.fromHeight(56),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+            ),
+            label: Text(
+              context.l10n.expenseAddTransaction,
+              textAlign: TextAlign.center,
+            ),
+            icon: const Icon(Icons.add),
+          ),
+        ),
+      ),
     );
   }
 

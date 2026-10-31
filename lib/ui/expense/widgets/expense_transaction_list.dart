@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../../core/theme/expense_theme.dart';
 import '../../../domain/entities/expense.dart';
+import '../../../l10n/l10n.dart';
+import 'expense_amount.dart';
 import 'expense_category_style.dart';
 
 class ExpenseTransactionList extends StatelessWidget {
@@ -12,70 +15,85 @@ class ExpenseTransactionList extends StatelessWidget {
   });
   final List<Expense> expenses;
   final ValueChanged<int> onDelete;
+
   @override
   Widget build(BuildContext context) {
+    final text = context.l10n;
+    final theme = Theme.of(context);
     return SliverPadding(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 100),
-      sliver: SliverList(
-        delegate: SliverChildBuilderDelegate((ctx, i) {
-          final expense = expenses[i];
+      sliver: SliverList.builder(
+        itemCount: expenses.length,
+        itemBuilder: (context, index) {
+          final expense = expenses[index];
           return Card(
-            elevation: 0,
             margin: const EdgeInsets.only(bottom: 12),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: ListTile(
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 4,
-              ),
-              leading: Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: expense.category.color.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Icon(
-                  expense.category.icon,
-                  color: expense.category.color,
-                ),
-              ),
-              title: Text(
-                expense.title,
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-              subtitle: Text(
-                DateFormat('MMM dd, yyyy').format(expense.date),
-                style: TextStyle(color: Colors.grey[600]),
-              ),
-              trailing: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    '${expense.isIncome ? "+" : "-"}\$${expense.amount.toStringAsFixed(2)}',
-                    style: TextStyle(
-                      color: expense.isIncome ? Colors.green : Colors.red,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: expense.category.color.withValues(alpha: .12),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(
+                      expense.category.icon,
+                      color: expense.category.color,
                     ),
                   ),
-                  const SizedBox(height: 4),
-                  GestureDetector(
-                    onTap: () => onDelete(expense.id!),
-                    child: const Icon(
-                      Icons.delete_outline,
-                      size: 20,
-                      color: Colors.grey,
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          expense.title,
+                          style: theme.textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          DateFormat(
+                            'MMM dd, yyyy',
+                            text.localeName,
+                          ).format(expense.date),
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            color: theme.colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          '${expense.isIncome ? '+' : '-'}${expenseAmount(expense.amount, expense.currencyCode, text.localeName)}',
+                          style: theme.textTheme.titleMedium?.copyWith(
+                            color: expense.isIncome
+                                ? ExpenseTheme.incomeColor
+                                : ExpenseTheme.expenseColor,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        Text(
+                          expense.currencyCode,
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            color: theme.colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                      ],
                     ),
+                  ),
+                  IconButton(
+                    tooltip: text.expenseDelete,
+                    onPressed: () => onDelete(expense.id!),
+                    icon: const Icon(Icons.delete_outline),
                   ),
                 ],
               ),
             ),
           );
-        }, childCount: expenses.length),
+        },
       ),
     );
   }

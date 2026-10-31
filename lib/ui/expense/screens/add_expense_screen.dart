@@ -15,15 +15,11 @@ class AddExpenseScreen extends BaseView<AddExpenseViewModel> {
 
   @override
   Widget build(BuildContext context) {
-    return Localizations.override(
-      context: context,
-      locale: const Locale('en'),
-      child: Theme(
-        data: ExpenseTheme.light,
-        child: Builder(
-          builder: (context) =>
-              pageScaffold(context, context.watch<AddExpenseViewModel>()),
-        ),
+    return Theme(
+      data: ExpenseTheme.light,
+      child: Builder(
+        builder: (context) =>
+            pageScaffold(context, context.watch<AddExpenseViewModel>()),
       ),
     );
   }
@@ -34,8 +30,11 @@ class AddExpenseScreen extends BaseView<AddExpenseViewModel> {
     AddExpenseViewModel viewModel,
   ) {
     return AppBar(
+      toolbarHeight: MediaQuery.textScalerOf(context).scale(24) + 32,
       title: Text(
         context.l10n.expenseAddTransaction,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
         style: const TextStyle(fontWeight: FontWeight.bold),
       ),
       elevation: 0,

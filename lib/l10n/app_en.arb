@@ -490,5 +490,67 @@
   "preferencesAppBar": "Settings",
   "@preferencesAppBar": {
     "description": "User preferences screen app bar title"
+  },
+  "expenseAllCurrencies": "Recent transactions keep their original currencies.",
+  "@expenseAllCurrencies": {
+    "description": "Expense currency/language integration: expenseAllCurrencies"
+  },
+  "expenseAmountCurrency": "Amount ({currency})",
+  "@expenseAmountCurrency": {
+    "placeholders": {
+      "currency": {
+        "type": "String"
+      }
+    },
+    "description": "Expense currency/language integration: expenseAmountCurrency"
+  },
+  "expenseCategoryEntertainment": "Entertainment",
+  "@expenseCategoryEntertainment": {
+    "description": "Expense currency/language integration: expenseCategoryEntertainment"
+  },
+  "expenseCategoryFood": "Food",
+  "@expenseCategoryFood": {
+    "description": "Expense currency/language integration: expenseCategoryFood"
+  },
+  "expenseCategoryHealth": "Health",
+  "@expenseCategoryHealth": {
+    "description": "Expense currency/language integration: expenseCategoryHealth"
+  },
+  "expenseCategoryIncome": "Income",
+  "@expenseCategoryIncome": {
+    "description": "Expense currency/language integration: expenseCategoryIncome"
+  },
+  "expenseCategoryOthers": "Others",
+  "@expenseCategoryOthers": {
+    "description": "Expense currency/language integration: expenseCategoryOthers"
+  },
+  "expenseCategoryPercent": "{category}: {percent}%",
+  "@expenseCategoryPercent": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "String"
+      }
+    },
+    "description": "Expense currency/language integration: expenseCategoryPercent"
+  },
+  "expenseCategoryShopping": "Shopping",
+  "@expenseCategoryShopping": {
+    "description": "Expense currency/language integration: expenseCategoryShopping"
+  },
+  "expenseCategoryTransport": "Transport",
+  "@expenseCategoryTransport": {
+    "description": "Expense currency/language integration: expenseCategoryTransport"
+  },
+  "expenseTotalsCurrency": "Totals in {currency}",
+  "@expenseTotalsCurrency": {
+    "placeholders": {
+      "currency": {
+        "type": "String"
+      }
+    },
+    "description": "Expense currency/language integration: expenseTotalsCurrency"
   }
 }

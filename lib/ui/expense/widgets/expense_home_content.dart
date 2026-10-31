@@ -36,7 +36,12 @@ class ExpenseHomeContent extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(context.l10n.expenseRecentTransactions, style: heading),
+                Expanded(
+                  child: Text(
+                    context.l10n.expenseRecentTransactions,
+                    style: heading,
+                  ),
+                ),
                 // The old app intentionally has no See All navigation.
                 TextButton(
                   onPressed: () {},
@@ -44,6 +49,12 @@ class ExpenseHomeContent extends StatelessWidget {
                 ),
               ],
             ),
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+            child: Text(context.l10n.expenseAllCurrencies),
           ),
         ),
         ExpenseTransactionList(expenses: summary.expenses, onDelete: onDelete),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../../l10n/l10n.dart';
+
 class ExpenseDatePicker extends StatelessWidget {
   const ExpenseDatePicker({
     super.key,
@@ -32,7 +34,14 @@ class ExpenseDatePicker extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(DateFormat('EEEE, MMM dd, yyyy').format(selectedDate)),
+            Expanded(
+              child: Text(
+                DateFormat(
+                  'EEEE, MMM dd, yyyy',
+                  context.l10n.localeName,
+                ).format(selectedDate),
+              ),
+            ),
             const Icon(Icons.calendar_month, color: Colors.teal),
           ],
         ),

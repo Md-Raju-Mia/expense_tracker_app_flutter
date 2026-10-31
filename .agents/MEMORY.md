@@ -41,3 +41,7 @@ Never put credentials, tokens, signing files, or real user data in this memory.
 
 ## Architecture alignment, 30 October 2026
 - Aligned sample posts code and guides: PostsWriteAction lives in lib/domain/actions; feature tasks live in lib/domain/tasks/posts. Navigation and localized messages remain in presentation.
+
+## Current expense product, 31 October 2026
+
+Expense Tracker conversion is complete; product development now permits intentional UI/behavior improvements. The older Java mission above is historical context. Implemented stable transaction UUIDs and database migrations; version 3 preserves legacy dollar records as USD and stores each transaction's currencyCode. Region preferences persist as one record with independent country/currency/language overrides (BD/IN/US, BDT/INR/USD, Bengali/English). Expense routes share route-owned home/preferences models. Saved preferences control new transaction currency and expense locale; draft settings do not apply until Save, and Back discards them. Home totals/chart use the selected currency, while history retains all currencies. Settings is accessible at /expenses/preferences. Planning and verification artifacts remain ignored/local.

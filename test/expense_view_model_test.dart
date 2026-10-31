@@ -63,7 +63,8 @@ Expense expense({int? id}) => Expense(
 
 ExpenseHomeViewModel homeModel(FakeExpenseRepository repository) {
   return ExpenseHomeViewModel(
-    createLoadTask: () => LoadExpensesTask(repository),
+    createLoadTask: (currencyCode) =>
+        LoadExpensesTask(repository, currencyCode: currencyCode),
     createDeleteAction: (id) =>
         ExpenseDeleteAction(DeleteExpenseTask(repository, id)),
   );

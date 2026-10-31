@@ -10,6 +10,7 @@ import '../domain/repositories/category_repository.dart';
 import '../domain/tasks/categories/archive_category_task.dart';
 import '../domain/tasks/categories/load_categories_task.dart';
 import '../domain/tasks/categories/save_category_task.dart';
+import '../ui/categories/view_models/categories_view_model.dart';
 
 void configureCategoriesDependencies(GetIt container) {
   container.registerLazySingleton<CategoryLocalDataSource>(
@@ -41,6 +42,15 @@ void configureCategoriesDependencies(GetIt container) {
   container.registerFactoryParam<CategoriesArchiveAction, String, bool>(
     (id, archived) => CategoriesArchiveAction(
       container<ArchiveCategoryTask>(param1: id, param2: archived),
+    ),
+  );
+  container.registerFactory<CategoriesViewModel>(
+    () => CategoriesViewModel(
+      createLoadTask: () => container<LoadCategoriesTask>(param1: true),
+      createSaveAction: (draft) =>
+          container<CategoriesSaveAction>(param1: draft),
+      createArchiveAction: (id, archived) =>
+          container<CategoriesArchiveAction>(param1: id, param2: archived),
     ),
   );
 }

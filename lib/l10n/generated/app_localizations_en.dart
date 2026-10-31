@@ -423,4 +423,119 @@ class AppLocalizationsEn extends AppLocalizations {
   String expenseAmountTooLarge(String maximum) {
     return 'Amount must not exceed $maximum.';
   }
+
+  @override
+  String get categoriesTitle => 'Manage categories';
+
+  @override
+  String get categoriesDescription =>
+      'Choose names, icons and colors that make sense to you.';
+
+  @override
+  String get categoriesAdd => 'Add category';
+
+  @override
+  String get categoriesEdit => 'Edit category';
+
+  @override
+  String get categoriesSave => 'Save category';
+
+  @override
+  String get categoriesName => 'Category name';
+
+  @override
+  String get categoriesNameInvalid => 'Enter a name with 1–60 characters.';
+
+  @override
+  String get categoriesType => 'Transaction type';
+
+  @override
+  String get categoriesTypeFixed =>
+      'The transaction type cannot be changed after creation.';
+
+  @override
+  String get categoriesIcon => 'Icon';
+
+  @override
+  String get categoriesColor => 'Color';
+
+  @override
+  String get categoriesActive => 'Active';
+
+  @override
+  String get categoriesArchived => 'Archived';
+
+  @override
+  String get categoriesArchive => 'Archive';
+
+  @override
+  String get categoriesRestore => 'Restore';
+
+  @override
+  String categoriesArchivePrompt(String name) {
+    return 'Archive “$name”? It will remain saved and can be restored later.';
+  }
+
+  @override
+  String get categoriesEmpty => 'No categories in this group.';
+
+  @override
+  String get categoriesDuplicate =>
+      'An active category with this name already exists for this transaction type.';
+
+  @override
+  String get categoriesMissing =>
+      'This category could not be found. Refresh the list and try again.';
+
+  @override
+  String get categoriesAlreadyArchived =>
+      'Restore this archived category before editing it.';
+
+  @override
+  String get categoriesLoadError => 'Could not refresh categories. Try again.';
+
+  @override
+  String get categoriesWriteError =>
+      'Could not save the change. Your existing categories are safe. Try again.';
+
+  @override
+  String get categoriesRefresh => 'Refresh categories';
+
+  @override
+  String categoriesIconName(String icon) {
+    String _temp0 = intl.Intl.selectLogic(icon, {
+      'food': 'Food',
+      'transport': 'Transport',
+      'entertainment': 'Entertainment',
+      'shopping': 'Shopping',
+      'health': 'Health',
+      'others': 'Other',
+      'income': 'Money',
+      'home': 'Home',
+      'education': 'Education',
+      'bills': 'Bills',
+      'gift': 'Gift',
+      'work': 'Work',
+      'other': 'Other',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String categoriesColorName(String color) {
+    String _temp0 = intl.Intl.selectLogic(color, {
+      'orange': 'Orange',
+      'blue': 'Blue',
+      'purple': 'Purple',
+      'pink': 'Pink',
+      'red': 'Red',
+      'grey': 'Grey',
+      'green': 'Green',
+      'teal': 'Teal',
+      'indigo': 'Indigo',
+      'brown': 'Brown',
+      'other': 'Other',
+    });
+    return '$_temp0';
+  }
 }

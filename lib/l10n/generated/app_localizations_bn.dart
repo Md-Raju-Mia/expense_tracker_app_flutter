@@ -422,4 +422,120 @@ class AppLocalizationsBn extends AppLocalizations {
   String expenseAmountTooLarge(String maximum) {
     return '$maximum-এর বেশি অঙ্ক দেওয়া যাবে না।';
   }
+
+  @override
+  String get categoriesTitle => 'বিভাগ পরিচালনা';
+
+  @override
+  String get categoriesDescription =>
+      'নিজের সুবিধামতো বিভাগের নাম, আইকন ও রং বেছে নিন।';
+
+  @override
+  String get categoriesAdd => 'বিভাগ যোগ করুন';
+
+  @override
+  String get categoriesEdit => 'বিভাগ সম্পাদনা';
+
+  @override
+  String get categoriesSave => 'বিভাগ সংরক্ষণ করুন';
+
+  @override
+  String get categoriesName => 'বিভাগের নাম';
+
+  @override
+  String get categoriesNameInvalid => '১–৬০ অক্ষরের একটি নাম লিখুন।';
+
+  @override
+  String get categoriesType => 'লেনদেনের ধরন';
+
+  @override
+  String get categoriesTypeFixed =>
+      'তৈরি করার পরে লেনদেনের ধরন বদলানো যাবে না।';
+
+  @override
+  String get categoriesIcon => 'আইকন';
+
+  @override
+  String get categoriesColor => 'রং';
+
+  @override
+  String get categoriesActive => 'সক্রিয়';
+
+  @override
+  String get categoriesArchived => 'আর্কাইভ করা';
+
+  @override
+  String get categoriesArchive => 'আর্কাইভ করুন';
+
+  @override
+  String get categoriesRestore => 'ফিরিয়ে আনুন';
+
+  @override
+  String categoriesArchivePrompt(String name) {
+    return '“$name” আর্কাইভ করবেন? এটি সংরক্ষিত থাকবে এবং পরে ফিরিয়ে আনা যাবে।';
+  }
+
+  @override
+  String get categoriesEmpty => 'এই তালিকায় কোনো বিভাগ নেই।';
+
+  @override
+  String get categoriesDuplicate =>
+      'এই ধরনের লেনদেনের জন্য একই নামের একটি সক্রিয় বিভাগ রয়েছে।';
+
+  @override
+  String get categoriesMissing =>
+      'বিভাগটি খুঁজে পাওয়া যায়নি। তালিকা রিফ্রেশ করে আবার চেষ্টা করুন।';
+
+  @override
+  String get categoriesAlreadyArchived =>
+      'সম্পাদনার আগে আর্কাইভ করা বিভাগটি ফিরিয়ে আনুন।';
+
+  @override
+  String get categoriesLoadError =>
+      'বিভাগের তালিকা আনা যায়নি। আবার চেষ্টা করুন।';
+
+  @override
+  String get categoriesWriteError =>
+      'পরিবর্তন সংরক্ষণ করা যায়নি। আগের বিভাগগুলো অক্ষত আছে। আবার চেষ্টা করুন।';
+
+  @override
+  String get categoriesRefresh => 'বিভাগের তালিকা রিফ্রেশ করুন';
+
+  @override
+  String categoriesIconName(String icon) {
+    String _temp0 = intl.Intl.selectLogic(icon, {
+      'food': 'খাবার',
+      'transport': 'যাতায়াত',
+      'entertainment': 'বিনোদন',
+      'shopping': 'কেনাকাটা',
+      'health': 'স্বাস্থ্য',
+      'others': 'অন্যান্য',
+      'income': 'টাকা',
+      'home': 'বাসা',
+      'education': 'শিক্ষা',
+      'bills': 'বিল',
+      'gift': 'উপহার',
+      'work': 'কাজ',
+      'other': 'অন্যান্য',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String categoriesColorName(String color) {
+    String _temp0 = intl.Intl.selectLogic(color, {
+      'orange': 'কমলা',
+      'blue': 'নীল',
+      'purple': 'বেগুনি',
+      'pink': 'গোলাপি',
+      'red': 'লাল',
+      'grey': 'ধূসর',
+      'green': 'সবুজ',
+      'teal': 'নীলচে সবুজ',
+      'indigo': 'গাঢ় নীল',
+      'brown': 'বাদামি',
+      'other': 'অন্যান্য',
+    });
+    return '$_temp0';
+  }
 }

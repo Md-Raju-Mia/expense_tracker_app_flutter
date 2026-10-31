@@ -859,6 +859,156 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Amount must not exceed {maximum}.'**
   String expenseAmountTooLarge(String maximum);
+
+  /// Category management: Manage categories
+  ///
+  /// In en, this message translates to:
+  /// **'Manage categories'**
+  String get categoriesTitle;
+
+  /// Category management: Choose names, icons and colors that make sense to you.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose names, icons and colors that make sense to you.'**
+  String get categoriesDescription;
+
+  /// Category management: Add category
+  ///
+  /// In en, this message translates to:
+  /// **'Add category'**
+  String get categoriesAdd;
+
+  /// Category management: Edit category
+  ///
+  /// In en, this message translates to:
+  /// **'Edit category'**
+  String get categoriesEdit;
+
+  /// Category management: Save category
+  ///
+  /// In en, this message translates to:
+  /// **'Save category'**
+  String get categoriesSave;
+
+  /// Category management: Category name
+  ///
+  /// In en, this message translates to:
+  /// **'Category name'**
+  String get categoriesName;
+
+  /// Category management: Enter a name with 1–60 characters.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a name with 1–60 characters.'**
+  String get categoriesNameInvalid;
+
+  /// Category management: Transaction type
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction type'**
+  String get categoriesType;
+
+  /// Category management: The transaction type cannot be changed after creation.
+  ///
+  /// In en, this message translates to:
+  /// **'The transaction type cannot be changed after creation.'**
+  String get categoriesTypeFixed;
+
+  /// Category management: Icon
+  ///
+  /// In en, this message translates to:
+  /// **'Icon'**
+  String get categoriesIcon;
+
+  /// Category management: Color
+  ///
+  /// In en, this message translates to:
+  /// **'Color'**
+  String get categoriesColor;
+
+  /// Category management: Active
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get categoriesActive;
+
+  /// Category management: Archived
+  ///
+  /// In en, this message translates to:
+  /// **'Archived'**
+  String get categoriesArchived;
+
+  /// Category management: Archive
+  ///
+  /// In en, this message translates to:
+  /// **'Archive'**
+  String get categoriesArchive;
+
+  /// Category management: Restore
+  ///
+  /// In en, this message translates to:
+  /// **'Restore'**
+  String get categoriesRestore;
+
+  /// Category management: Archive “{name}”? It will remain saved and can be restored later.
+  ///
+  /// In en, this message translates to:
+  /// **'Archive “{name}”? It will remain saved and can be restored later.'**
+  String categoriesArchivePrompt(String name);
+
+  /// Category management: No categories in this group.
+  ///
+  /// In en, this message translates to:
+  /// **'No categories in this group.'**
+  String get categoriesEmpty;
+
+  /// Category management: An active category with this name already exists for this transaction type.
+  ///
+  /// In en, this message translates to:
+  /// **'An active category with this name already exists for this transaction type.'**
+  String get categoriesDuplicate;
+
+  /// Category management: This category could not be found. Refresh the list and try again.
+  ///
+  /// In en, this message translates to:
+  /// **'This category could not be found. Refresh the list and try again.'**
+  String get categoriesMissing;
+
+  /// Category management: Restore this archived category before editing it.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore this archived category before editing it.'**
+  String get categoriesAlreadyArchived;
+
+  /// Category management: Could not refresh categories. Try again.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not refresh categories. Try again.'**
+  String get categoriesLoadError;
+
+  /// Category management: Could not save the change. Your existing categories are safe. Try again.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not save the change. Your existing categories are safe. Try again.'**
+  String get categoriesWriteError;
+
+  /// Category management: Refresh categories
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh categories'**
+  String get categoriesRefresh;
+
+  /// Accessible localized label for category icon
+  ///
+  /// In en, this message translates to:
+  /// **'{icon, select, food{Food} transport{Transport} entertainment{Entertainment} shopping{Shopping} health{Health} others{Other} income{Money} home{Home} education{Education} bills{Bills} gift{Gift} work{Work} other{Other}}'**
+  String categoriesIconName(String icon);
+
+  /// Accessible localized label for category color
+  ///
+  /// In en, this message translates to:
+  /// **'{color, select, orange{Orange} blue{Blue} purple{Purple} pink{Pink} red{Red} grey{Grey} green{Green} teal{Teal} indigo{Indigo} brown{Brown} other{Other}}'**
+  String categoriesColorName(String color);
 }
 
 class _AppLocalizationsDelegate

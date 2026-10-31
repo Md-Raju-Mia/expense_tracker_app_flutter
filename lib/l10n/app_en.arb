@@ -565,5 +565,120 @@
         "type": "String"
       }
     }
+  },
+  "categoriesTitle": "Manage categories",
+  "@categoriesTitle": {
+    "description": "Category management: Manage categories"
+  },
+  "categoriesDescription": "Choose names, icons and colors that make sense to you.",
+  "@categoriesDescription": {
+    "description": "Category management: Choose names, icons and colors that make sense to you."
+  },
+  "categoriesAdd": "Add category",
+  "@categoriesAdd": {
+    "description": "Category management: Add category"
+  },
+  "categoriesEdit": "Edit category",
+  "@categoriesEdit": {
+    "description": "Category management: Edit category"
+  },
+  "categoriesSave": "Save category",
+  "@categoriesSave": {
+    "description": "Category management: Save category"
+  },
+  "categoriesName": "Category name",
+  "@categoriesName": {
+    "description": "Category management: Category name"
+  },
+  "categoriesNameInvalid": "Enter a name with 1–60 characters.",
+  "@categoriesNameInvalid": {
+    "description": "Category management: Enter a name with 1–60 characters."
+  },
+  "categoriesType": "Transaction type",
+  "@categoriesType": {
+    "description": "Category management: Transaction type"
+  },
+  "categoriesTypeFixed": "The transaction type cannot be changed after creation.",
+  "@categoriesTypeFixed": {
+    "description": "Category management: The transaction type cannot be changed after creation."
+  },
+  "categoriesIcon": "Icon",
+  "@categoriesIcon": {
+    "description": "Category management: Icon"
+  },
+  "categoriesColor": "Color",
+  "@categoriesColor": {
+    "description": "Category management: Color"
+  },
+  "categoriesActive": "Active",
+  "@categoriesActive": {
+    "description": "Category management: Active"
+  },
+  "categoriesArchived": "Archived",
+  "@categoriesArchived": {
+    "description": "Category management: Archived"
+  },
+  "categoriesArchive": "Archive",
+  "@categoriesArchive": {
+    "description": "Category management: Archive"
+  },
+  "categoriesRestore": "Restore",
+  "@categoriesRestore": {
+    "description": "Category management: Restore"
+  },
+  "categoriesArchivePrompt": "Archive “{name}”? It will remain saved and can be restored later.",
+  "@categoriesArchivePrompt": {
+    "description": "Category management: Archive “{name}”? It will remain saved and can be restored later.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "categoriesEmpty": "No categories in this group.",
+  "@categoriesEmpty": {
+    "description": "Category management: No categories in this group."
+  },
+  "categoriesDuplicate": "An active category with this name already exists for this transaction type.",
+  "@categoriesDuplicate": {
+    "description": "Category management: An active category with this name already exists for this transaction type."
+  },
+  "categoriesMissing": "This category could not be found. Refresh the list and try again.",
+  "@categoriesMissing": {
+    "description": "Category management: This category could not be found. Refresh the list and try again."
+  },
+  "categoriesAlreadyArchived": "Restore this archived category before editing it.",
+  "@categoriesAlreadyArchived": {
+    "description": "Category management: Restore this archived category before editing it."
+  },
+  "categoriesLoadError": "Could not refresh categories. Try again.",
+  "@categoriesLoadError": {
+    "description": "Category management: Could not refresh categories. Try again."
+  },
+  "categoriesWriteError": "Could not save the change. Your existing categories are safe. Try again.",
+  "@categoriesWriteError": {
+    "description": "Category management: Could not save the change. Your existing categories are safe. Try again."
+  },
+  "categoriesRefresh": "Refresh categories",
+  "@categoriesRefresh": {
+    "description": "Category management: Refresh categories"
+  },
+  "categoriesIconName": "{icon, select, food{Food} transport{Transport} entertainment{Entertainment} shopping{Shopping} health{Health} others{Other} income{Money} home{Home} education{Education} bills{Bills} gift{Gift} work{Work} other{Other}}",
+  "@categoriesIconName": {
+    "description": "Accessible localized label for category icon",
+    "placeholders": {
+      "icon": {
+        "type": "String"
+      }
+    }
+  },
+  "categoriesColorName": "{color, select, orange{Orange} blue{Blue} purple{Purple} pink{Pink} red{Red} grey{Grey} green{Green} teal{Teal} indigo{Indigo} brown{Brown} other{Other}}",
+  "@categoriesColorName": {
+    "description": "Accessible localized label for category color",
+    "placeholders": {
+      "color": {
+        "type": "String"
+      }
+    }
   }
 }

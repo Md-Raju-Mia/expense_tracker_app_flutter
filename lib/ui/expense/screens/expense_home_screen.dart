@@ -13,10 +13,12 @@ class ExpenseHomeScreen extends BaseView<ExpenseHomeViewModel> {
     super.key,
     required this.onAddTransaction,
     this.onOpenPreferences,
+    this.onOpenCategories,
   });
 
   final VoidCallback onAddTransaction;
   final VoidCallback? onOpenPreferences;
+  final VoidCallback? onOpenCategories;
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +49,12 @@ class ExpenseHomeScreen extends BaseView<ExpenseHomeViewModel> {
       ),
       elevation: 0,
       actions: [
+        if (onOpenCategories != null)
+          IconButton(
+            onPressed: onOpenCategories,
+            tooltip: context.l10n.categoriesTitle,
+            icon: const Icon(Icons.category_outlined),
+          ),
         if (onOpenPreferences != null)
           IconButton(
             onPressed: onOpenPreferences,

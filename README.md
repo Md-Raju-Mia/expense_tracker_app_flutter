@@ -14,7 +14,9 @@ Database v4 adds amountMinor. Upgrading v1/v2/v3 preserves the original amount c
 
 The UI uses a high-contrast teal balance card, an Add Transaction action below the scrollable content, and layouts that wrap for large text. The expense journey currently uses a light theme.
 
-Database v5 adds a separate categories table with seven stable built-in IDs, name/icon/color metadata and archive state. The category repository supports create, edit, archive and restore; active names are unique within income/expense type. Editing retains identity and type. This storage foundation is not yet connected to a management screen or the transaction picker; existing transactions still use their original category indices.
+Use the category icon in the Home app bar to manage categories. Filter income/expense and active/archived categories, add a category, edit its name/icon/color, or archive and restore it. Archive requires confirmation. Failed saves keep the draft for retry; leaving the screen discards unsaved edits. Built-in names follow the saved language until renamed. Names allow 1–60 user-perceived characters, including Bengali combined letters.
+
+Database v5 has a separate categories table with seven stable built-in IDs. Active stored names are unique within income/expense type; the form also rejects duplicate translated display names. Editing retains identity and type. The management screen currently saves the category list only; the transaction picker and chart still use their original categories until their separate integration step.
 
 ## Posts sample (/posts)
 

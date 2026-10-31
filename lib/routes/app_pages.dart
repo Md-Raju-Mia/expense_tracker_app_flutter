@@ -9,6 +9,8 @@ import '../ui/expense/screens/expense_home_screen.dart';
 import '../ui/expense/view_models/add_expense_view_model.dart';
 import '../ui/expense/view_models/expense_home_view_model.dart';
 import '../ui/expense/widgets/expense_journey.dart';
+import '../ui/categories/screens/categories_screen.dart';
+import '../ui/categories/view_models/categories_view_model.dart';
 import '../ui/preferences/screens/user_preferences_screen.dart';
 import '../ui/preferences/view_models/user_preferences_view_model.dart';
 import '../ui/posts/view_models/post_detail_view_model.dart';
@@ -45,8 +47,17 @@ class AppPages {
           builder: (context, state) => ExpenseHomeScreen(
             onAddTransaction: () => context.pushNamed(Routes.ADD_EXPENSE),
             onOpenPreferences: () => context.pushNamed(Routes.PREFERENCES),
+            onOpenCategories: () => context.pushNamed(Routes.CATEGORIES),
           ),
           routes: [
+            GoRoute(
+              name: Routes.CATEGORIES,
+              path: 'categories',
+              builder: (context, state) => ChangeNotifierProvider(
+                create: (_) => getIt<CategoriesViewModel>()..load(),
+                child: const CategoriesScreen(),
+              ),
+            ),
             GoRoute(
               name: Routes.ADD_EXPENSE,
               path: 'add',

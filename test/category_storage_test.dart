@@ -218,6 +218,24 @@ void main() {
     },
   );
 
+  test(
+    'Bengali combined letters use the same character limit as the form',
+    () async {
+      final name = List.filled(CategoryDraft.maxNameLength, 'কা').join();
+      final id = await repository.saveCategory(draft(name));
+      expect(
+        (await repository.getCategories())
+            .singleWhere((row) => row.id == id)
+            .name,
+        name,
+      );
+      await expectLater(
+        repository.saveCategory(draft('$nameকা')),
+        problem(CategoryProblem.invalidName),
+      );
+    },
+  );
+
   test('overlapping duplicate saves create only one category', () async {
     Future<Object> save(String name) async {
       try {

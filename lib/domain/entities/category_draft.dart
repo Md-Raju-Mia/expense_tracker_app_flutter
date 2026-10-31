@@ -1,3 +1,5 @@
+import 'package:characters/characters.dart';
+
 import 'transaction_category.dart';
 import 'category_exception.dart';
 
@@ -20,7 +22,7 @@ class CategoryDraft {
 
   void validate() {
     final trimmed = name.trim();
-    if (trimmed.isEmpty || trimmed.length > maxNameLength) {
+    if (trimmed.isEmpty || trimmed.characters.length > maxNameLength) {
       throw const CategoryException(CategoryProblem.invalidName);
     }
   }

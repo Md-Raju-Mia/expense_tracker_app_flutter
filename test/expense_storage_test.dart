@@ -26,6 +26,7 @@ void main() {
     for (final category in ExpenseCategory.values) {
       final original = Expense(
         id: 9,
+        syncId: 'saved-transaction-id',
         title: '  unchanged  ',
         amount: -12.5,
         date: DateTime(2026, 4, 9, 14, 30, 15, 123, 456),
@@ -35,6 +36,7 @@ void main() {
       final row = original.toModel().toJson();
       expect(row, {
         'id': 9,
+        'syncId': 'saved-transaction-id',
         'title': '  unchanged  ',
         'amount': -12.5,
         'date': original.date.toIso8601String(),
@@ -43,6 +45,7 @@ void main() {
       });
       final restored = ExpenseModel.fromJson(row).toEntity();
       expect(restored.date, original.date);
+      expect(restored.syncId, original.syncId);
       expect(restored.category, category);
       expect(restored.isIncome, isTrue);
       expect(restored.amount, -12.5);
@@ -70,10 +73,10 @@ void main() {
       await directory.delete(recursive: true);
     });
 
-    test('creates version 1 schema and shares concurrent opening', () async {
+    test('creates version 2 schema and shares concurrent opening', () async {
       final databases = await Future.wait([source.database, source.database]);
       expect(identical(databases[0], databases[1]), isTrue);
-      expect(await databases[0].getVersion(), 1);
+      expect(await databases[0].getVersion(), 2);
       final columns = await databases[0].rawQuery(
         'PRAGMA table_info(expenses)',
       );
@@ -84,6 +87,7 @@ void main() {
         'date',
         'category',
         'isIncome',
+        'syncId',
       ]);
       expect(await repository.getExpenses(), isEmpty);
     });
@@ -137,6 +141,15 @@ void main() {
         expect(salary.amount, 30000);
         expect(salary.category, ExpenseCategory.income);
         expect(salary.isIncome, isTrue);
+        final salarySyncId = salary.syncId;
+        expect(
+          salarySyncId,
+          matches(
+            RegExp(
+              r'^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$',
+            ),
+          ),
+        );
         final id = await repository.insertExpense(
           transaction(DateTime(2026, 4, 10)),
         );
@@ -151,6 +164,41 @@ void main() {
           id,
           42,
         ]);
+        expect((await repository.getExpenses()).last.syncId, salarySyncId);
+      },
+    );
+
+    test(
+      'new rows get distinct stable UUIDs and supplied IDs are retained',
+      () async {
+        await repository.insertExpense(transaction(DateTime(2026, 4, 9)));
+        await repository.insertExpense(transaction(DateTime(2026, 4, 10)));
+        final rows = await repository.getExpenses();
+        expect(rows.map((row) => row.syncId).toSet(), hasLength(2));
+        for (final row in rows) {
+          expect(
+            row.syncId,
+            matches(
+              RegExp(
+                r'^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$',
+              ),
+            ),
+          );
+        }
+        final imported = Expense(
+          syncId: 'f2d16538-1a90-4cba-8742-90125963bbaa',
+          title: 'Imported',
+          amount: 5,
+          date: DateTime(2026, 4, 11),
+          category: ExpenseCategory.food,
+        );
+        await repository.insertExpense(imported);
+        expect((await repository.getExpenses()).first.syncId, imported.syncId);
+        await expectLater(
+          repository.insertExpense(imported),
+          throwsA(isA<DatabaseException>()),
+        );
+        expect(await repository.getExpenses(), hasLength(3));
       },
     );
   });

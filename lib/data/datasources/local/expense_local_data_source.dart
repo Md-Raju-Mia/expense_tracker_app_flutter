@@ -1,13 +1,22 @@
 import 'package:path/path.dart' as path;
 import 'package:sqflite/sqflite.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../models/expense_model.dart';
+import 'expense_database_migrations.dart';
+
+String _newSyncId() => const Uuid().v4();
 
 class ExpenseLocalDataSource {
-  ExpenseLocalDataSource({required this.factory, this.databasePath});
+  ExpenseLocalDataSource({
+    required this.factory,
+    this.databasePath,
+    this.createSyncId = _newSyncId,
+  });
 
   final DatabaseFactory factory;
   final String? databasePath;
+  final String Function() createSyncId;
   Future<Database>? _database;
 
   // Share the opening future so simultaneous requests open only one database.
@@ -18,24 +27,21 @@ class ExpenseLocalDataSource {
         databasePath ??
         path.join(await factory.getDatabasesPath(), 'expense_tracker.db');
 
-    return factory.openDatabase(
-      resolvedPath,
-      options: OpenDatabaseOptions(
-        version: 1,
-        onCreate: (db, version) async {
-          await db.execute('''
-            CREATE TABLE expenses (
-              id INTEGER PRIMARY KEY AUTOINCREMENT,
-              title TEXT,
-              amount REAL,
-              date TEXT,
-              category INTEGER,
-              isIncome INTEGER
-            )
-          ''');
-        },
-      ),
-    );
+    final migrations = ExpenseDatabaseMigrations(createSyncId: createSyncId);
+    try {
+      return await factory.openDatabase(
+        resolvedPath,
+        options: OpenDatabaseOptions(
+          version: ExpenseDatabaseMigrations.version,
+          onCreate: migrations.create,
+          onUpgrade: migrations.upgrade,
+        ),
+      );
+    } catch (_) {
+      // A failed upgrade must be retryable after the underlying problem is fixed.
+      _database = null;
+      rethrow;
+    }
   }
 
   Future<List<ExpenseModel>> getExpenses() async {
@@ -46,7 +52,10 @@ class ExpenseLocalDataSource {
 
   Future<int> insertExpense(ExpenseModel expense) async {
     final db = await database;
-    return db.insert('expenses', expense.toJson());
+    final savedExpense = expense.copyWith(
+      syncId: expense.syncId ?? createSyncId(),
+    );
+    return db.insert('expenses', savedExpense.toJson());
   }
 
   Future<int> deleteExpense(int id) async {

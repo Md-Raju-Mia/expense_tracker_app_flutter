@@ -8,6 +8,7 @@ part 'expense_model.g.dart';
 abstract class ExpenseModel with _$ExpenseModel {
   const factory ExpenseModel({
     int? id,
+    String? syncId,
     required String title,
     required double amount,
     required String date,

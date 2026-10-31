@@ -6,6 +6,7 @@ extension ExpenseModelMapper on ExpenseModel {
   Expense toEntity() {
     return Expense(
       id: id,
+      syncId: syncId,
       title: title,
       amount: amount,
       date: DateTime.parse(date),
@@ -19,6 +20,7 @@ extension ExpenseMapper on Expense {
   ExpenseModel toModel() {
     return ExpenseModel(
       id: id,
+      syncId: syncId,
       title: title,
       amount: amount,
       date: date.toIso8601String(),

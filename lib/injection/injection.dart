@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
 import 'expense_injection.dart';
+import 'preferences_injection.dart';
 
 import '../core/config/app_config.dart';
 import '../core/network/api_client.dart';
@@ -46,6 +47,7 @@ void configureDependencies(
   container.registerLazySingleton<AppPreferences>(
     SharedPreferencesAppPreferences.new,
   );
+  configurePreferencesDependencies(container);
   container.registerLazySingleton<Dio>(
     () => createDio(
       container<ApiConfig>(),

@@ -311,4 +311,66 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get expenseTypeExpense => 'ব্যয়';
+
+  @override
+  String get preferencesCountry => 'দেশ';
+
+  @override
+  String get preferencesCountryBD => 'বাংলাদেশ';
+
+  @override
+  String get preferencesCountryHint =>
+      'দেশ বাছলে মুদ্রা ও ভাষা প্রস্তাব করা হবে। নিচে দুটোই আলাদাভাবে বদলাতে পারবেন।';
+
+  @override
+  String get preferencesCountryIN => 'ভারত';
+
+  @override
+  String get preferencesCountryUS => 'যুক্তরাষ্ট্র';
+
+  @override
+  String get preferencesCurrency => 'পছন্দের মুদ্রা';
+
+  @override
+  String get preferencesCurrencyBDT => 'বাংলাদেশি টাকা (BDT)';
+
+  @override
+  String get preferencesCurrencyHint =>
+      'এই পছন্দ বদলালে আগের লেনদেনের টাকার অঙ্ক রূপান্তর হবে না।';
+
+  @override
+  String get preferencesCurrencyINR => 'ভারতীয় রুপি (INR)';
+
+  @override
+  String get preferencesCurrencyUSD => 'মার্কিন ডলার (USD)';
+
+  @override
+  String get preferencesIntro =>
+      'দেশ বেছে নিন, তারপর নিজের সুবিধামতো মুদ্রা ও ভাষা ঠিক করুন।';
+
+  @override
+  String get preferencesLanguage => 'অ্যাপের ভাষা';
+
+  @override
+  String get preferencesLanguageBN => 'বাংলা';
+
+  @override
+  String get preferencesLanguageEN => 'English';
+
+  @override
+  String get preferencesSave => 'পছন্দ সংরক্ষণ করুন';
+
+  @override
+  String get preferencesStorageError =>
+      'পছন্দ লোড বা সংরক্ষণ করা যায়নি। আবার চেষ্টা করুন।';
+
+  @override
+  String get preferencesSupportHint =>
+      'এখন বাংলাদেশ, ভারত ও যুক্তরাষ্ট্র এবং বাংলা ও English সমর্থিত।';
+
+  @override
+  String get preferencesTitle => 'আপনার পছন্দ';
+
+  @override
+  String get preferencesAppBar => 'সেটিংস';
 }

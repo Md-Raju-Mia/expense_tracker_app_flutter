@@ -312,4 +312,66 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get expenseTypeExpense => 'Expense';
+
+  @override
+  String get preferencesCountry => 'Country';
+
+  @override
+  String get preferencesCountryBD => 'Bangladesh';
+
+  @override
+  String get preferencesCountryHint =>
+      'Choosing a country suggests a currency and language. You can change either below.';
+
+  @override
+  String get preferencesCountryIN => 'India';
+
+  @override
+  String get preferencesCountryUS => 'United States';
+
+  @override
+  String get preferencesCurrency => 'Preferred currency';
+
+  @override
+  String get preferencesCurrencyBDT => 'Bangladeshi taka (BDT)';
+
+  @override
+  String get preferencesCurrencyHint =>
+      'This preference never converts existing transaction amounts.';
+
+  @override
+  String get preferencesCurrencyINR => 'Indian rupee (INR)';
+
+  @override
+  String get preferencesCurrencyUSD => 'US dollar (USD)';
+
+  @override
+  String get preferencesIntro =>
+      'Choose your region, then adjust currency and language to suit you.';
+
+  @override
+  String get preferencesLanguage => 'App language';
+
+  @override
+  String get preferencesLanguageBN => 'বাংলা';
+
+  @override
+  String get preferencesLanguageEN => 'English';
+
+  @override
+  String get preferencesSave => 'Save preferences';
+
+  @override
+  String get preferencesStorageError =>
+      'Could not load or save preferences. Please try again.';
+
+  @override
+  String get preferencesSupportHint =>
+      'Currently supports Bangladesh, India and the United States, with Bengali and English.';
+
+  @override
+  String get preferencesTitle => 'Your preferences';
+
+  @override
+  String get preferencesAppBar => 'Settings';
 }

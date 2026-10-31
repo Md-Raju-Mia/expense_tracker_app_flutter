@@ -414,5 +414,81 @@
   "expenseTypeExpense": "Expense",
   "@expenseTypeExpense": {
     "description": "Expense tracker: expenseTypeExpense"
+  },
+  "preferencesCountry": "Country",
+  "@preferencesCountry": {
+    "description": "User preferences: preferencesCountry"
+  },
+  "preferencesCountryBD": "Bangladesh",
+  "@preferencesCountryBD": {
+    "description": "User preferences: preferencesCountryBD"
+  },
+  "preferencesCountryHint": "Choosing a country suggests a currency and language. You can change either below.",
+  "@preferencesCountryHint": {
+    "description": "User preferences: preferencesCountryHint"
+  },
+  "preferencesCountryIN": "India",
+  "@preferencesCountryIN": {
+    "description": "User preferences: preferencesCountryIN"
+  },
+  "preferencesCountryUS": "United States",
+  "@preferencesCountryUS": {
+    "description": "User preferences: preferencesCountryUS"
+  },
+  "preferencesCurrency": "Preferred currency",
+  "@preferencesCurrency": {
+    "description": "User preferences: preferencesCurrency"
+  },
+  "preferencesCurrencyBDT": "Bangladeshi taka (BDT)",
+  "@preferencesCurrencyBDT": {
+    "description": "User preferences: preferencesCurrencyBDT"
+  },
+  "preferencesCurrencyHint": "This preference never converts existing transaction amounts.",
+  "@preferencesCurrencyHint": {
+    "description": "User preferences: preferencesCurrencyHint"
+  },
+  "preferencesCurrencyINR": "Indian rupee (INR)",
+  "@preferencesCurrencyINR": {
+    "description": "User preferences: preferencesCurrencyINR"
+  },
+  "preferencesCurrencyUSD": "US dollar (USD)",
+  "@preferencesCurrencyUSD": {
+    "description": "User preferences: preferencesCurrencyUSD"
+  },
+  "preferencesIntro": "Choose your region, then adjust currency and language to suit you.",
+  "@preferencesIntro": {
+    "description": "User preferences: preferencesIntro"
+  },
+  "preferencesLanguage": "App language",
+  "@preferencesLanguage": {
+    "description": "User preferences: preferencesLanguage"
+  },
+  "preferencesLanguageBN": "বাংলা",
+  "@preferencesLanguageBN": {
+    "description": "User preferences: preferencesLanguageBN"
+  },
+  "preferencesLanguageEN": "English",
+  "@preferencesLanguageEN": {
+    "description": "User preferences: preferencesLanguageEN"
+  },
+  "preferencesSave": "Save preferences",
+  "@preferencesSave": {
+    "description": "User preferences: preferencesSave"
+  },
+  "preferencesStorageError": "Could not load or save preferences. Please try again.",
+  "@preferencesStorageError": {
+    "description": "User preferences: preferencesStorageError"
+  },
+  "preferencesSupportHint": "Currently supports Bangladesh, India and the United States, with Bengali and English.",
+  "@preferencesSupportHint": {
+    "description": "User preferences: preferencesSupportHint"
+  },
+  "preferencesTitle": "Your preferences",
+  "@preferencesTitle": {
+    "description": "User preferences: preferencesTitle"
+  },
+  "preferencesAppBar": "Settings",
+  "@preferencesAppBar": {
+    "description": "User preferences screen app bar title"
   }
 }

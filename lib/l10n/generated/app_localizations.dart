@@ -667,6 +667,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Expense'**
   String get expenseTypeExpense;
+
+  /// User preferences: preferencesCountry
+  ///
+  /// In en, this message translates to:
+  /// **'Country'**
+  String get preferencesCountry;
+
+  /// User preferences: preferencesCountryBD
+  ///
+  /// In en, this message translates to:
+  /// **'Bangladesh'**
+  String get preferencesCountryBD;
+
+  /// User preferences: preferencesCountryHint
+  ///
+  /// In en, this message translates to:
+  /// **'Choosing a country suggests a currency and language. You can change either below.'**
+  String get preferencesCountryHint;
+
+  /// User preferences: preferencesCountryIN
+  ///
+  /// In en, this message translates to:
+  /// **'India'**
+  String get preferencesCountryIN;
+
+  /// User preferences: preferencesCountryUS
+  ///
+  /// In en, this message translates to:
+  /// **'United States'**
+  String get preferencesCountryUS;
+
+  /// User preferences: preferencesCurrency
+  ///
+  /// In en, this message translates to:
+  /// **'Preferred currency'**
+  String get preferencesCurrency;
+
+  /// User preferences: preferencesCurrencyBDT
+  ///
+  /// In en, this message translates to:
+  /// **'Bangladeshi taka (BDT)'**
+  String get preferencesCurrencyBDT;
+
+  /// User preferences: preferencesCurrencyHint
+  ///
+  /// In en, this message translates to:
+  /// **'This preference never converts existing transaction amounts.'**
+  String get preferencesCurrencyHint;
+
+  /// User preferences: preferencesCurrencyINR
+  ///
+  /// In en, this message translates to:
+  /// **'Indian rupee (INR)'**
+  String get preferencesCurrencyINR;
+
+  /// User preferences: preferencesCurrencyUSD
+  ///
+  /// In en, this message translates to:
+  /// **'US dollar (USD)'**
+  String get preferencesCurrencyUSD;
+
+  /// User preferences: preferencesIntro
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your region, then adjust currency and language to suit you.'**
+  String get preferencesIntro;
+
+  /// User preferences: preferencesLanguage
+  ///
+  /// In en, this message translates to:
+  /// **'App language'**
+  String get preferencesLanguage;
+
+  /// User preferences: preferencesLanguageBN
+  ///
+  /// In en, this message translates to:
+  /// **'বাংলা'**
+  String get preferencesLanguageBN;
+
+  /// User preferences: preferencesLanguageEN
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get preferencesLanguageEN;
+
+  /// User preferences: preferencesSave
+  ///
+  /// In en, this message translates to:
+  /// **'Save preferences'**
+  String get preferencesSave;
+
+  /// User preferences: preferencesStorageError
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load or save preferences. Please try again.'**
+  String get preferencesStorageError;
+
+  /// User preferences: preferencesSupportHint
+  ///
+  /// In en, this message translates to:
+  /// **'Currently supports Bangladesh, India and the United States, with Bengali and English.'**
+  String get preferencesSupportHint;
+
+  /// User preferences: preferencesTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Your preferences'**
+  String get preferencesTitle;
+
+  /// User preferences screen app bar title
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get preferencesAppBar;
 }
 
 class _AppLocalizationsDelegate

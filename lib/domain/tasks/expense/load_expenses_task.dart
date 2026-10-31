@@ -3,9 +3,10 @@ import '../../entities/expense_summary.dart';
 import '../../repositories/expense_repository.dart';
 
 class LoadExpensesTask extends BaseTask<ExpenseSummary> {
-  const LoadExpensesTask(this.repository);
+  const LoadExpensesTask(this.repository, {this.currencyCode = 'USD'});
 
   final ExpenseRepository repository;
+  final String currencyCode;
 
   @override
   String get name => 'Load expenses';
@@ -13,6 +14,6 @@ class LoadExpensesTask extends BaseTask<ExpenseSummary> {
   @override
   Future<ExpenseSummary> run() async {
     final expenses = await repository.getExpenses();
-    return ExpenseSummary(expenses);
+    return ExpenseSummary(expenses, currencyCode: currencyCode);
   }
 }

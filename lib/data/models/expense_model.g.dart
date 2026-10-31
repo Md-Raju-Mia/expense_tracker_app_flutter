@@ -11,6 +11,10 @@ _ExpenseModel _$ExpenseModelFromJson(Map<String, dynamic> json) =>
       final val = _ExpenseModel(
         id: $checkedConvert('id', (v) => (v as num?)?.toInt()),
         syncId: $checkedConvert('syncId', (v) => v as String?),
+        currencyCode: $checkedConvert(
+          'currencyCode',
+          (v) => v as String? ?? 'USD',
+        ),
         title: $checkedConvert('title', (v) => v as String),
         amount: $checkedConvert('amount', (v) => (v as num).toDouble()),
         date: $checkedConvert('date', (v) => v as String),
@@ -24,6 +28,7 @@ Map<String, dynamic> _$ExpenseModelToJson(_ExpenseModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'syncId': instance.syncId,
+      'currencyCode': instance.currencyCode,
       'title': instance.title,
       'amount': instance.amount,
       'date': instance.date,

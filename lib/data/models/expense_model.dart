@@ -9,6 +9,7 @@ abstract class ExpenseModel with _$ExpenseModel {
   const factory ExpenseModel({
     int? id,
     String? syncId,
+    @Default('USD') String currencyCode,
     required String title,
     required double amount,
     required String date,

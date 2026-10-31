@@ -3,7 +3,7 @@ import 'package:sqflite/sqflite.dart';
 class ExpenseDatabaseMigrations {
   ExpenseDatabaseMigrations({required this.createSyncId});
 
-  static const version = 2;
+  static const version = 3;
   final String Function() createSyncId;
 
   Future<void> create(Database db, int newVersion) async {
@@ -37,6 +37,12 @@ class ExpenseDatabaseMigrations {
       }
       await db.execute(
         'CREATE UNIQUE INDEX expenses_sync_id ON expenses(syncId)',
+      );
+    }
+    if (oldVersion < 3 && newVersion >= 3) {
+      // The original app displayed dollars. Preserve that meaning on upgrade.
+      await db.execute(
+        "ALTER TABLE expenses ADD COLUMN currencyCode TEXT NOT NULL DEFAULT 'USD'",
       );
     }
   }

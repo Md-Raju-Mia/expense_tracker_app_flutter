@@ -37,6 +37,7 @@ void main() {
       expect(row, {
         'id': 9,
         'syncId': 'saved-transaction-id',
+        'currencyCode': 'USD',
         'title': '  unchanged  ',
         'amount': -12.5,
         'date': original.date.toIso8601String(),
@@ -73,10 +74,10 @@ void main() {
       await directory.delete(recursive: true);
     });
 
-    test('creates version 2 schema and shares concurrent opening', () async {
+    test('creates version 3 schema and shares concurrent opening', () async {
       final databases = await Future.wait([source.database, source.database]);
       expect(identical(databases[0], databases[1]), isTrue);
-      expect(await databases[0].getVersion(), 2);
+      expect(await databases[0].getVersion(), 3);
       final columns = await databases[0].rawQuery(
         'PRAGMA table_info(expenses)',
       );
@@ -88,6 +89,7 @@ void main() {
         'category',
         'isIncome',
         'syncId',
+        'currencyCode',
       ]);
       expect(await repository.getExpenses(), isEmpty);
     });
@@ -141,6 +143,7 @@ void main() {
         expect(salary.amount, 30000);
         expect(salary.category, ExpenseCategory.income);
         expect(salary.isIncome, isTrue);
+        expect(salary.currencyCode, 'USD');
         final salarySyncId = salary.syncId;
         expect(
           salarySyncId,
@@ -167,6 +170,33 @@ void main() {
         expect((await repository.getExpenses()).last.syncId, salarySyncId);
       },
     );
+
+    test('transaction currencies survive storage and reopening', () async {
+      for (final currency in ['BDT', 'INR', 'USD']) {
+        await repository.insertExpense(
+          Expense(
+            title: currency,
+            currencyCode: currency,
+            amount: 12.5,
+            date: DateTime(2026, 4, 9),
+            category: ExpenseCategory.food,
+          ),
+        );
+      }
+      await source.close();
+      final rows = await repository.getExpenses();
+      expect(rows.map((row) => row.currencyCode).toSet(), {
+        'BDT',
+        'INR',
+        'USD',
+      });
+      expect(
+        rows.every(
+          (row) => row.title == row.currencyCode && row.amount == 12.5,
+        ),
+        isTrue,
+      );
+    });
 
     test(
       'new rows get distinct stable UUIDs and supplied IDs are retained',

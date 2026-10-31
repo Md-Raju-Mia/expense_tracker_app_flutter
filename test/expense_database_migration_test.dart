@@ -54,7 +54,7 @@ void main() {
     'upgrade preserves values, local IDs and the deleted-ID sequence',
     () async {
       final db = await source.database;
-      expect(await db.getVersion(), 2);
+      expect(await db.getVersion(), 3);
       final rows = await db.query('expenses', orderBy: 'id');
       expect(rows.map((row) => row['id']).toList(), [1, 42]);
       expect(rows.first['title'], 'Original 1');
@@ -62,6 +62,7 @@ void main() {
       expect(rows.first['date'], '2026-04-09T12:30:00.123456');
       expect(rows.first['category'], 0);
       expect(rows.first['isIncome'], 0);
+      expect(rows.every((row) => row['currencyCode'] == 'USD'), isTrue);
       expect(rows.last['amount'], 30000);
       expect(rows.last['category'], 6);
       expect(rows.last['isIncome'], 1);
@@ -89,6 +90,36 @@ void main() {
   );
 
   test(
+    'version 2 upgrade retains existing sync IDs and assigns legacy USD',
+    () async {
+      final version2 = await databaseFactoryFfi.openDatabase(
+        databasePath,
+        options: OpenDatabaseOptions(
+          version: 2,
+          onUpgrade: (db, oldVersion, newVersion) async {
+            await db.execute(
+              "ALTER TABLE expenses ADD COLUMN syncId TEXT NOT NULL DEFAULT ''",
+            );
+            await db.execute("UPDATE expenses SET syncId = 'saved-' || id");
+            await db.execute(
+              'CREATE UNIQUE INDEX expenses_sync_id ON expenses(syncId)',
+            );
+          },
+        ),
+      );
+      await version2.close();
+      final db = await source.database;
+      expect(await db.getVersion(), 3);
+      final rows = await db.query('expenses', orderBy: 'id');
+      expect(rows.map((row) => row['syncId']).toList(), [
+        'saved-1',
+        'saved-42',
+      ]);
+      expect(rows.every((row) => row['currencyCode'] == 'USD'), isTrue);
+    },
+  );
+
+  test(
     'failed upgrade rolls back data/schema and the same source can retry',
     () async {
       var failMigration = true;
@@ -112,7 +143,7 @@ void main() {
       await legacy.close();
       failMigration = false;
       final upgraded = await source.database;
-      expect(await upgraded.getVersion(), 2);
+      expect(await upgraded.getVersion(), 3);
       expect((await source.getExpenses()).map((row) => row.syncId).toSet(), {
         'stable-0',
         'stable-1',

@@ -4,6 +4,7 @@ class Expense {
   const Expense({
     this.id,
     this.syncId,
+    this.currencyCode = 'USD',
     required this.title,
     required this.amount,
     required this.date,
@@ -15,6 +16,7 @@ class Expense {
   final int? id;
   // A stable identity across devices. Assigned when a new expense is saved.
   final String? syncId;
+  final String currencyCode;
   final String title;
   final double amount;
   final DateTime date;

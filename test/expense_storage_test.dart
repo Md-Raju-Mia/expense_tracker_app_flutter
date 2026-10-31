@@ -75,10 +75,10 @@ void main() {
       await directory.delete(recursive: true);
     });
 
-    test('creates version 4 schema and shares concurrent opening', () async {
+    test('creates version 5 schema and shares concurrent opening', () async {
       final databases = await Future.wait([source.database, source.database]);
       expect(identical(databases[0], databases[1]), isTrue);
-      expect(await databases[0].getVersion(), 4);
+      expect(await databases[0].getVersion(), 5);
       final columns = await databases[0].rawQuery(
         'PRAGMA table_info(expenses)',
       );

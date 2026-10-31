@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
 import 'expense_injection.dart';
+import 'categories_injection.dart';
 import 'preferences_injection.dart';
 
 import '../core/config/app_config.dart';
@@ -40,6 +41,7 @@ void configureDependencies(
       AppConfig.fromEnvironment(api: apiConfig ?? const ApiConfig());
   config.validate();
   configureExpenseDependencies(container);
+  configureCategoriesDependencies(container);
   container.registerSingleton<AppConfig>(config);
   container.registerSingleton<ApiConfig>(config.api);
   container.registerLazySingleton<AppPackageInfo>(PlatformAppPackageInfo.new);

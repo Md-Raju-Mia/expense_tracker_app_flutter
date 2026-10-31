@@ -14,6 +14,8 @@ Database v4 adds amountMinor. Upgrading v1/v2/v3 preserves the original amount c
 
 The UI uses a high-contrast teal balance card, an Add Transaction action below the scrollable content, and layouts that wrap for large text. The expense journey currently uses a light theme.
 
+Database v5 adds a separate categories table with seven stable built-in IDs, name/icon/color metadata and archive state. The category repository supports create, edit, archive and restore; active names are unique within income/expense type. Editing retains identity and type. This storage foundation is not yet connected to a management screen or the transaction picker; existing transactions still use their original category indices.
+
 ## Posts sample (/posts)
 
 Open /posts to load the first ten sample posts automatically. Scroll to discover more,

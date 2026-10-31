@@ -1,11 +1,12 @@
 import 'package:sqflite/sqflite.dart';
 
 import 'legacy_expense_amount.dart';
+import 'category_database_migration.dart';
 
 class ExpenseDatabaseMigrations {
   ExpenseDatabaseMigrations({required this.createSyncId});
 
-  static const version = 4;
+  static const version = 5;
   final String Function() createSyncId;
 
   Future<void> create(Database db, int newVersion) async {
@@ -66,6 +67,9 @@ class ExpenseDatabaseMigrations {
       }
       // Preserve the original amount column for recovery/audit.
       // onUpgrade is transactional: conversion errors roll everything back.
+    }
+    if (oldVersion < 5 && newVersion >= 5) {
+      await createCategoryTable(db);
     }
   }
 }

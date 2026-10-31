@@ -55,7 +55,7 @@ void main() {
     'upgrade preserves values, local IDs and the deleted-ID sequence',
     () async {
       final db = await source.database;
-      expect(await db.getVersion(), 4);
+      expect(await db.getVersion(), 5);
       final rows = await db.query('expenses', orderBy: 'id');
       expect(rows.map((row) => row['id']).toList(), [1, 42]);
       expect(rows.first['title'], 'Original 1');
@@ -113,7 +113,7 @@ void main() {
       );
       await version2.close();
       final db = await source.database;
-      expect(await db.getVersion(), 4);
+      expect(await db.getVersion(), 5);
       final rows = await db.query('expenses', orderBy: 'id');
       expect(rows.map((row) => row['syncId']).toList(), [
         'saved-1',
@@ -147,7 +147,7 @@ void main() {
       await legacy.close();
       failMigration = false;
       final upgraded = await source.database;
-      expect(await upgraded.getVersion(), 4);
+      expect(await upgraded.getVersion(), 5);
       expect((await source.getExpenses()).map((row) => row.syncId).toSet(), {
         'stable-0',
         'stable-1',
@@ -232,7 +232,7 @@ void main() {
     expect(columns.map((row) => row['name']), isNot(contains('amountMinor')));
     await unchanged.update('expenses', {'amount': 30000.0}, where: 'id = 42');
     await unchanged.close();
-    expect(await (await source.database).getVersion(), 4);
+    expect(await (await source.database).getVersion(), 5);
     expect((await source.getExpenses()).map((row) => row.amountMinor).toSet(), {
       -1235,
       3000000,

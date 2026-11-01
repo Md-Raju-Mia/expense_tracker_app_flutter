@@ -11,11 +11,11 @@ class ExpenseTransactionList extends StatelessWidget {
   const ExpenseTransactionList({
     super.key,
     required this.expenses,
-    required this.onDelete,
+    this.onDelete,
     this.onEdit,
   });
   final List<Expense> expenses;
-  final ValueChanged<int> onDelete;
+  final ValueChanged<int>? onDelete;
   final ValueChanged<int>? onEdit;
 
   @override
@@ -106,11 +106,12 @@ class ExpenseTransactionList extends StatelessWidget {
                           onPressed: () => onEdit!(expense.id!),
                           icon: const Icon(Icons.edit_outlined),
                         ),
-                      IconButton(
-                        tooltip: text.expenseDelete,
-                        onPressed: () => onDelete(expense.id!),
-                        icon: const Icon(Icons.delete_outline),
-                      ),
+                      if (onDelete != null)
+                        IconButton(
+                          tooltip: text.expenseDelete,
+                          onPressed: () => onDelete!(expense.id!),
+                          icon: const Icon(Icons.delete_outline),
+                        ),
                     ],
                   ),
                 ],

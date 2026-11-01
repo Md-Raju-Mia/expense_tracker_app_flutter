@@ -590,4 +590,41 @@ class AppLocalizationsEn extends AppLocalizations {
   String expenseEditCurrency(String currency) {
     return 'This transaction stays in $currency; the amount is not currency-converted.';
   }
+
+  @override
+  String get expenseHistory => 'Transaction history';
+
+  @override
+  String get expenseHistoryAll => 'All time';
+
+  @override
+  String get expenseHistoryDay => 'Day';
+
+  @override
+  String get expenseHistoryMonth => 'Month';
+
+  @override
+  String get expenseHistoryYear => 'Year';
+
+  @override
+  String get expenseHistoryEmpty => 'No transactions in this period.';
+
+  @override
+  String get expenseHistoryCurrencies =>
+      'Each transaction is shown in its original currency.';
+
+  @override
+  String expenseHistoryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count transactions',
+      one: '1 transaction',
+      zero: 'No transactions',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get expenseHistoryChooseDate => 'Choose date';
 }

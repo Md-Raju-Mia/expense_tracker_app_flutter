@@ -1,3 +1,6 @@
+import '../domain/tasks/expense/load_expense_history_task.dart';
+import '../ui/expense/view_models/expense_history_view_model.dart';
+
 import 'package:get_it/get_it.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -18,6 +21,14 @@ import '../ui/expense/view_models/expense_form_view_model.dart';
 import '../ui/expense/view_models/expense_home_view_model.dart';
 
 void configureExpenseDependencies(GetIt container) {
+  container.registerFactory<LoadExpenseHistoryTask>(
+    () => LoadExpenseHistoryTask(container<ExpenseRepository>()),
+  );
+  container.registerFactory<ExpenseHistoryViewModel>(
+    () => ExpenseHistoryViewModel(
+      createLoadTask: () => container<LoadExpenseHistoryTask>(),
+    ),
+  );
   container.registerLazySingleton<ExpenseLocalDataSource>(
     () => ExpenseLocalDataSource(factory: databaseFactory),
     dispose: (source) => source.close(),

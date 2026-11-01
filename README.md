@@ -12,6 +12,9 @@ New transactions require a nonblank title and a positive amount with up to two d
 
 Use the pencil beside a transaction to edit its title, amount, date, type or category. The shared add/edit form retains the original currency, local ID and sync ID; updating never creates another transaction. An archived original category may be retained, while a replacement must be active and match the chosen type. Back discards changes, failed saves retain inputs, and saving a deleted transaction reports that it no longer exists. Successful edits refresh Home totals and charts.
 
+Open Transaction history from the Home history icon or See all. Filter all transactions by a calendar day, month or year; rows remain newest first, retain their own currency and include archived categories. Year choices include recorded years and the current year. Editing from history reloads the rows while keeping the selected period. Refresh failures retain the previous results and offer retry. Date filtering uses each transaction’s stored calendar date; history does not combine different currencies into a total.
+
+
 Database v4 adds amountMinor. Upgrading v1/v2/v3 preserves the original amount column, IDs, sync IDs, dates and currencies. Legacy amounts round to the nearest minor unit, with ties away from zero (12.345 becomes 1235, -12.345 becomes -1235); zero and negative legacy rows remain in totals. Rounding each old row can change totals for records with more than two decimals. New rows use amountMinor and leave the old REAL amount column empty. If an old value is nonnumeric, nonfinite or outside the SQLite INTEGER range, the upgrade rolls back rather than dropping or clamping data; that record needs repair before opening the database again.
 
 The UI uses a high-contrast teal balance card, an Add Transaction action below the scrollable content, and layouts that wrap for large text. The expense journey currently uses a light theme.

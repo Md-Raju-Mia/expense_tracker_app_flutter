@@ -15,12 +15,14 @@ class ExpenseHomeScreen extends BaseView<ExpenseHomeViewModel> {
     this.onOpenPreferences,
     this.onOpenCategories,
     this.onEditTransaction,
+    this.onOpenHistory,
   });
 
   final VoidCallback onAddTransaction;
   final VoidCallback? onOpenPreferences;
   final VoidCallback? onOpenCategories;
   final ValueChanged<int>? onEditTransaction;
+  final VoidCallback? onOpenHistory;
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +53,12 @@ class ExpenseHomeScreen extends BaseView<ExpenseHomeViewModel> {
       ),
       elevation: 0,
       actions: [
+        if (onOpenHistory != null)
+          IconButton(
+            onPressed: onOpenHistory,
+            tooltip: context.l10n.expenseHistory,
+            icon: const Icon(Icons.history),
+          ),
         if (onOpenCategories != null)
           IconButton(
             onPressed: onOpenCategories,
@@ -108,6 +116,7 @@ class ExpenseHomeScreen extends BaseView<ExpenseHomeViewModel> {
       summary: summary,
       onDelete: (id) => _showDeleteDialog(context, viewModel, id),
       onEdit: onEditTransaction,
+      onOpenHistory: onOpenHistory,
     );
   }
 

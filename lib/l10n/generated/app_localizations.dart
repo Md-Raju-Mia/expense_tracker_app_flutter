@@ -1087,6 +1087,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This transaction stays in {currency}; the amount is not currency-converted.'**
   String expenseEditCurrency(String currency);
+
+  /// Transaction history: expenseHistory
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction history'**
+  String get expenseHistory;
+
+  /// Transaction history: expenseHistoryAll
+  ///
+  /// In en, this message translates to:
+  /// **'All time'**
+  String get expenseHistoryAll;
+
+  /// Transaction history: expenseHistoryDay
+  ///
+  /// In en, this message translates to:
+  /// **'Day'**
+  String get expenseHistoryDay;
+
+  /// Transaction history: expenseHistoryMonth
+  ///
+  /// In en, this message translates to:
+  /// **'Month'**
+  String get expenseHistoryMonth;
+
+  /// Transaction history: expenseHistoryYear
+  ///
+  /// In en, this message translates to:
+  /// **'Year'**
+  String get expenseHistoryYear;
+
+  /// Transaction history: expenseHistoryEmpty
+  ///
+  /// In en, this message translates to:
+  /// **'No transactions in this period.'**
+  String get expenseHistoryEmpty;
+
+  /// Transaction history: expenseHistoryCurrencies
+  ///
+  /// In en, this message translates to:
+  /// **'Each transaction is shown in its original currency.'**
+  String get expenseHistoryCurrencies;
+
+  /// Transaction history: expenseHistoryCount
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No transactions} =1{1 transaction} other{{count} transactions}}'**
+  String expenseHistoryCount(int count);
+
+  /// Transaction history: expenseHistoryChooseDate
+  ///
+  /// In en, this message translates to:
+  /// **'Choose date'**
+  String get expenseHistoryChooseDate;
 }
 
 class _AppLocalizationsDelegate

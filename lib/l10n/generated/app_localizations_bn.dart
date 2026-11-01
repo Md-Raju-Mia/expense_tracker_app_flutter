@@ -592,4 +592,41 @@ class AppLocalizationsBn extends AppLocalizations {
   String expenseEditCurrency(String currency) {
     return 'এই লেনদেনের মুদ্রা $currency-ই থাকবে; অঙ্কটি অন্য মুদ্রায় রূপান্তর করা হবে না।';
   }
+
+  @override
+  String get expenseHistory => 'লেনদেনের ইতিহাস';
+
+  @override
+  String get expenseHistoryAll => 'সব সময়';
+
+  @override
+  String get expenseHistoryDay => 'দিন';
+
+  @override
+  String get expenseHistoryMonth => 'মাস';
+
+  @override
+  String get expenseHistoryYear => 'বছর';
+
+  @override
+  String get expenseHistoryEmpty => 'এই সময়ে কোনো লেনদেন নেই।';
+
+  @override
+  String get expenseHistoryCurrencies =>
+      'প্রতিটি লেনদেন তার নিজস্ব মুদ্রায় দেখানো হয়েছে।';
+
+  @override
+  String expenseHistoryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countটি লেনদেন',
+      one: '১টি লেনদেন',
+      zero: 'কোনো লেনদেন নেই',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get expenseHistoryChooseDate => 'তারিখ বেছে নিন';
 }

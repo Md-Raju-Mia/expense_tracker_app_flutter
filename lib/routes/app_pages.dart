@@ -1,3 +1,6 @@
+import '../ui/expense/screens/expense_history_screen.dart';
+import '../ui/expense/view_models/expense_history_view_model.dart';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -48,12 +51,32 @@ class AppPages {
             onAddTransaction: () => context.pushNamed(Routes.ADD_EXPENSE),
             onOpenPreferences: () => context.pushNamed(Routes.PREFERENCES),
             onOpenCategories: () => context.pushNamed(Routes.CATEGORIES),
+            onOpenHistory: () => context.pushNamed(Routes.HISTORY),
             onEditTransaction: (id) => context.pushNamed(
               Routes.EDIT_EXPENSE,
               pathParameters: {'expenseId': '$id'},
             ),
           ),
           routes: [
+            GoRoute(
+              name: Routes.HISTORY,
+              path: 'history',
+              builder: (context, state) => ChangeNotifierProvider(
+                create: (_) => getIt<ExpenseHistoryViewModel>()..load(),
+                child: Builder(
+                  builder: (context) => ExpenseHistoryScreen(
+                    onEdit: (id) async {
+                      final history = context.read<ExpenseHistoryViewModel>();
+                      await context.pushNamed(
+                        Routes.EDIT_EXPENSE,
+                        pathParameters: {'expenseId': '$id'},
+                      );
+                      await history.load();
+                    },
+                  ),
+                ),
+              ),
+            ),
             GoRoute(
               name: Routes.CATEGORIES,
               path: 'categories',

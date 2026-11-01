@@ -12,11 +12,13 @@ class ExpenseHomeContent extends StatelessWidget {
     required this.summary,
     required this.onDelete,
     this.onEdit,
+    this.onOpenHistory,
   });
 
   final ExpenseSummary summary;
   final ValueChanged<int> onDelete;
   final ValueChanged<int>? onEdit;
+  final VoidCallback? onOpenHistory;
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +46,8 @@ class ExpenseHomeContent extends StatelessWidget {
                     style: heading,
                   ),
                 ),
-                // The old app intentionally has no See All navigation.
                 TextButton(
-                  onPressed: () {},
+                  onPressed: onOpenHistory,
                   child: Text(context.l10n.expenseSeeAll),
                 ),
               ],

@@ -151,5 +151,13 @@
   "categoriesWriteError": "পরিবর্তন সংরক্ষণ করা যায়নি। আগের বিভাগগুলো অক্ষত আছে। আবার চেষ্টা করুন।",
   "categoriesRefresh": "বিভাগের তালিকা রিফ্রেশ করুন",
   "categoriesIconName": "{icon, select, food{খাবার} transport{যাতায়াত} entertainment{বিনোদন} shopping{কেনাকাটা} health{স্বাস্থ্য} others{অন্যান্য} income{টাকা} home{বাসা} education{শিক্ষা} bills{বিল} gift{উপহার} work{কাজ} other{অন্যান্য}}",
-  "categoriesColorName": "{color, select, orange{কমলা} blue{নীল} purple{বেগুনি} pink{গোলাপি} red{লাল} grey{ধূসর} green{সবুজ} teal{নীলচে সবুজ} indigo{গাঢ় নীল} brown{বাদামি} other{অন্যান্য}}"
+  "categoriesColorName": "{color, select, orange{কমলা} blue{নীল} purple{বেগুনি} pink{গোলাপি} red{লাল} grey{ধূসর} green{সবুজ} teal{নীলচে সবুজ} indigo{গাঢ় নীল} brown{বাদামি} other{অন্যান্য}}",
+  "expenseNoCategories": "এই ধরনের লেনদেনের জন্য সক্রিয় বিভাগ নেই। চালিয়ে যেতে বিভাগ যোগ করুন বা ফিরিয়ে আনুন।",
+  "expenseCategoryUnavailable": "এই বিভাগটি এখন ব্যবহার করা যাচ্ছে না। তালিকা রিফ্রেশ করে আবার বেছে নিন।",
+  "expenseSaveError": "লেনদেন সংরক্ষণ করা যায়নি। আপনার লেখা তথ্য এখানেই আছে; আবার চেষ্টা করুন।",
+  "expenseArchivedCategory": "{name} (আর্কাইভ করা)",
+  "expenseLoadError": "লেনদেনের তালিকা আনা যায়নি। আবার চেষ্টা করুন।",
+  "expenseChooseCategory": "চালিয়ে যেতে একটি সক্রিয় বিভাগ বেছে নিন।",
+  "expenseDefaultCategory": "{name} (পূর্বনির্ধারিত)",
+  "expenseCustomCategory": "{name} (নিজস্ব)"
 }

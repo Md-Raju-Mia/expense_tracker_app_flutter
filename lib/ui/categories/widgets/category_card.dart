@@ -12,11 +12,13 @@ class CategoryCard extends StatelessWidget {
     required this.onEdit,
     required this.onArchive,
     required this.enabled,
+    required this.displayName,
   });
   final TransactionCategory category;
   final VoidCallback onEdit;
   final VoidCallback onArchive;
   final bool enabled;
+  final String displayName;
   @override
   Widget build(BuildContext context) {
     final text = context.l10n;
@@ -36,10 +38,7 @@ class CategoryCard extends StatelessWidget {
                 ),
                 const SizedBox(width: AppSpacing.md),
                 Expanded(
-                  child: Text(
-                    category.label(context),
-                    style: theme.textTheme.titleMedium,
-                  ),
+                  child: Text(displayName, style: theme.textTheme.titleMedium),
                 ),
               ],
             ),

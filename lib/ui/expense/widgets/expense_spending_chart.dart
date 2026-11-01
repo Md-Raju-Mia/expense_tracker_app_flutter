@@ -8,7 +8,7 @@ import 'package:intl/intl.dart';
 
 import 'expense_amount.dart';
 
-import 'expense_category_style.dart';
+import '../../categories/widgets/category_style.dart';
 
 class ExpenseSpendingChart extends StatelessWidget {
   const ExpenseSpendingChart({super.key, required this.summary});
@@ -16,6 +16,7 @@ class ExpenseSpendingChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final totals = summary.categoryTotalsMinor;
+    final labels = categoryLabels(context, totals.keys);
     final amountText = expenseAmount(
       summary.totalExpenseMinor,
       summary.currencyCode,
@@ -50,11 +51,11 @@ class ExpenseSpendingChart extends StatelessWidget {
                         value: entry.value.toDouble(),
                         showTitle: false,
                         radius: 40,
-                        color: entry.key.color,
+                        color: entry.key.color.palette,
                         badgeWidget: _Badge(
-                          entry.key.icon,
+                          entry.key.icon.materialIcon,
                           size: 35,
-                          borderColor: entry.key.color,
+                          borderColor: entry.key.color.palette,
                         ),
                         badgePositionPercentageOffset: 1.15,
                       );
@@ -122,7 +123,7 @@ class ExpenseSpendingChart extends StatelessWidget {
                     width: 12,
                     height: 12,
                     decoration: BoxDecoration(
-                      color: entry.key.color,
+                      color: entry.key.color.palette,
                       shape: BoxShape.circle,
                     ),
                   ),
@@ -130,7 +131,7 @@ class ExpenseSpendingChart extends StatelessWidget {
                   Flexible(
                     child: Text(
                       context.l10n.expenseCategoryPercent(
-                        entry.key.label(context).toLowerCase(),
+                        labels[entry.key.id]!,
                         percent,
                       ),
                       style: const TextStyle(

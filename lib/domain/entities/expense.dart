@@ -1,4 +1,4 @@
-import 'expense_category.dart';
+import 'transaction_category.dart';
 
 class Expense {
   const Expense({
@@ -21,6 +21,6 @@ class Expense {
   // Two-decimal currencies: 1250 means 12.50 taka/rupees/dollars.
   final int amountMinor;
   final DateTime date;
-  final ExpenseCategory category;
+  final TransactionCategory category;
   final bool isIncome;
 }

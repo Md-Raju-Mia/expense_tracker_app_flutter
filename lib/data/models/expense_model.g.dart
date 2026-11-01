@@ -19,7 +19,8 @@ _ExpenseModel _$ExpenseModelFromJson(Map<String, dynamic> json) =>
         amountMinor: $checkedConvert('amountMinor', (v) => (v as num).toInt()),
         legacyAmount: $checkedConvert('amount', (v) => (v as num?)?.toDouble()),
         date: $checkedConvert('date', (v) => v as String),
-        category: $checkedConvert('category', (v) => (v as num).toInt()),
+        categoryId: $checkedConvert('categoryId', (v) => v as String),
+        category: $checkedConvert('category', (v) => (v as num?)?.toInt()),
         isIncome: $checkedConvert('isIncome', (v) => (v as num).toInt()),
       );
       return val;
@@ -34,6 +35,7 @@ Map<String, dynamic> _$ExpenseModelToJson(_ExpenseModel instance) =>
       'amountMinor': instance.amountMinor,
       'amount': instance.legacyAmount,
       'date': instance.date,
+      'categoryId': instance.categoryId,
       'category': instance.category,
       'isIncome': instance.isIncome,
     };

@@ -6,6 +6,7 @@ import '../../../domain/entities/transaction_category.dart';
 import '../../../l10n/l10n.dart';
 import '../view_models/categories_view_model.dart';
 import 'category_style.dart';
+import 'category_choice_label.dart';
 
 class CategoryEditor extends StatefulWidget {
   const CategoryEditor({super.key, required this.model});
@@ -102,7 +103,9 @@ class _CategoryEditorState extends State<CategoryEditor> {
                   (icon) => ChoiceChip(
                     key: ValueKey('category-icon-${icon.name}'),
                     avatar: Icon(icon.materialIcon, size: 20),
-                    label: Text(text.categoriesIconName(icon.name)),
+                    label: CategoryChoiceLabel(
+                      text.categoriesIconName(icon.name),
+                    ),
                     selected: model.icon == icon,
                     onSelected: (_) => model.selectIcon(icon),
                   ),
@@ -124,7 +127,9 @@ class _CategoryEditorState extends State<CategoryEditor> {
                       size: 20,
                       color: color.foreground(context),
                     ),
-                    label: Text(text.categoriesColorName(color.name)),
+                    label: CategoryChoiceLabel(
+                      text.categoriesColorName(color.name),
+                    ),
                     selected: model.color == color,
                     onSelected: (_) => model.selectColor(color),
                   ),

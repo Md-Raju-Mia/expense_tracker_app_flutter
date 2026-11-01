@@ -1,7 +1,8 @@
+import 'support/test_categories.dart';
+
 import 'package:fleet_wise_user_app/data/datasources/local/expense_local_data_source.dart';
 import 'package:fleet_wise_user_app/domain/actions/expense_save_action.dart';
 import 'package:fleet_wise_user_app/domain/entities/expense.dart';
-import 'package:fleet_wise_user_app/domain/entities/expense_category.dart';
 import 'package:fleet_wise_user_app/domain/repositories/expense_repository.dart';
 import 'package:fleet_wise_user_app/injection/injection.dart';
 import 'package:fleet_wise_user_app/ui/expense/view_models/add_expense_view_model.dart';
@@ -40,7 +41,7 @@ void main() {
         title: 'Food',
         amountMinor: 1000,
         date: DateTime(2026, 4, 9),
-        category: ExpenseCategory.food,
+        category: TestCategories.food,
       );
       final action = container<ExpenseSaveAction>(param1: expense);
       final nextAction = container<ExpenseSaveAction>(param1: expense);

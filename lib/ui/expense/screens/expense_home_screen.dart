@@ -72,7 +72,34 @@ class ExpenseHomeScreen extends BaseView<ExpenseHomeViewModel> {
   @override
   Widget body(BuildContext context, ExpenseHomeViewModel viewModel) {
     final summary = viewModel.contentState.data;
-    if (summary == null || summary.expenses.isEmpty) {
+    if (summary == null) {
+      if (viewModel.contentState.hasError) {
+        return Center(
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  context.l10n.expenseLoadError,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 16),
+                FilledButton.icon(
+                  onPressed: viewModel.refresh,
+                  icon: const Icon(Icons.refresh),
+                  label: Text(context.l10n.retry),
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+      return Center(
+        child: CircularProgressIndicator(semanticsLabel: context.l10n.loading),
+      );
+    }
+    if (summary.expenses.isEmpty) {
       return const ExpenseEmptyState();
     }
     return ExpenseHomeContent(

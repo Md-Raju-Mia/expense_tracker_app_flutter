@@ -680,5 +680,52 @@
         "type": "String"
       }
     }
+  },
+  "expenseNoCategories": "No active categories for this transaction type. Add or restore a category to continue.",
+  "@expenseNoCategories": {
+    "description": "Transaction category integration: No active categories for this transaction type. Add or restore a category to continue."
+  },
+  "expenseCategoryUnavailable": "This category is no longer available. Refresh the categories and choose again.",
+  "@expenseCategoryUnavailable": {
+    "description": "Transaction category integration: This category is no longer available. Refresh the categories and choose again."
+  },
+  "expenseSaveError": "Could not save the transaction. Your entries are kept here; try again.",
+  "@expenseSaveError": {
+    "description": "Transaction category integration: Could not save the transaction. Your entries are kept here; try again."
+  },
+  "expenseArchivedCategory": "{name} (archived)",
+  "@expenseArchivedCategory": {
+    "description": "Transaction category integration: {name} (archived)",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "expenseLoadError": "Could not load transactions. Try again.",
+  "@expenseLoadError": {
+    "description": "Initial transaction or linked-category loading failed; no empty balance should be shown"
+  },
+  "expenseChooseCategory": "Choose an active category to continue.",
+  "@expenseChooseCategory": {
+    "description": "The selected category was archived or removed while the transaction draft remained open"
+  },
+  "expenseDefaultCategory": "{name} (default)",
+  "expenseCustomCategory": "{name} (custom)",
+  "@expenseDefaultCategory": {
+    "description": "Disambiguates categories with identical visible names and different stable IDs",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@expenseCustomCategory": {
+    "description": "Disambiguates categories with identical visible names and different stable IDs",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   }
 }

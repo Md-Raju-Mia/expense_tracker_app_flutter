@@ -76,6 +76,7 @@ class CategoriesScreen extends BaseView<CategoriesViewModel> {
   @override
   Widget body(BuildContext context, CategoriesViewModel viewModel) {
     final text = context.l10n;
+    final labels = categoryLabels(context, viewModel.visibleCategories);
     if (!viewModel.contentState.hasData) {
       return Center(
         child: viewModel.contentState.hasError
@@ -161,6 +162,7 @@ class CategoriesScreen extends BaseView<CategoriesViewModel> {
             CategoryCard(
               key: ValueKey(category.id),
               category: category,
+              displayName: labels[category.id]!,
               enabled: viewModel.canInteract,
               onEdit: () => viewModel.startEdit(
                 category,
@@ -189,7 +191,11 @@ class CategoriesScreen extends BaseView<CategoriesViewModel> {
       builder: (context) => AlertDialog(
         scrollable: true,
         title: Text(text.categoriesArchive),
-        content: Text(text.categoriesArchivePrompt(category.label(context))),
+        content: Text(
+          text.categoriesArchivePrompt(
+            categoryLabels(context, viewModel.visibleCategories)[category.id]!,
+          ),
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),

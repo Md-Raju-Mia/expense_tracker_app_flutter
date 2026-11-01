@@ -1,3 +1,8 @@
+import 'package:fleet_wise_user_app/domain/repositories/category_repository.dart';
+
+import 'support/memory_categories.dart';
+import 'support/test_categories.dart';
+
 import 'dart:async';
 import 'dart:io';
 import 'dart:ui' as ui;
@@ -8,7 +13,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:fleet_wise_user_app/main.dart';
 import 'package:fleet_wise_user_app/injection/injection.dart';
-import 'package:fleet_wise_user_app/domain/entities/expense_category.dart';
 import 'package:fleet_wise_user_app/domain/entities/user_country.dart';
 import 'package:fleet_wise_user_app/domain/entities/user_currency.dart';
 import 'package:fleet_wise_user_app/domain/entities/user_language.dart';
@@ -63,6 +67,10 @@ void main() {
   late FormExpenses repository;
   setUp(() async {
     configureDependencies(getIt);
+    await getIt.unregister<CategoryRepository>();
+    getIt.registerSingleton<CategoryRepository>(
+      MemoryCategories(allDefaults: true),
+    );
     await getIt.unregister<UserPreferencesRepository>();
     getIt.registerSingleton<UserPreferencesRepository>(
       MemoryUserPreferences(
@@ -79,7 +87,7 @@ void main() {
   });
   tearDown(() => getIt.reset());
 
-  testWidgets('startup home, validation, immediate pop, save and home reload', (
+  testWidgets('startup home, validation, wait for save and home reload', (
     tester,
   ) async {
     await openApp(tester);
@@ -102,10 +110,12 @@ void main() {
     final form = tester
         .element(find.byType(AddExpenseScreen))
         .read<AddExpenseViewModel>();
-    await tapSave(tester);
-    expect(find.byType(AddExpenseScreen), findsNothing);
+    await tester.ensureVisible(find.text('Save Transaction'));
+    await tester.tap(find.text('Save Transaction'));
+    await tester.pump();
+    expect(find.byType(AddExpenseScreen), findsOneWidget);
     expect(repository.rows, isEmpty);
-    expect(form.isDisposed, isTrue);
+    expect(form.isDisposed, isFalse);
     repository.pendingSave!.complete(1);
     await tester.pumpAndSettle();
     expect(
@@ -115,34 +125,34 @@ void main() {
       same(home),
     );
     expect(home.expenses.single.title, 'Lunch');
-    expect(repository.rows.single.category, ExpenseCategory.food);
+    expect(repository.rows.single.category, TestCategories.food);
     expect(repository.rows.single.amountMinor, 1250);
     await tester.pumpWidget(const SizedBox.shrink());
     expect(home.isDisposed, isTrue);
   });
 
   testWidgets(
-    'form toggle retains fields and category; income forces income category',
+    'form toggle retains fields and separate expense/income selections',
     (tester) async {
       await openApp(tester, initialLocation: '/expenses/add');
       await tester.enterText(find.byType(TextFormField).at(0), 'Salary');
       await tester.enterText(find.byType(TextFormField).at(1), '100');
-      await tester.tap(find.text('SHOPPING'));
+      await tester.tap(find.text('Shopping'));
       await tester.tap(find.text('Income'));
       await tester.pumpAndSettle();
-      expect(find.byType(ExpenseCategoryPicker), findsNothing);
+      expect(find.byType(ExpenseCategoryPicker), findsOneWidget);
       await tester.tap(find.text('Expense'));
       await tester.pumpAndSettle();
       final form = tester
           .element(find.byType(AddExpenseScreen))
           .read<AddExpenseViewModel>();
-      expect(form.selectedCategory, ExpenseCategory.shopping);
+      expect(form.selectedCategory, TestCategories.shopping);
       expect(find.text('Salary'), findsOneWidget);
       await tester.tap(find.text('Income'));
       await tester.pumpAndSettle();
       await tapSave(tester);
       expect(repository.rows.single.isIncome, isTrue);
-      expect(repository.rows.single.category, ExpenseCategory.income);
+      expect(repository.rows.single.category, TestCategories.income);
       final home = tester
           .element(find.byType(ExpenseHomeScreen))
           .read<ExpenseHomeViewModel>();
@@ -221,7 +231,7 @@ void main() {
     },
   );
 
-  testWidgets('failed save returns home without adding a transaction', (
+  testWidgets('failed save keeps the form and inputs for retry', (
     tester,
   ) async {
     repository.saveError = StateError('disk full');
@@ -229,8 +239,18 @@ void main() {
     await tester.enterText(find.byType(TextFormField).at(0), 'Lunch');
     await tester.enterText(find.byType(TextFormField).at(1), '10');
     await tapSave(tester);
-    expect(find.byType(ExpenseHomeScreen), findsOneWidget);
+    expect(find.byType(AddExpenseScreen), findsOneWidget);
+    expect(
+      find.text(
+        'Could not save the transaction. Your entries are kept here; try again.',
+      ),
+      findsOneWidget,
+    );
+    expect(find.text('Lunch'), findsOneWidget);
     expect(repository.rows, isEmpty);
+    repository.saveError = null;
+    await tapSave(tester);
+    expect(repository.rows.single.title, 'Lunch');
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());
   });

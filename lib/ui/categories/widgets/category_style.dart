@@ -16,6 +16,40 @@ extension CategoryPresentation on TransactionCategory {
   };
 }
 
+// Distinct IDs may have the same translated name, or reuse an archived name.
+// Keep those categories separate and give the user a readable distinction.
+Map<String, String> categoryLabels(
+  BuildContext context,
+  Iterable<TransactionCategory> categories,
+) {
+  final unique = {for (final category in categories) category.id: category};
+  final groups = <String, List<TransactionCategory>>{};
+  String normalized(String name) =>
+      name.trim().replaceAll(RegExp(r'\s+'), ' ').toLowerCase();
+  for (final category in unique.values) {
+    final key = normalized(category.label(context));
+    groups.putIfAbsent(key, () => []).add(category);
+  }
+  final labels = <String, String>{};
+  for (final category in unique.values) {
+    var label = category.label(context);
+    final sameName = groups[normalized(label)]!;
+    final matching = sameName.where(
+      (other) => other.isArchived == category.isArchived,
+    );
+    if (matching.length > 1) {
+      label = category.id.startsWith('default-')
+          ? context.l10n.expenseDefaultCategory(label)
+          : context.l10n.expenseCustomCategory(label);
+    }
+    if (category.isArchived) {
+      label = context.l10n.expenseArchivedCategory(label);
+    }
+    labels[category.id] = label;
+  }
+  return labels;
+}
+
 extension CategoryIconStyle on CategoryIcon {
   IconData get materialIcon => switch (this) {
     CategoryIcon.food => Icons.restaurant_outlined,

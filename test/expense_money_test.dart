@@ -1,5 +1,6 @@
+import 'support/test_categories.dart';
+
 import 'package:fleet_wise_user_app/domain/entities/expense.dart';
-import 'package:fleet_wise_user_app/domain/entities/expense_category.dart';
 import 'package:fleet_wise_user_app/domain/entities/expense_summary.dart';
 import 'package:fleet_wise_user_app/domain/entities/transaction_amount.dart';
 import 'package:fleet_wise_user_app/ui/expense/widgets/expense_amount.dart';
@@ -10,7 +11,7 @@ Expense row(String input, {bool income = false, String currency = 'BDT'}) =>
       title: input,
       amountMinor: TransactionAmount.parse(input).minorUnits,
       date: DateTime(2026),
-      category: income ? ExpenseCategory.income : ExpenseCategory.food,
+      category: income ? TestCategories.income : TestCategories.food,
       isIncome: income,
       currencyCode: currency,
     );
@@ -26,7 +27,7 @@ void main() {
     expect(summary.totalIncomeMinor, BigInt.from(30));
     expect(summary.totalExpenseMinor, BigInt.from(30));
     expect(summary.balanceMinor, BigInt.zero);
-    expect(summary.categoryTotalsMinor[ExpenseCategory.food], BigInt.from(30));
+    expect(summary.categoryTotalsMinor[TestCategories.food], BigInt.from(30));
     expect(expenseAmount(summary.balanceMinor, 'BDT', 'en'), '৳0.00');
   });
 
@@ -41,7 +42,7 @@ void main() {
       final expected = BigInt.parse('9999999999999990000');
       expect(summary.totalExpenseMinor, expected);
       expect(summary.balanceMinor, -expected);
-      expect(summary.categoryTotalsMinor[ExpenseCategory.food], expected);
+      expect(summary.categoryTotalsMinor[TestCategories.food], expected);
       expect(expenseAmount(expected, 'BDT', 'en'), '৳99999999999999900.00');
       expect(
         expenseAmount(expected + BigInt.one, 'USD', 'en'),

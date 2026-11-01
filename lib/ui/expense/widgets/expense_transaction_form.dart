@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../l10n/l10n.dart';
 import '../../../core/theme/expense_theme.dart';
 import '../../../domain/entities/transaction_amount.dart';
+import '../../../domain/entities/category_exception.dart';
 import '../utils/normalize_amount_input.dart';
 import 'expense_amount.dart';
 import '../view_models/add_expense_view_model.dart';
@@ -15,9 +16,11 @@ class ExpenseTransactionForm extends StatefulWidget {
     super.key,
     required this.viewModel,
     required this.onSubmit,
+    this.onManageCategories,
   });
   final AddExpenseViewModel viewModel;
-  final void Function(String title, int amountMinor) onSubmit;
+  final Future<void> Function(String title, int amountMinor) onSubmit;
+  final Future<void> Function()? onManageCategories;
 
   @override
   State<ExpenseTransactionForm> createState() => _ExpenseTransactionFormState();
@@ -29,6 +32,7 @@ class _ExpenseTransactionFormState extends State<ExpenseTransactionForm> {
   int _amount = 0;
 
   void _submit() {
+    if (!widget.viewModel.canSave) return;
     if (!_formKey.currentState!.validate()) return;
     _formKey.currentState!.save();
     widget.onSubmit(_title, _amount);
@@ -111,15 +115,35 @@ class _ExpenseTransactionFormState extends State<ExpenseTransactionForm> {
                 ).minorUnits,
               ),
               const SizedBox(height: 24),
-              if (!model.isIncome) ...[
-                Text(text.expenseCategory, style: heading),
-                const SizedBox(height: 12),
-                ExpenseCategoryPicker(
-                  selectedCategory: model.selectedCategory,
-                  onSelected: model.selectCategory,
+              Text(text.expenseCategory, style: heading),
+              const SizedBox(height: 12),
+              ExpenseCategoryPicker(
+                selectedCategory: model.selectedCategory,
+                categories: model.availableCategories,
+                onSelected: model.selectCategory,
+              ),
+              if (model.availableCategories.isEmpty)
+                Text(text.expenseNoCategories),
+              if (model.availableCategories.isNotEmpty &&
+                  model.selectedCategory == null)
+                Text(text.expenseChooseCategory),
+              if (model.isFetching) const LinearProgressIndicator(),
+              if (model.contentState.hasError ||
+                  model.state.error is CategoryException)
+                TextButton.icon(
+                  onPressed: model.isFetching ? null : model.loadCategories,
+                  icon: const Icon(Icons.refresh),
+                  label: Text(text.retry),
                 ),
-                const SizedBox(height: 24),
-              ],
+              if (widget.onManageCategories != null)
+                TextButton.icon(
+                  onPressed: model.isLoading || model.isFetching
+                      ? null
+                      : widget.onManageCategories,
+                  icon: const Icon(Icons.category_outlined),
+                  label: Text(text.categoriesTitle),
+                ),
+              const SizedBox(height: 24),
               Text(text.expenseDate, style: heading),
               const SizedBox(height: 12),
               ExpenseDatePicker(
@@ -133,7 +157,7 @@ class _ExpenseTransactionFormState extends State<ExpenseTransactionForm> {
                   minHeight: 56,
                 ),
                 child: ElevatedButton(
-                  onPressed: _submit,
+                  onPressed: model.canSave ? _submit : null,
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 20,

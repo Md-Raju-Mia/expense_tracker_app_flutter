@@ -538,4 +538,39 @@ class AppLocalizationsBn extends AppLocalizations {
     });
     return '$_temp0';
   }
+
+  @override
+  String get expenseNoCategories =>
+      'এই ধরনের লেনদেনের জন্য সক্রিয় বিভাগ নেই। চালিয়ে যেতে বিভাগ যোগ করুন বা ফিরিয়ে আনুন।';
+
+  @override
+  String get expenseCategoryUnavailable =>
+      'এই বিভাগটি এখন ব্যবহার করা যাচ্ছে না। তালিকা রিফ্রেশ করে আবার বেছে নিন।';
+
+  @override
+  String get expenseSaveError =>
+      'লেনদেন সংরক্ষণ করা যায়নি। আপনার লেখা তথ্য এখানেই আছে; আবার চেষ্টা করুন।';
+
+  @override
+  String expenseArchivedCategory(String name) {
+    return '$name (আর্কাইভ করা)';
+  }
+
+  @override
+  String get expenseLoadError =>
+      'লেনদেনের তালিকা আনা যায়নি। আবার চেষ্টা করুন।';
+
+  @override
+  String get expenseChooseCategory =>
+      'চালিয়ে যেতে একটি সক্রিয় বিভাগ বেছে নিন।';
+
+  @override
+  String expenseDefaultCategory(String name) {
+    return '$name (পূর্বনির্ধারিত)';
+  }
+
+  @override
+  String expenseCustomCategory(String name) {
+    return '$name (নিজস্ব)';
+  }
 }

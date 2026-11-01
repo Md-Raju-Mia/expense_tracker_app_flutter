@@ -1,10 +1,15 @@
+import 'support/memory_categories.dart';
+
+import 'package:fleet_wise_user_app/domain/tasks/categories/load_categories_task.dart';
+
+import 'support/test_categories.dart';
+
 import 'dart:async';
 
 import 'package:fleet_wise_user_app/core/state/action_state.dart';
 import 'package:fleet_wise_user_app/domain/actions/expense_delete_action.dart';
 import 'package:fleet_wise_user_app/domain/actions/expense_save_action.dart';
 import 'package:fleet_wise_user_app/domain/entities/expense.dart';
-import 'package:fleet_wise_user_app/domain/entities/expense_category.dart';
 import 'package:fleet_wise_user_app/domain/repositories/expense_repository.dart';
 import 'package:fleet_wise_user_app/domain/tasks/expense/delete_expense_task.dart';
 import 'package:fleet_wise_user_app/domain/tasks/expense/load_expenses_task.dart';
@@ -58,7 +63,7 @@ Expense expense({int? id}) => Expense(
   title: 'Lunch',
   amountMinor: 1200,
   date: DateTime(2026, 4, 9),
-  category: ExpenseCategory.food,
+  category: TestCategories.food,
 );
 
 ExpenseHomeViewModel homeModel(FakeExpenseRepository repository) {
@@ -70,12 +75,16 @@ ExpenseHomeViewModel homeModel(FakeExpenseRepository repository) {
   );
 }
 
-AddExpenseViewModel formModel(FakeExpenseRepository repository) {
-  return AddExpenseViewModel(
+Future<AddExpenseViewModel> formModel(FakeExpenseRepository repository) async {
+  final model = AddExpenseViewModel(
+    createLoadCategoriesTask: () =>
+        LoadCategoriesTask(MemoryCategories(allDefaults: true)),
     initialDate: DateTime(2026, 4, 9, 12, 30),
     createSaveAction: (expense) =>
         ExpenseSaveAction(SaveExpenseTask(repository, expense)),
   );
+  await model.loadCategories();
+  return model;
 }
 
 void main() {
@@ -143,21 +152,21 @@ void main() {
 
   test('form defaults and toggles retain category and selected date', () async {
     final repository = FakeExpenseRepository();
-    final model = formModel(repository);
+    final model = await formModel(repository);
     addTearDown(model.dispose);
     expect(model.isIncome, isFalse);
-    expect(model.selectedCategory, ExpenseCategory.food);
+    expect(model.selectedCategory, TestCategories.food);
     expect(model.selectedDate, DateTime(2026, 4, 9, 12, 30));
-    model.selectCategory(ExpenseCategory.shopping);
+    model.selectCategory(TestCategories.shopping);
     model.selectIncome(true);
     model.selectIncome(false);
-    expect(model.selectedCategory, ExpenseCategory.shopping);
+    expect(model.selectedCategory, TestCategories.shopping);
     model.selectDate(DateTime(2026, 3, 1));
     await model.save(title: 'Lunch', amountMinor: 500);
     final saved = repository.rows.single;
     expect(saved.title, 'Lunch');
     expect(saved.amountMinor, 500);
-    expect(saved.category, ExpenseCategory.shopping);
+    expect(saved.category, TestCategories.shopping);
     expect(saved.date, DateTime(2026, 3, 1));
   });
 
@@ -165,15 +174,15 @@ void main() {
     'income uses income category without losing the expense selection',
     () async {
       final repository = FakeExpenseRepository();
-      final model = formModel(repository);
+      final model = await formModel(repository);
       addTearDown(model.dispose);
-      model.selectCategory(ExpenseCategory.health);
+      model.selectCategory(TestCategories.health);
       model.selectIncome(true);
       await model.save(title: 'Salary', amountMinor: 10000);
-      expect(repository.rows.single.category, ExpenseCategory.income);
+      expect(repository.rows.single.category, TestCategories.income);
       expect(repository.rows.single.isIncome, isTrue);
       model.selectIncome(false);
-      expect(model.selectedCategory, ExpenseCategory.health);
+      expect(model.selectedCategory, TestCategories.health);
     },
   );
 
@@ -183,7 +192,7 @@ void main() {
       final save = Completer<int>();
       final repository = FakeExpenseRepository()..pendingSave = save;
       final home = homeModel(repository);
-      final form = formModel(repository);
+      final form = await formModel(repository);
       addTearDown(home.dispose);
       await home.initialize();
       var notifications = 0;
@@ -206,7 +215,7 @@ void main() {
     () async {
       final repository = FakeExpenseRepository()
         ..pendingSave = Completer<int>();
-      final model = formModel(repository);
+      final model = await formModel(repository);
       addTearDown(model.dispose);
       final pending = model.save(title: 'One', amountMinor: 100);
       await expectLater(
@@ -228,7 +237,7 @@ void main() {
   );
   test('new writes reject invalid amounts and blank titles before repository access', () async {
     final repository = FakeExpenseRepository();
-    final model = formModel(repository);
+    final model = await formModel(repository);
     addTearDown(model.dispose);
     for (final amount in [0, -500, 1000000000000000]) {
       final outcome = await model.save(title: 'Lunch', amountMinor: amount);

@@ -53,10 +53,18 @@ class AppPages {
             GoRoute(
               name: Routes.CATEGORIES,
               path: 'categories',
-              builder: (context, state) => ChangeNotifierProvider(
-                create: (_) => getIt<CategoriesViewModel>()..load(),
-                child: const CategoriesScreen(),
-              ),
+              builder: (context, state) {
+                final home = context.read<ExpenseHomeViewModel>();
+                return ChangeNotifierProvider(
+                  create: (_) => getIt<CategoriesViewModel>()..load(),
+                  child: PopScope(
+                    onPopInvokedWithResult: (didPop, result) {
+                      if (didPop && !home.isDisposed) home.refresh();
+                    },
+                    child: const CategoriesScreen(),
+                  ),
+                );
+              },
             ),
             GoRoute(
               name: Routes.ADD_EXPENSE,
@@ -70,8 +78,13 @@ class AppPages {
                         .savedPreferences!
                         .currency
                         .code,
+                  )..loadCategories(),
+                  child: AddExpenseScreen(
+                    onSaved: home.refresh,
+                    onManageCategories: () async {
+                      await context.pushNamed(Routes.CATEGORIES);
+                    },
                   ),
-                  child: AddExpenseScreen(onSaved: home.refresh),
                 );
               },
             ),

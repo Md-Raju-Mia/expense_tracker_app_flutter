@@ -5,7 +5,7 @@ import '../../../core/theme/expense_theme.dart';
 import '../../../domain/entities/expense.dart';
 import '../../../l10n/l10n.dart';
 import 'expense_amount.dart';
-import 'expense_category_style.dart';
+import '../../categories/widgets/category_style.dart';
 
 class ExpenseTransactionList extends StatelessWidget {
   const ExpenseTransactionList({
@@ -20,6 +20,10 @@ class ExpenseTransactionList extends StatelessWidget {
   Widget build(BuildContext context) {
     final text = context.l10n;
     final theme = Theme.of(context);
+    final labels = categoryLabels(
+      context,
+      expenses.map((expense) => expense.category),
+    );
     return SliverPadding(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 100),
       sliver: SliverList.builder(
@@ -36,12 +40,14 @@ class ExpenseTransactionList extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: expense.category.color.withValues(alpha: .12),
+                      color: expense.category.color
+                          .foreground(context)
+                          .withValues(alpha: .12),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Icon(
-                      expense.category.icon,
-                      color: expense.category.color,
+                      expense.category.icon.materialIcon,
+                      color: expense.category.color.foreground(context),
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -56,6 +62,10 @@ class ExpenseTransactionList extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 4),
+                        Text(
+                          labels[expense.category.id]!,
+                          style: theme.textTheme.bodyMedium,
+                        ),
                         Text(
                           DateFormat(
                             'MMM dd, yyyy',

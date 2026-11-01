@@ -1009,6 +1009,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{color, select, orange{Orange} blue{Blue} purple{Purple} pink{Pink} red{Red} grey{Grey} green{Green} teal{Teal} indigo{Indigo} brown{Brown} other{Other}}'**
   String categoriesColorName(String color);
+
+  /// Transaction category integration: No active categories for this transaction type. Add or restore a category to continue.
+  ///
+  /// In en, this message translates to:
+  /// **'No active categories for this transaction type. Add or restore a category to continue.'**
+  String get expenseNoCategories;
+
+  /// Transaction category integration: This category is no longer available. Refresh the categories and choose again.
+  ///
+  /// In en, this message translates to:
+  /// **'This category is no longer available. Refresh the categories and choose again.'**
+  String get expenseCategoryUnavailable;
+
+  /// Transaction category integration: Could not save the transaction. Your entries are kept here; try again.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not save the transaction. Your entries are kept here; try again.'**
+  String get expenseSaveError;
+
+  /// Transaction category integration: {name} (archived)
+  ///
+  /// In en, this message translates to:
+  /// **'{name} (archived)'**
+  String expenseArchivedCategory(String name);
+
+  /// Initial transaction or linked-category loading failed; no empty balance should be shown
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load transactions. Try again.'**
+  String get expenseLoadError;
+
+  /// The selected category was archived or removed while the transaction draft remained open
+  ///
+  /// In en, this message translates to:
+  /// **'Choose an active category to continue.'**
+  String get expenseChooseCategory;
+
+  /// Disambiguates categories with identical visible names and different stable IDs
+  ///
+  /// In en, this message translates to:
+  /// **'{name} (default)'**
+  String expenseDefaultCategory(String name);
+
+  /// Disambiguates categories with identical visible names and different stable IDs
+  ///
+  /// In en, this message translates to:
+  /// **'{name} (custom)'**
+  String expenseCustomCategory(String name);
 }
 
 class _AppLocalizationsDelegate

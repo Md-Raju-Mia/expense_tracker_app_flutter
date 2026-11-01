@@ -538,4 +538,37 @@ class AppLocalizationsEn extends AppLocalizations {
     });
     return '$_temp0';
   }
+
+  @override
+  String get expenseNoCategories =>
+      'No active categories for this transaction type. Add or restore a category to continue.';
+
+  @override
+  String get expenseCategoryUnavailable =>
+      'This category is no longer available. Refresh the categories and choose again.';
+
+  @override
+  String get expenseSaveError =>
+      'Could not save the transaction. Your entries are kept here; try again.';
+
+  @override
+  String expenseArchivedCategory(String name) {
+    return '$name (archived)';
+  }
+
+  @override
+  String get expenseLoadError => 'Could not load transactions. Try again.';
+
+  @override
+  String get expenseChooseCategory => 'Choose an active category to continue.';
+
+  @override
+  String expenseDefaultCategory(String name) {
+    return '$name (default)';
+  }
+
+  @override
+  String expenseCustomCategory(String name) {
+    return '$name (custom)';
+  }
 }

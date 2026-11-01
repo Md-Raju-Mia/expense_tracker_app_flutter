@@ -1,5 +1,5 @@
 import 'expense.dart';
-import 'expense_category.dart';
+import 'transaction_category.dart';
 
 class ExpenseSummary {
   ExpenseSummary(List<Expense> expenses, {this.currencyCode = 'USD'})
@@ -24,8 +24,8 @@ class ExpenseSummary {
     return total;
   }
 
-  Map<ExpenseCategory, BigInt> get categoryTotalsMinor {
-    final totals = <ExpenseCategory, BigInt>{};
+  Map<TransactionCategory, BigInt> get categoryTotalsMinor {
+    final totals = <TransactionCategory, BigInt>{};
     for (final expense in expenses) {
       if (!expense.isIncome && expense.currencyCode == currencyCode) {
         final previousTotal = totals[expense.category] ?? BigInt.zero;

@@ -2,11 +2,12 @@ import 'package:sqflite/sqflite.dart';
 
 import 'legacy_expense_amount.dart';
 import 'category_database_migration.dart';
+import 'expense_category_link_migration.dart';
 
 class ExpenseDatabaseMigrations {
   ExpenseDatabaseMigrations({required this.createSyncId});
 
-  static const version = 5;
+  static const version = 6;
   final String Function() createSyncId;
 
   Future<void> create(Database db, int newVersion) async {
@@ -70,6 +71,9 @@ class ExpenseDatabaseMigrations {
     }
     if (oldVersion < 5 && newVersion >= 5) {
       await createCategoryTable(db);
+    }
+    if (oldVersion < 6 && newVersion >= 6) {
+      await linkExpenseCategories(db);
     }
   }
 }

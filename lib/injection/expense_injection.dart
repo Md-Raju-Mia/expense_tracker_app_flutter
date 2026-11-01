@@ -10,6 +10,7 @@ import '../domain/repositories/expense_repository.dart';
 import '../domain/tasks/expense/delete_expense_task.dart';
 import '../domain/tasks/expense/load_expenses_task.dart';
 import '../domain/tasks/expense/save_expense_task.dart';
+import '../domain/tasks/categories/load_categories_task.dart';
 import '../ui/expense/view_models/add_expense_view_model.dart';
 import '../ui/expense/view_models/expense_home_view_model.dart';
 
@@ -50,6 +51,7 @@ void configureExpenseDependencies(GetIt container) {
   container.registerFactoryParam<AddExpenseViewModel, String?, void>(
     (currencyCode, _) => AddExpenseViewModel(
       currencyCode: currencyCode ?? 'USD',
+      createLoadCategoriesTask: () => container<LoadCategoriesTask>(),
       createSaveAction: (expense) =>
           container<ExpenseSaveAction>(param1: expense),
     ),

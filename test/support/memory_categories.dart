@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'test_categories.dart';
+
 import 'package:fleet_wise_user_app/domain/actions/categories_archive_action.dart';
 import 'package:fleet_wise_user_app/domain/actions/categories_save_action.dart';
 import 'package:fleet_wise_user_app/domain/entities/category_draft.dart';
@@ -11,6 +13,13 @@ import 'package:fleet_wise_user_app/domain/tasks/categories/save_category_task.d
 import 'package:fleet_wise_user_app/ui/categories/view_models/categories_view_model.dart';
 
 class MemoryCategories implements CategoryRepository {
+  MemoryCategories({bool allDefaults = false}) {
+    if (allDefaults) {
+      rows
+        ..clear()
+        ..addAll(TestCategories.values);
+    }
+  }
   final rows = <TransactionCategory>[
     const TransactionCategory(
       id: 'default-food',

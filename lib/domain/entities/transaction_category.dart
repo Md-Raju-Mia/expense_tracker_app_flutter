@@ -45,4 +45,11 @@ class TransactionCategory {
   // Used to translate unchanged built-in names. Custom names stay as entered.
   final String? builtInKey;
   final bool isArchived;
+
+  // Category identity survives renames, restyling and database reloads.
+  @override
+  bool operator ==(Object other) =>
+      other is TransactionCategory && other.id == id;
+  @override
+  int get hashCode => id.hashCode;
 }

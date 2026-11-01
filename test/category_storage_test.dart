@@ -254,7 +254,7 @@ void main() {
     expect(await repository.getCategories(), hasLength(8));
   });
 
-  test('v4 upgrade adds categories without changing any transaction columns or values', () async {
+  test('v4 upgrade adds categories preserves original transaction fields', () async {
     final migrations = ExpenseDatabaseMigrations(createSyncId: () => 'unused');
     final old = await databaseFactoryFfi.openDatabase(
       databasePath,
@@ -274,13 +274,21 @@ void main() {
     final before = await old.query('expenses');
     await old.close();
     final upgraded = await expenses.database;
-    expect(await upgraded.getVersion(), 5);
-    expect(await upgraded.query('expenses'), before);
+    expect(await upgraded.getVersion(), 6);
+    expect(
+      (await upgraded.query('expenses'))
+          .map((row) => Map<String, Object?>.from(row)..remove('categoryId')),
+      before,
+    );
     expect(await repository.getCategories(), hasLength(7));
     // Category mutations never touch transactions during this foundation step.
     await repository.saveCategory(draft('Different', id: 'default-others'));
     await repository.setArchived('default-others', true);
-    expect(await upgraded.query('expenses'), before);
+    expect(
+      (await upgraded.query('expenses'))
+          .map((row) => Map<String, Object?>.from(row)..remove('categoryId')),
+      before,
+    );
     expect(
       (await upgraded.rawQuery('PRAGMA integrity_check')).single.values.single,
       'ok',
@@ -317,8 +325,12 @@ void main() {
       await unchanged.execute('DROP TABLE categories');
       await unchanged.close();
       expect(await repository.getCategories(), hasLength(7));
-      expect(await (await expenses.database).getVersion(), 5);
-      expect(await (await expenses.database).query('expenses'), before);
+      expect(await (await expenses.database).getVersion(), 6);
+      expect(
+        (await (await expenses.database).query('expenses'))
+            .map((row) => Map<String, Object?>.from(row)..remove('categoryId')),
+        before,
+      );
     },
   );
 }

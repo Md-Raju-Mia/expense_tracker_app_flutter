@@ -1,3 +1,8 @@
+import 'package:fleet_wise_user_app/domain/repositories/category_repository.dart';
+
+import 'support/memory_categories.dart';
+import 'support/test_categories.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
@@ -6,7 +11,6 @@ import 'package:shared_preferences_platform_interface/shared_preferences_async_p
 import 'package:fleet_wise_user_app/main.dart';
 import 'package:fleet_wise_user_app/injection/injection.dart';
 import 'package:fleet_wise_user_app/domain/entities/expense.dart';
-import 'package:fleet_wise_user_app/domain/entities/expense_category.dart';
 import 'package:fleet_wise_user_app/domain/entities/user_country.dart';
 import 'package:fleet_wise_user_app/domain/entities/user_currency.dart';
 import 'package:fleet_wise_user_app/domain/entities/user_language.dart';
@@ -39,6 +43,10 @@ void main() {
     SharedPreferencesAsyncPlatform.instance =
         InMemorySharedPreferencesAsync.empty();
     configureDependencies(getIt);
+    await getIt.unregister<CategoryRepository>();
+    getIt.registerSingleton<CategoryRepository>(
+      MemoryCategories(allDefaults: true),
+    );
     expenses = FormExpenses();
     await getIt.unregister<ExpenseRepository>();
     getIt.registerSingleton<ExpenseRepository>(expenses);
@@ -83,14 +91,14 @@ void main() {
           title: 'Old dollars',
           amountMinor: 1200,
           date: DateTime(2026, 4, 9),
-          category: ExpenseCategory.food,
+          category: TestCategories.food,
         ),
         Expense(
           id: 2,
           title: 'Taka',
           amountMinor: 10000,
           date: DateTime(2026, 4, 10),
-          category: ExpenseCategory.shopping,
+          category: TestCategories.shopping,
           currencyCode: 'BDT',
         ),
       ]);
@@ -173,7 +181,7 @@ void main() {
           title: 'খাবার',
           amountMinor: 10000,
           date: DateTime(2026, 4, 9),
-          category: ExpenseCategory.food,
+          category: TestCategories.food,
           currencyCode: 'BDT',
         ),
       );

@@ -1,26 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
 import '../../../core/base/base_view.dart';
 import '../../../core/state/action_state.dart';
 import '../../../core/theme/expense_theme.dart';
 import '../../../l10n/l10n.dart';
+import '../../../domain/entities/category_exception.dart';
 import '../view_models/add_expense_view_model.dart';
 import '../widgets/expense_transaction_form.dart';
 
 class AddExpenseScreen extends BaseView<AddExpenseViewModel> {
-  const AddExpenseScreen({super.key, required this.onSaved});
+  const AddExpenseScreen({
+    super.key,
+    required this.onSaved,
+    this.onManageCategories,
+  });
   final VoidCallback onSaved;
+  final Future<void> Function()? onManageCategories;
 
   @override
   Widget build(BuildContext context) {
     return Theme(
       data: ExpenseTheme.light,
-      child: Builder(
-        builder: (context) =>
-            pageScaffold(context, context.watch<AddExpenseViewModel>()),
-      ),
+      child: Builder(builder: (context) => super.build(context)),
     );
   }
 
@@ -42,21 +44,46 @@ class AddExpenseScreen extends BaseView<AddExpenseViewModel> {
   }
 
   @override
-  Widget pageContent(BuildContext context, AddExpenseViewModel viewModel) =>
-      body(context, viewModel);
+  String? errorMessage(BuildContext context, AddExpenseViewModel viewModel) {
+    if (viewModel.state.error is CategoryException) {
+      return context.l10n.expenseCategoryUnavailable;
+    }
+    if (viewModel.state.error != null) return context.l10n.expenseSaveError;
+    if (viewModel.contentState.hasError) {
+      return context.l10n.categoriesLoadError;
+    }
+    return null;
+  }
 
   @override
   Widget body(BuildContext context, AddExpenseViewModel viewModel) {
+    if (!viewModel.contentState.hasData) {
+      return Center(
+        child: viewModel.contentState.hasError
+            ? FilledButton.icon(
+                onPressed: viewModel.loadCategories,
+                icon: const Icon(Icons.refresh),
+                label: Text(context.l10n.retry),
+              )
+            : CircularProgressIndicator(semanticsLabel: context.l10n.loading),
+      );
+    }
     return ExpenseTransactionForm(
       viewModel: viewModel,
-      onSubmit: (title, amount) {
-        // Capture the callback before popping. No BuildContext is used later.
+      onManageCategories: onManageCategories == null
+          ? null
+          : () async {
+              await onManageCategories!();
+              if (context.mounted) await viewModel.loadCategories();
+            },
+      onSubmit: (title, amount) async {
+        if (!viewModel.canSave) return;
         final refreshHome = onSaved;
-        final pending = viewModel.save(title: title, amountMinor: amount);
-        pending.then((outcome) {
-          if (outcome.status == ActionStatus.succeeded) refreshHome();
-        });
-        context.pop();
+        final outcome = await viewModel.save(title: title, amountMinor: amount);
+        if (outcome.status == ActionStatus.succeeded) {
+          refreshHome();
+          if (context.mounted) context.pop();
+        }
       },
     );
   }

@@ -1,32 +1,42 @@
 import 'package:flutter/material.dart';
 
-import '../../../domain/entities/expense_category.dart';
-import 'expense_category_style.dart';
+import '../../../domain/entities/transaction_category.dart';
+import '../../categories/widgets/category_style.dart';
+import '../../categories/widgets/category_choice_label.dart';
 
 class ExpenseCategoryPicker extends StatelessWidget {
   const ExpenseCategoryPicker({
     super.key,
     required this.selectedCategory,
+    required this.categories,
     required this.onSelected,
   });
-  final ExpenseCategory selectedCategory;
-  final ValueChanged<ExpenseCategory> onSelected;
+  final TransactionCategory? selectedCategory;
+  final List<TransactionCategory> categories;
+  final ValueChanged<TransactionCategory> onSelected;
   @override
   Widget build(BuildContext context) {
+    final labels = categoryLabels(context, categories);
     return Wrap(
       spacing: 10,
       runSpacing: 10,
-      children: ExpenseCategory.values
-          .where((cat) => cat != ExpenseCategory.income)
+      children: categories
           .map(
             (cat) => ChoiceChip(
-              label: Text(cat.label(context).toUpperCase()),
-              avatar: Icon(cat.icon, size: 18, color: cat.color),
+              key: ValueKey('expense-category-${cat.id}'),
+              label: CategoryChoiceLabel(labels[cat.id]!),
+              avatar: Icon(
+                cat.icon.materialIcon,
+                size: 18,
+                color: cat.color.foreground(context),
+              ),
               selected: selectedCategory == cat,
               onSelected: (selected) {
                 if (selected) onSelected(cat);
               },
-              selectedColor: cat.color.withValues(alpha: 0.16),
+              selectedColor: cat.color
+                  .foreground(context)
+                  .withValues(alpha: 0.16),
               labelStyle: TextStyle(
                 color: Theme.of(context).colorScheme.onSurface,
               ),

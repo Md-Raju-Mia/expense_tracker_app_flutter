@@ -1,11 +1,13 @@
+import 'support/test_categories.dart';
+
 import 'dart:io';
 
 import 'package:fleet_wise_user_app/data/datasources/local/expense_local_data_source.dart';
 import 'package:fleet_wise_user_app/data/mappers/expense_mapper.dart';
 import 'package:fleet_wise_user_app/data/models/expense_model.dart';
+import 'package:fleet_wise_user_app/data/models/category_model.dart';
 import 'package:fleet_wise_user_app/data/repositories/expense_repository_impl.dart';
 import 'package:fleet_wise_user_app/domain/entities/expense.dart';
-import 'package:fleet_wise_user_app/domain/entities/expense_category.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:path/path.dart' as path;
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -15,7 +17,7 @@ Expense transaction(DateTime date, {int amountMinor = 1250}) {
     title: 'Lunch',
     amountMinor: amountMinor,
     date: date,
-    category: ExpenseCategory.food,
+    category: TestCategories.food,
   );
 }
 
@@ -23,7 +25,7 @@ void main() {
   sqfliteFfiInit();
 
   test('mapper preserves minor units and all category indices', () {
-    for (final category in ExpenseCategory.values) {
+    for (final category in TestCategories.values) {
       final original = Expense(
         id: 9,
         syncId: 'saved-transaction-id',
@@ -42,10 +44,23 @@ void main() {
         'amount': null,
         'amountMinor': -1250,
         'date': original.date.toIso8601String(),
-        'category': category.index,
+        'category': null,
+        'categoryId': category.id,
         'isIncome': 1,
       });
-      final restored = ExpenseModel.fromJson(row).toEntity();
+      final restored = ExpenseModel.fromJson(row)
+          .copyWith(
+            categoryDetails: CategoryModel(
+              id: category.id,
+              name: category.name,
+              normalizedName: category.name.toLowerCase(),
+              iconKey: category.icon.name,
+              colorKey: category.color.name,
+              isIncome: category.isIncome ? 1 : 0,
+              builtInKey: category.builtInKey,
+            ),
+          )
+          .toEntity();
       expect(restored.date, original.date);
       expect(restored.syncId, original.syncId);
       expect(restored.category, category);
@@ -75,10 +90,10 @@ void main() {
       await directory.delete(recursive: true);
     });
 
-    test('creates version 5 schema and shares concurrent opening', () async {
+    test('creates version 6 schema and shares concurrent opening', () async {
       final databases = await Future.wait([source.database, source.database]);
       expect(identical(databases[0], databases[1]), isTrue);
-      expect(await databases[0].getVersion(), 5);
+      expect(await databases[0].getVersion(), 6);
       final columns = await databases[0].rawQuery(
         'PRAGMA table_info(expenses)',
       );
@@ -92,6 +107,7 @@ void main() {
         'syncId',
         'currencyCode',
         'amountMinor',
+        'categoryId',
       ]);
       expect(await repository.getExpenses(), isEmpty);
     });
@@ -146,7 +162,7 @@ void main() {
         final salary = (await repository.getExpenses()).single;
         expect(salary.id, 42);
         expect(salary.amountMinor, 3000000);
-        expect(salary.category, ExpenseCategory.income);
+        expect(salary.category, TestCategories.income);
         expect(salary.isIncome, isTrue);
         expect(salary.currencyCode, 'USD');
         final salarySyncId = salary.syncId;
@@ -221,7 +237,7 @@ void main() {
             currencyCode: currency,
             amountMinor: 1250,
             date: DateTime(2026, 4, 9),
-            category: ExpenseCategory.food,
+            category: TestCategories.food,
           ),
         );
       }
@@ -262,7 +278,7 @@ void main() {
           title: 'Imported',
           amountMinor: 500,
           date: DateTime(2026, 4, 11),
-          category: ExpenseCategory.food,
+          category: TestCategories.food,
         );
         await repository.insertExpense(imported);
         expect((await repository.getExpenses()).first.syncId, imported.syncId);

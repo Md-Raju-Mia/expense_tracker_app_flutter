@@ -571,4 +571,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String expenseCustomCategory(String name) {
     return '$name (custom)';
   }
+
+  @override
+  String get expenseEditTransaction => 'Edit transaction';
+
+  @override
+  String get expenseUpdateTransaction => 'Save changes';
+
+  @override
+  String get expenseNotFound =>
+      'This transaction no longer exists. Go back to your transactions.';
+
+  @override
+  String get expenseEditChanged =>
+      'The transaction identity or currency changed. Reopen it before saving.';
+
+  @override
+  String expenseEditCurrency(String currency) {
+    return 'This transaction stays in $currency; the amount is not currency-converted.';
+  }
 }

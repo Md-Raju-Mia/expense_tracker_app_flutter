@@ -14,11 +14,13 @@ class ExpenseHomeScreen extends BaseView<ExpenseHomeViewModel> {
     required this.onAddTransaction,
     this.onOpenPreferences,
     this.onOpenCategories,
+    this.onEditTransaction,
   });
 
   final VoidCallback onAddTransaction;
   final VoidCallback? onOpenPreferences;
   final VoidCallback? onOpenCategories;
+  final ValueChanged<int>? onEditTransaction;
 
   @override
   Widget build(BuildContext context) {
@@ -105,6 +107,7 @@ class ExpenseHomeScreen extends BaseView<ExpenseHomeViewModel> {
     return ExpenseHomeContent(
       summary: summary,
       onDelete: (id) => _showDeleteDialog(context, viewModel, id),
+      onEdit: onEditTransaction,
     );
   }
 

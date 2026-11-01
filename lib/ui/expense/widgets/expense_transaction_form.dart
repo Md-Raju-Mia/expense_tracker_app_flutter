@@ -6,7 +6,7 @@ import '../../../domain/entities/transaction_amount.dart';
 import '../../../domain/entities/category_exception.dart';
 import '../utils/normalize_amount_input.dart';
 import 'expense_amount.dart';
-import '../view_models/add_expense_view_model.dart';
+import '../view_models/expense_form_view_model.dart';
 import 'expense_category_picker.dart';
 import 'expense_date_picker.dart';
 import 'expense_type_chip.dart';
@@ -18,7 +18,7 @@ class ExpenseTransactionForm extends StatefulWidget {
     required this.onSubmit,
     this.onManageCategories,
   });
-  final AddExpenseViewModel viewModel;
+  final ExpenseFormViewModel viewModel;
   final Future<void> Function(String title, int amountMinor) onSubmit;
   final Future<void> Function()? onManageCategories;
 
@@ -72,6 +72,7 @@ class _ExpenseTransactionFormState extends State<ExpenseTransactionForm> {
               ),
               const SizedBox(height: 24),
               TextFormField(
+                initialValue: model.initialTitle,
                 decoration: InputDecoration(
                   labelText: text.expenseTitle,
                   prefixIcon: const Icon(Icons.title),
@@ -84,6 +85,9 @@ class _ExpenseTransactionFormState extends State<ExpenseTransactionForm> {
               ),
               const SizedBox(height: 16),
               TextFormField(
+                initialValue: model.initialAmountMinor == null
+                    ? ''
+                    : expenseAmountInput(model.initialAmountMinor!),
                 decoration: InputDecoration(
                   labelText: text.expenseAmountCurrency(model.currencyCode),
                   prefixIcon: const Icon(Icons.payments_outlined),
@@ -115,6 +119,10 @@ class _ExpenseTransactionFormState extends State<ExpenseTransactionForm> {
                 ).minorUnits,
               ),
               const SizedBox(height: 24),
+              if (model.isEditing) ...[
+                Text(text.expenseEditCurrency(model.currencyCode)),
+                const SizedBox(height: 16),
+              ],
               Text(text.expenseCategory, style: heading),
               const SizedBox(height: 12),
               ExpenseCategoryPicker(
@@ -131,7 +139,7 @@ class _ExpenseTransactionFormState extends State<ExpenseTransactionForm> {
               if (model.contentState.hasError ||
                   model.state.error is CategoryException)
                 TextButton.icon(
-                  onPressed: model.isFetching ? null : model.loadCategories,
+                  onPressed: model.isFetching ? null : model.load,
                   icon: const Icon(Icons.refresh),
                   label: Text(text.retry),
                 ),
@@ -171,7 +179,9 @@ class _ExpenseTransactionFormState extends State<ExpenseTransactionForm> {
                     elevation: 2,
                   ),
                   child: Text(
-                    text.expenseSaveTransaction,
+                    model.isEditing
+                        ? text.expenseUpdateTransaction
+                        : text.expenseSaveTransaction,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       fontSize: 18,

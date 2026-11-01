@@ -1,6 +1,9 @@
+import 'package:fleet_wise_user_app/domain/actions/expense_update_action.dart';
+import 'package:fleet_wise_user_app/domain/tasks/expense/update_expense_task.dart';
+
 import 'support/memory_categories.dart';
 
-import 'package:fleet_wise_user_app/domain/tasks/categories/load_categories_task.dart';
+import 'package:fleet_wise_user_app/domain/tasks/expense/load_expense_form_task.dart';
 
 import 'support/test_categories.dart';
 
@@ -14,11 +17,17 @@ import 'package:fleet_wise_user_app/domain/repositories/expense_repository.dart'
 import 'package:fleet_wise_user_app/domain/tasks/expense/delete_expense_task.dart';
 import 'package:fleet_wise_user_app/domain/tasks/expense/load_expenses_task.dart';
 import 'package:fleet_wise_user_app/domain/tasks/expense/save_expense_task.dart';
-import 'package:fleet_wise_user_app/ui/expense/view_models/add_expense_view_model.dart';
+import 'package:fleet_wise_user_app/ui/expense/view_models/expense_form_view_model.dart';
 import 'package:fleet_wise_user_app/ui/expense/view_models/expense_home_view_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 class FakeExpenseRepository implements ExpenseRepository {
+  @override
+  Future<Expense?> getExpense(int id) async =>
+      (await getExpenses()).where((row) => row.id == id).firstOrNull;
+  @override
+  Future<int> updateExpense(Expense expense) async =>
+      throw UnimplementedError();
   List<Expense> rows = [];
   final calls = <String>[];
   Completer<int>? pendingSave;
@@ -75,15 +84,17 @@ ExpenseHomeViewModel homeModel(FakeExpenseRepository repository) {
   );
 }
 
-Future<AddExpenseViewModel> formModel(FakeExpenseRepository repository) async {
-  final model = AddExpenseViewModel(
-    createLoadCategoriesTask: () =>
-        LoadCategoriesTask(MemoryCategories(allDefaults: true)),
+Future<ExpenseFormViewModel> formModel(FakeExpenseRepository repository) async {
+  final model = ExpenseFormViewModel(
+    createUpdateAction: (expense) =>
+        ExpenseUpdateAction(UpdateExpenseTask(repository, expense)),
+    createLoadTask: () =>
+        LoadExpenseFormTask(repository, MemoryCategories(allDefaults: true)),
     initialDate: DateTime(2026, 4, 9, 12, 30),
     createSaveAction: (expense) =>
         ExpenseSaveAction(SaveExpenseTask(repository, expense)),
   );
-  await model.loadCategories();
+  await model.load();
   return model;
 }
 

@@ -10,6 +10,7 @@ abstract class Routes {
   static const POSTS = _Paths.POSTS;
   static const EXPENSES = _Paths.EXPENSES;
   static const ADD_EXPENSE = '/expenses/add';
+  static const EDIT_EXPENSE = '/expenses/:expenseId/edit';
   static const PREFERENCES = '/expenses/preferences';
   static const CATEGORIES = '/expenses/categories';
   static const POST_DETAIL = '/posts/:postId';

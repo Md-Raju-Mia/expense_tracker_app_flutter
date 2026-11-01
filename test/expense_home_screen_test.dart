@@ -21,6 +21,12 @@ import 'package:fleet_wise_user_app/ui/expense/screens/expense_home_screen.dart'
 import 'package:fleet_wise_user_app/ui/expense/view_models/expense_home_view_model.dart';
 
 class MemoryExpenses implements ExpenseRepository {
+  @override
+  Future<Expense?> getExpense(int id) async =>
+      rows.where((row) => row.id == id).firstOrNull;
+  @override
+  Future<int> updateExpense(Expense expense) async =>
+      throw UnimplementedError();
   MemoryExpenses(this.rows);
   final List<Expense> rows;
   int deletes = 0;

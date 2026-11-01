@@ -727,5 +727,30 @@
         "type": "String"
       }
     }
+  },
+  "expenseEditTransaction": "Edit transaction",
+  "@expenseEditTransaction": {
+    "description": "Transaction editing: Edit transaction"
+  },
+  "expenseUpdateTransaction": "Save changes",
+  "@expenseUpdateTransaction": {
+    "description": "Transaction editing: Save changes"
+  },
+  "expenseNotFound": "This transaction no longer exists. Go back to your transactions.",
+  "@expenseNotFound": {
+    "description": "Transaction editing: This transaction no longer exists. Go back to your transactions."
+  },
+  "expenseEditChanged": "The transaction identity or currency changed. Reopen it before saving.",
+  "@expenseEditChanged": {
+    "description": "Transaction editing: The transaction identity or currency changed. Reopen it before saving."
+  },
+  "expenseEditCurrency": "This transaction stays in {currency}; the amount is not currency-converted.",
+  "@expenseEditCurrency": {
+    "description": "Transaction editing: This transaction stays in {currency}; the amount is not currency-converted.",
+    "placeholders": {
+      "currency": {
+        "type": "String"
+      }
+    }
   }
 }

@@ -1,3 +1,5 @@
+import 'package:fleet_wise_user_app/domain/actions/expense_update_action.dart';
+import 'package:fleet_wise_user_app/domain/tasks/expense/update_expense_task.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -14,10 +16,10 @@ import 'package:fleet_wise_user_app/domain/entities/user_preferences.dart';
 import 'package:fleet_wise_user_app/domain/repositories/category_repository.dart';
 import 'package:fleet_wise_user_app/domain/repositories/expense_repository.dart';
 import 'package:fleet_wise_user_app/domain/repositories/user_preferences_repository.dart';
-import 'package:fleet_wise_user_app/domain/tasks/categories/load_categories_task.dart';
+import 'package:fleet_wise_user_app/domain/tasks/expense/load_expense_form_task.dart';
 import 'package:fleet_wise_user_app/domain/tasks/expense/save_expense_task.dart';
-import 'package:fleet_wise_user_app/ui/expense/screens/add_expense_screen.dart';
-import 'package:fleet_wise_user_app/ui/expense/view_models/add_expense_view_model.dart';
+import 'package:fleet_wise_user_app/ui/expense/screens/expense_form_screen.dart';
+import 'package:fleet_wise_user_app/ui/expense/view_models/expense_form_view_model.dart';
 
 import 'support/form_expenses.dart';
 import 'support/memory_categories.dart';
@@ -39,16 +41,18 @@ const consulting = TransactionCategory(
   isIncome: true,
 );
 
-Future<AddExpenseViewModel> form(
+Future<ExpenseFormViewModel> form(
   MemoryCategories categories,
   FormExpenses expenses,
 ) async {
-  final model = AddExpenseViewModel(
-    createLoadCategoriesTask: () => LoadCategoriesTask(categories),
+  final model = ExpenseFormViewModel(
+    createUpdateAction: (expense) =>
+        ExpenseUpdateAction(UpdateExpenseTask(expenses, expense)),
+    createLoadTask: () => LoadExpenseFormTask(expenses, categories),
     createSaveAction: (row) =>
         ExpenseSaveAction(SaveExpenseTask(expenses, row)),
   );
-  await model.loadCategories();
+  await model.load();
   return model;
 }
 
@@ -81,7 +85,7 @@ void main() {
       final model = await form(categories, FormExpenses());
       addTearDown(model.dispose);
       await categories.setArchived('default-food', true);
-      await model.loadCategories();
+      await model.load();
       expect(model.selectedCategory, isNull);
       expect(model.canSave, isFalse);
       await expectLater(
@@ -100,10 +104,10 @@ void main() {
     expect(model.canSave, isFalse);
     expect(model.contentState.hasError, isTrue);
     categories.readError = null;
-    await model.loadCategories();
+    await model.load();
     expect(model.canSave, isTrue);
     categories.readError = StateError('storage');
-    await model.loadCategories();
+    await model.load();
     expect(model.contentState.hasData, isTrue);
     expect(model.canSave, isFalse);
   });
@@ -128,7 +132,7 @@ void main() {
         isIncome: false,
       ),
     );
-    await model.loadCategories();
+    await model.load();
     expect(model.state.error, isNull);
     expect(model.selectedCategory!.id, rent.id);
     expect(model.selectedCategory!.name, 'Monthly rent');
@@ -187,7 +191,7 @@ void main() {
         await tap(tester, find.byKey(const ValueKey('category-save')));
         await tester.tap(find.byType(BackButton));
         await tester.pumpAndSettle();
-        expect(find.byType(AddExpenseScreen), findsOneWidget);
+        expect(find.byType(ExpenseFormScreen), findsOneWidget);
         expect(find.text('House bill'), findsOneWidget);
         expect(find.text('12.50'), findsOneWidget);
         await tap(tester, find.widgetWithText(ChoiceChip, 'Rent'));
@@ -211,8 +215,8 @@ void main() {
         await tap(tester, find.widgetWithText(ChoiceChip, 'Rent'));
         expect(
           tester
-              .element(find.byType(AddExpenseScreen))
-              .read<AddExpenseViewModel>()
+              .element(find.byType(ExpenseFormScreen))
+              .read<ExpenseFormViewModel>()
               .selectedCategory!
               .id,
           'rent',
@@ -229,8 +233,8 @@ void main() {
         await tester.tap(find.byType(BackButton));
         await tester.pumpAndSettle();
         final model = tester
-            .element(find.byType(AddExpenseScreen))
-            .read<AddExpenseViewModel>();
+            .element(find.byType(ExpenseFormScreen))
+            .read<ExpenseFormViewModel>();
         expect(model.selectedCategory, isNull);
         expect(model.canSave, isFalse);
         expect(

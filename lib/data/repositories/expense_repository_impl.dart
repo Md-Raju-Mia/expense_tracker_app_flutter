@@ -15,6 +15,14 @@ class ExpenseRepositoryImpl implements ExpenseRepository {
   }
 
   @override
+  Future<Expense?> getExpense(int id) async =>
+      (await _source.getExpense(id))?.toEntity();
+
+  @override
+  Future<int> updateExpense(Expense expense) =>
+      _source.updateExpense(expense.toModel());
+
+  @override
   Future<int> insertExpense(Expense expense) {
     return _source.insertExpense(expense.toModel());
   }

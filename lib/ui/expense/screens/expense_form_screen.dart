@@ -6,11 +6,12 @@ import '../../../core/state/action_state.dart';
 import '../../../core/theme/expense_theme.dart';
 import '../../../l10n/l10n.dart';
 import '../../../domain/entities/category_exception.dart';
-import '../view_models/add_expense_view_model.dart';
+import '../../../domain/entities/expense_exception.dart';
+import '../view_models/expense_form_view_model.dart';
 import '../widgets/expense_transaction_form.dart';
 
-class AddExpenseScreen extends BaseView<AddExpenseViewModel> {
-  const AddExpenseScreen({
+class ExpenseFormScreen extends BaseView<ExpenseFormViewModel> {
+  const ExpenseFormScreen({
     super.key,
     required this.onSaved,
     this.onManageCategories,
@@ -29,12 +30,14 @@ class AddExpenseScreen extends BaseView<AddExpenseViewModel> {
   @override
   PreferredSizeWidget appBar(
     BuildContext context,
-    AddExpenseViewModel viewModel,
+    ExpenseFormViewModel viewModel,
   ) {
     return AppBar(
       toolbarHeight: MediaQuery.textScalerOf(context).scale(24) + 32,
       title: Text(
-        context.l10n.expenseAddTransaction,
+        viewModel.isEditing
+            ? context.l10n.expenseEditTransaction
+            : context.l10n.expenseAddTransaction,
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
         style: const TextStyle(fontWeight: FontWeight.bold),
@@ -44,7 +47,13 @@ class AddExpenseScreen extends BaseView<AddExpenseViewModel> {
   }
 
   @override
-  String? errorMessage(BuildContext context, AddExpenseViewModel viewModel) {
+  String? errorMessage(BuildContext context, ExpenseFormViewModel viewModel) {
+    final failure = viewModel.state.error ?? viewModel.contentState.error;
+    if (failure is ExpenseException) {
+      return failure.problem == ExpenseProblem.notFound
+          ? context.l10n.expenseNotFound
+          : context.l10n.expenseEditChanged;
+    }
     if (viewModel.state.error is CategoryException) {
       return context.l10n.expenseCategoryUnavailable;
     }
@@ -56,12 +65,12 @@ class AddExpenseScreen extends BaseView<AddExpenseViewModel> {
   }
 
   @override
-  Widget body(BuildContext context, AddExpenseViewModel viewModel) {
+  Widget body(BuildContext context, ExpenseFormViewModel viewModel) {
     if (!viewModel.contentState.hasData) {
       return Center(
         child: viewModel.contentState.hasError
             ? FilledButton.icon(
-                onPressed: viewModel.loadCategories,
+                onPressed: viewModel.load,
                 icon: const Icon(Icons.refresh),
                 label: Text(context.l10n.retry),
               )
@@ -74,7 +83,7 @@ class AddExpenseScreen extends BaseView<AddExpenseViewModel> {
           ? null
           : () async {
               await onManageCategories!();
-              if (context.mounted) await viewModel.loadCategories();
+              if (context.mounted) await viewModel.load();
             },
       onSubmit: (title, amount) async {
         if (!viewModel.canSave) return;

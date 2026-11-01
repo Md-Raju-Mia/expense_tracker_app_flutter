@@ -573,4 +573,23 @@ class AppLocalizationsBn extends AppLocalizations {
   String expenseCustomCategory(String name) {
     return '$name (নিজস্ব)';
   }
+
+  @override
+  String get expenseEditTransaction => 'লেনদেন সম্পাদনা';
+
+  @override
+  String get expenseUpdateTransaction => 'পরিবর্তন সংরক্ষণ করুন';
+
+  @override
+  String get expenseNotFound =>
+      'এই লেনদেনটি আর নেই। লেনদেনের তালিকায় ফিরে যান।';
+
+  @override
+  String get expenseEditChanged =>
+      'লেনদেনের পরিচয় বা মুদ্রা বদলে গেছে। সংরক্ষণের আগে আবার খুলুন।';
+
+  @override
+  String expenseEditCurrency(String currency) {
+    return 'এই লেনদেনের মুদ্রা $currency-ই থাকবে; অঙ্কটি অন্য মুদ্রায় রূপান্তর করা হবে না।';
+  }
 }

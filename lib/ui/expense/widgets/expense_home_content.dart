@@ -11,10 +11,12 @@ class ExpenseHomeContent extends StatelessWidget {
     super.key,
     required this.summary,
     required this.onDelete,
+    this.onEdit,
   });
 
   final ExpenseSummary summary;
   final ValueChanged<int> onDelete;
+  final ValueChanged<int>? onEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +59,11 @@ class ExpenseHomeContent extends StatelessWidget {
             child: Text(context.l10n.expenseAllCurrencies),
           ),
         ),
-        ExpenseTransactionList(expenses: summary.expenses, onDelete: onDelete),
+        ExpenseTransactionList(
+          expenses: summary.expenses,
+          onDelete: onDelete,
+          onEdit: onEdit,
+        ),
       ],
     );
   }

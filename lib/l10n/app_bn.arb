@@ -159,5 +159,10 @@
   "expenseLoadError": "লেনদেনের তালিকা আনা যায়নি। আবার চেষ্টা করুন।",
   "expenseChooseCategory": "চালিয়ে যেতে একটি সক্রিয় বিভাগ বেছে নিন।",
   "expenseDefaultCategory": "{name} (পূর্বনির্ধারিত)",
-  "expenseCustomCategory": "{name} (নিজস্ব)"
+  "expenseCustomCategory": "{name} (নিজস্ব)",
+  "expenseEditTransaction": "লেনদেন সম্পাদনা",
+  "expenseUpdateTransaction": "পরিবর্তন সংরক্ষণ করুন",
+  "expenseNotFound": "এই লেনদেনটি আর নেই। লেনদেনের তালিকায় ফিরে যান।",
+  "expenseEditChanged": "লেনদেনের পরিচয় বা মুদ্রা বদলে গেছে। সংরক্ষণের আগে আবার খুলুন।",
+  "expenseEditCurrency": "এই লেনদেনের মুদ্রা {currency}-ই থাকবে; অঙ্কটি অন্য মুদ্রায় রূপান্তর করা হবে না।"
 }

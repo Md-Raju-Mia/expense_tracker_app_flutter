@@ -19,8 +19,12 @@ class ExpenseDatePicker extends StatelessWidget {
         final date = await showDatePicker(
           context: context,
           initialDate: selectedDate,
-          firstDate: DateTime(2020),
-          lastDate: DateTime.now(),
+          firstDate: selectedDate.isBefore(DateTime(2020))
+              ? DateTime(selectedDate.year)
+              : DateTime(2020),
+          lastDate: selectedDate.isAfter(DateTime.now())
+              ? selectedDate
+              : DateTime.now(),
         );
         if (date != null) onSelected(date);
       },

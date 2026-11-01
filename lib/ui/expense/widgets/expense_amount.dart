@@ -1,5 +1,14 @@
 import 'package:intl/intl.dart';
 
+String expenseAmountInput(int minorUnits) {
+  final amount = BigInt.from(minorUnits);
+  final hundred = BigInt.from(100);
+  final absolute = amount.abs();
+  final whole = absolute ~/ hundred;
+  final fraction = (absolute % hundred).toString().padLeft(2, '0');
+  return '${amount.isNegative ? '-' : ''}$whole.$fraction';
+}
+
 String expenseAmount(BigInt minorUnits, String currencyCode, String locale) {
   final symbol = switch (currencyCode) {
     'BDT' => '৳',

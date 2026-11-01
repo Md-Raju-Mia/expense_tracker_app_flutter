@@ -4,9 +4,9 @@ import 'package:provider/provider.dart';
 
 import '../injection/injection.dart';
 import '../l10n/l10n.dart';
-import '../ui/expense/screens/add_expense_screen.dart';
+import '../ui/expense/screens/expense_form_screen.dart';
 import '../ui/expense/screens/expense_home_screen.dart';
-import '../ui/expense/view_models/add_expense_view_model.dart';
+import '../ui/expense/view_models/expense_form_view_model.dart';
 import '../ui/expense/view_models/expense_home_view_model.dart';
 import '../ui/expense/widgets/expense_journey.dart';
 import '../ui/categories/screens/categories_screen.dart';
@@ -48,6 +48,10 @@ class AppPages {
             onAddTransaction: () => context.pushNamed(Routes.ADD_EXPENSE),
             onOpenPreferences: () => context.pushNamed(Routes.PREFERENCES),
             onOpenCategories: () => context.pushNamed(Routes.CATEGORIES),
+            onEditTransaction: (id) => context.pushNamed(
+              Routes.EDIT_EXPENSE,
+              pathParameters: {'expenseId': '$id'},
+            ),
           ),
           routes: [
             GoRoute(
@@ -69,24 +73,21 @@ class AppPages {
             GoRoute(
               name: Routes.ADD_EXPENSE,
               path: 'add',
-              builder: (context, state) {
-                final home = context.read<ExpenseHomeViewModel>();
-                return ChangeNotifierProvider(
-                  create: (_) => getIt<AddExpenseViewModel>(
-                    param1: context
-                        .read<UserPreferencesViewModel>()
-                        .savedPreferences!
-                        .currency
-                        .code,
-                  )..loadCategories(),
-                  child: AddExpenseScreen(
-                    onSaved: home.refresh,
-                    onManageCategories: () async {
-                      await context.pushNamed(Routes.CATEGORIES);
-                    },
-                  ),
+              builder: (context, state) => _expenseForm(context),
+            ),
+            GoRoute(
+              name: Routes.EDIT_EXPENSE,
+              path: ':expenseId/edit',
+              redirect: (_, state) {
+                final id = int.tryParse(
+                  state.pathParameters['expenseId'] ?? '',
                 );
+                return id == null || id <= 0 ? Routes.EXPENSES : null;
               },
+              builder: (context, state) => _expenseForm(
+                context,
+                transactionId: int.parse(state.pathParameters['expenseId']!),
+              ),
             ),
             GoRoute(
               name: Routes.PREFERENCES,
@@ -134,6 +135,27 @@ class AppPages {
       ],
     ),
   ];
+
+  static Widget _expenseForm(BuildContext context, {int? transactionId}) {
+    final home = context.read<ExpenseHomeViewModel>();
+    return ChangeNotifierProvider(
+      key: ValueKey(transactionId),
+      create: (_) => getIt<ExpenseFormViewModel>(
+        param1: transactionId,
+        param2: context
+            .read<UserPreferencesViewModel>()
+            .savedPreferences!
+            .currency
+            .code,
+      )..load(),
+      child: ExpenseFormScreen(
+        onSaved: home.refresh,
+        onManageCategories: () async {
+          await context.pushNamed(Routes.CATEGORIES);
+        },
+      ),
+    );
+  }
 
   /// The app owns this router; no global router or view model is retained here.
   static GoRouter createRouter({String? initialLocation}) => GoRouter(

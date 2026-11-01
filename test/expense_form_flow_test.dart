@@ -23,9 +23,9 @@ import 'support/memory_user_preferences.dart';
 import 'support/form_expenses.dart';
 
 import 'package:fleet_wise_user_app/domain/repositories/expense_repository.dart';
-import 'package:fleet_wise_user_app/ui/expense/screens/add_expense_screen.dart';
+import 'package:fleet_wise_user_app/ui/expense/screens/expense_form_screen.dart';
 import 'package:fleet_wise_user_app/ui/expense/screens/expense_home_screen.dart';
-import 'package:fleet_wise_user_app/ui/expense/view_models/add_expense_view_model.dart';
+import 'package:fleet_wise_user_app/ui/expense/view_models/expense_form_view_model.dart';
 import 'package:fleet_wise_user_app/ui/expense/view_models/expense_home_view_model.dart';
 import 'package:fleet_wise_user_app/ui/expense/widgets/expense_category_picker.dart';
 
@@ -108,12 +108,12 @@ void main() {
     await tester.enterText(find.byType(TextFormField).at(1), '12.5');
     repository.pendingSave = Completer<int>();
     final form = tester
-        .element(find.byType(AddExpenseScreen))
-        .read<AddExpenseViewModel>();
+        .element(find.byType(ExpenseFormScreen))
+        .read<ExpenseFormViewModel>();
     await tester.ensureVisible(find.text('Save Transaction'));
     await tester.tap(find.text('Save Transaction'));
     await tester.pump();
-    expect(find.byType(AddExpenseScreen), findsOneWidget);
+    expect(find.byType(ExpenseFormScreen), findsOneWidget);
     expect(repository.rows, isEmpty);
     expect(form.isDisposed, isFalse);
     repository.pendingSave!.complete(1);
@@ -144,8 +144,8 @@ void main() {
       await tester.tap(find.text('Expense'));
       await tester.pumpAndSettle();
       final form = tester
-          .element(find.byType(AddExpenseScreen))
-          .read<AddExpenseViewModel>();
+          .element(find.byType(ExpenseFormScreen))
+          .read<ExpenseFormViewModel>();
       expect(form.selectedCategory, TestCategories.shopping);
       expect(find.text('Salary'), findsOneWidget);
       await tester.tap(find.text('Income'));
@@ -195,7 +195,7 @@ void main() {
       await tester.enterText(find.byType(TextFormField).at(1), amount);
       await tapSave(tester);
       expect(repository.rows, isEmpty, reason: amount);
-      expect(find.byType(AddExpenseScreen), findsOneWidget);
+      expect(find.byType(ExpenseFormScreen), findsOneWidget);
     }
     await tester.pumpWidget(const SizedBox.shrink());
   });
@@ -204,8 +204,8 @@ void main() {
     (tester) async {
       await openApp(tester, initialLocation: '/expenses/add');
       final model = tester
-          .element(find.byType(AddExpenseScreen))
-          .read<AddExpenseViewModel>();
+          .element(find.byType(ExpenseFormScreen))
+          .read<ExpenseFormViewModel>();
       final original = model.selectedDate;
       await tester.ensureVisible(find.byIcon(Icons.calendar_month));
       await tester.tap(find.byIcon(Icons.calendar_month));
@@ -239,7 +239,7 @@ void main() {
     await tester.enterText(find.byType(TextFormField).at(0), 'Lunch');
     await tester.enterText(find.byType(TextFormField).at(1), '10');
     await tapSave(tester);
-    expect(find.byType(AddExpenseScreen), findsOneWidget);
+    expect(find.byType(ExpenseFormScreen), findsOneWidget);
     expect(
       find.text(
         'Could not save the transaction. Your entries are kept here; try again.',

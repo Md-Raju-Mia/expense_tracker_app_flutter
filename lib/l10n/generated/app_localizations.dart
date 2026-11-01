@@ -1057,6 +1057,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{name} (custom)'**
   String expenseCustomCategory(String name);
+
+  /// Transaction editing: Edit transaction
+  ///
+  /// In en, this message translates to:
+  /// **'Edit transaction'**
+  String get expenseEditTransaction;
+
+  /// Transaction editing: Save changes
+  ///
+  /// In en, this message translates to:
+  /// **'Save changes'**
+  String get expenseUpdateTransaction;
+
+  /// Transaction editing: This transaction no longer exists. Go back to your transactions.
+  ///
+  /// In en, this message translates to:
+  /// **'This transaction no longer exists. Go back to your transactions.'**
+  String get expenseNotFound;
+
+  /// Transaction editing: The transaction identity or currency changed. Reopen it before saving.
+  ///
+  /// In en, this message translates to:
+  /// **'The transaction identity or currency changed. Reopen it before saving.'**
+  String get expenseEditChanged;
+
+  /// Transaction editing: This transaction stays in {currency}; the amount is not currency-converted.
+  ///
+  /// In en, this message translates to:
+  /// **'This transaction stays in {currency}; the amount is not currency-converted.'**
+  String expenseEditCurrency(String currency);
 }
 
 class _AppLocalizationsDelegate

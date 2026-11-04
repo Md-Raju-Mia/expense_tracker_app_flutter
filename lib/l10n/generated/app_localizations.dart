@@ -1171,6 +1171,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Reminder time: {time}'**
   String reminderTime(String time);
+
+  /// Save filtered transaction history as a PDF
+  ///
+  /// In en, this message translates to:
+  /// **'Export PDF'**
+  String get expenseHistoryExportPdf;
+
+  /// Confirmation after writing the PDF to the selected location
+  ///
+  /// In en, this message translates to:
+  /// **'PDF saved'**
+  String get expenseHistoryPdfSaved;
+
+  /// Open the Android share sheet for filtered transaction history
+  ///
+  /// In en, this message translates to:
+  /// **'Share PDF'**
+  String get expenseHistorySharePdf;
+
+  /// Failure message for transaction history PDF export
+  ///
+  /// In en, this message translates to:
+  /// **'Could not prepare the PDF. Try again.'**
+  String get expenseHistoryPdfError;
 }
 
 class _AppLocalizationsDelegate

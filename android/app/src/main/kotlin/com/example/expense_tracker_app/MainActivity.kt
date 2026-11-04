@@ -1,6 +1,7 @@
 package com.example.expense_tracker_app
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
@@ -10,6 +11,13 @@ import io.flutter.plugin.common.MethodChannel
 
 class MainActivity : FlutterActivity() {
     private var permissionResult: MethodChannel.Result? = null
+    private var historyPdf: HistoryPdfChannel? = null
+
+    @Deprecated("Receives the result from Android's document picker")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        historyPdf?.onActivityResult(requestCode, resultCode, data)
+    }
 
     override fun onStart() {
         super.onStart()
@@ -22,6 +30,7 @@ class MainActivity : FlutterActivity() {
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
+        historyPdf = HistoryPdfChannel(this, flutterEngine.dartExecutor.binaryMessenger)
         val reminder = DailyReminderScheduler(applicationContext)
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "expense_tracker/daily_reminder")
             .setMethodCallHandler { call, result ->

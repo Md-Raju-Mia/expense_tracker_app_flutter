@@ -1,13 +1,20 @@
 import '../../../core/base/content_view_model.dart';
+import '../../../domain/actions/expense_history_export_action.dart';
 import '../../../domain/entities/expense.dart';
 import '../../../domain/entities/expense_history_filter.dart';
+import '../../../domain/entities/expense_history_report.dart';
 import '../../../domain/tasks/expense/load_expense_history_task.dart';
 
 class ExpenseHistoryViewModel extends ContentViewModel<List<Expense>> {
-  ExpenseHistoryViewModel({required this.createLoadTask, DateTime? today})
-    : _date = today ?? DateTime.now();
+  ExpenseHistoryViewModel({
+    required this.createLoadTask,
+    this.createExportAction,
+    DateTime? today,
+  }) : _date = today ?? DateTime.now();
 
   final LoadExpenseHistoryTask Function() createLoadTask;
+  final ExpenseHistoryExportAction Function(ExpenseHistoryReport, bool)?
+  createExportAction;
   ExpenseHistoryPeriod _period = ExpenseHistoryPeriod.all;
   DateTime _date;
 
@@ -17,6 +24,24 @@ class ExpenseHistoryViewModel extends ContentViewModel<List<Expense>> {
   List<Expense> get visibleExpenses {
     final filter = ExpenseHistoryFilter(period: period, date: date);
     return allExpenses.where(filter.matches).toList();
+  }
+
+  bool get supportsExport => createExportAction != null;
+  bool get canExport =>
+      supportsExport &&
+      !isLoading &&
+      !isFetching &&
+      !contentState.hasError &&
+      visibleExpenses.isNotEmpty;
+
+  Future<bool> export(
+    ExpenseHistoryReport report, {
+    required bool share,
+  }) async {
+    if (isDisposed || !canExport) return false;
+    final action = createExportAction!(report, share);
+    await execute(action);
+    return action.completed;
   }
 
   List<int> get years {

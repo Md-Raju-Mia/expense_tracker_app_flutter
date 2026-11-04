@@ -4,6 +4,7 @@ import '../../../core/base/base_view.dart';
 import '../../../core/theme/expense_theme.dart';
 import '../../../l10n/l10n.dart';
 import '../view_models/expense_history_view_model.dart';
+import '../widgets/expense_history_pdf_buttons.dart';
 import '../widgets/expense_history_filters.dart';
 import '../widgets/expense_transaction_list.dart';
 
@@ -41,7 +42,13 @@ class ExpenseHistoryScreen extends BaseView<ExpenseHistoryViewModel> {
   String? errorMessage(
     BuildContext context,
     ExpenseHistoryViewModel viewModel,
-  ) => viewModel.contentState.hasError ? context.l10n.expenseLoadError : null;
+  ) {
+    if (viewModel.contentState.hasError) return context.l10n.expenseLoadError;
+    if (viewModel.state.error != null) {
+      return context.l10n.expenseHistoryPdfError;
+    }
+    return null;
+  }
 
   @override
   Widget body(BuildContext context, ExpenseHistoryViewModel viewModel) {
@@ -75,6 +82,7 @@ class ExpenseHistoryScreen extends BaseView<ExpenseHistoryViewModel> {
                   ),
                   const SizedBox(height: 8),
                   Text(context.l10n.expenseHistoryCurrencies),
+                  ExpenseHistoryPdfButtons(model: viewModel),
                   if (viewModel.isFetching) const LinearProgressIndicator(),
                 ],
               ),

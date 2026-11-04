@@ -647,4 +647,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String reminderTime(String time) {
     return 'Reminder time: $time';
   }
+
+  @override
+  String get expenseHistoryExportPdf => 'Export PDF';
+
+  @override
+  String get expenseHistoryPdfSaved => 'PDF saved';
+
+  @override
+  String get expenseHistorySharePdf => 'Share PDF';
+
+  @override
+  String get expenseHistoryPdfError => 'Could not prepare the PDF. Try again.';
 }

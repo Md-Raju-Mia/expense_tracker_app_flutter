@@ -3,9 +3,12 @@ import 'dart:io';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
+import 'package:fleet_wise_user_app/data/repositories/expense_history_pdf_repository_impl.dart';
+import 'package:fleet_wise_user_app/domain/actions/expense_history_export_action.dart';
 import 'package:fleet_wise_user_app/domain/entities/expense.dart';
 import 'package:fleet_wise_user_app/domain/entities/expense_history_filter.dart';
 import 'package:fleet_wise_user_app/domain/entities/user_preferences.dart';
@@ -14,6 +17,7 @@ import 'package:fleet_wise_user_app/domain/repositories/expense_repository.dart'
 import 'package:fleet_wise_user_app/domain/repositories/category_repository.dart';
 import 'package:fleet_wise_user_app/domain/repositories/user_preferences_repository.dart';
 import 'package:fleet_wise_user_app/domain/tasks/expense/load_expense_history_task.dart';
+import 'package:fleet_wise_user_app/domain/tasks/expense/export_expense_history_task.dart';
 import 'package:fleet_wise_user_app/ui/expense/view_models/expense_history_view_model.dart';
 import 'package:fleet_wise_user_app/ui/expense/screens/expense_history_screen.dart';
 import 'package:fleet_wise_user_app/injection/injection.dart';
@@ -172,6 +176,46 @@ void main() {
       },
     );
     testWidgets(
+      'PDF export uses the selected rows and currencies, and cancellation stays silent',
+      (tester) async {
+        repo.rows.addAll([
+          row(2, DateTime(2024, 2, 29), currency: 'USD'),
+          row(3, DateTime(2025, 1, 1)),
+        ]);
+        const channel = MethodChannel('expense_tracker/history_pdf');
+        final messenger =
+            TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
+        final calls = <MethodCall>[];
+        messenger.setMockMethodCallHandler(channel, (call) async {
+          calls.add(call);
+          return calls.length > 1;
+        });
+        addTearDown(() => messenger.setMockMethodCallHandler(channel, null));
+        await tester.pumpWidget(
+          const ExpenseTrackerApp(initialLocation: '/expenses/history'),
+        );
+        await tester.pumpAndSettle();
+        await tap(tester, find.byKey(const ValueKey('history-period-year')));
+        await tap(tester, find.byType(DropdownButtonFormField<int>));
+        await tap(tester, find.text('2024').last);
+        await tap(tester, find.text('Export PDF'));
+        expect(find.text('PDF saved'), findsNothing);
+        expect(calls.single.method, 'export');
+        final report = calls.single.arguments as Map<Object?, Object?>;
+        expect(report['period'], '2024');
+        final rows = (report['rows'] as List<Object?>)
+            .cast<Map<Object?, Object?>>();
+        expect(rows.map((row) => row['title']), ['Entry 2', 'Entry 1']);
+        expect(rows.map((row) => row['amount']), [r'$0.29 USD', '৳0.29 BDT']);
+        await tap(tester, find.text('Export PDF'));
+        expect(find.text('PDF saved'), findsOneWidget);
+        await tap(tester, find.text('Share PDF'));
+        expect(calls.last.method, 'share');
+        expect(calls.last.arguments, report);
+        await tester.pumpWidget(const SizedBox.shrink());
+      },
+    );
+    testWidgets(
       'direct link error retries and empty period can reset to all time',
       (tester) async {
         repo.readError = StateError('read');
@@ -187,6 +231,17 @@ void main() {
         await tap(tester, find.widgetWithText(FilledButton, 'Try again'));
         await tap(tester, find.byKey(const ValueKey('history-period-day')));
         expect(find.text('No transactions in this period.'), findsOneWidget);
+        expect(
+          tester
+              .widget<OutlinedButton>(
+                find.ancestor(
+                  of: find.text('Share PDF'),
+                  matching: find.byType(OutlinedButton),
+                ),
+              )
+              .onPressed,
+          isNull,
+        );
         await tap(tester, find.byKey(const ValueKey('history-period-all')));
         expect(find.text('Entry 1'), findsOneWidget);
         await tester.pumpWidget(const SizedBox.shrink());
@@ -208,6 +263,13 @@ void main() {
         final repo = HistoryExpenses()..rows.add(row(1, DateTime(2024, 2, 29)));
         final model = ExpenseHistoryViewModel(
           createLoadTask: () => LoadExpenseHistoryTask(repo),
+          createExportAction: (report, share) => ExpenseHistoryExportAction(
+            ExportExpenseHistoryTask(
+              const ExpenseHistoryPdfRepositoryImpl(),
+              report,
+              share: share,
+            ),
+          ),
           today: DateTime(2024, 2, 29),
         );
         addTearDown(model.dispose);

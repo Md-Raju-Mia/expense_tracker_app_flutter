@@ -6,12 +6,17 @@ import 'package:sqflite/sqflite.dart';
 
 import '../data/datasources/local/expense_local_data_source.dart';
 import '../data/repositories/expense_repository_impl.dart';
+import '../data/repositories/expense_history_pdf_repository_impl.dart';
+import '../domain/actions/expense_history_export_action.dart';
 import '../domain/actions/expense_delete_action.dart';
 import '../domain/actions/expense_save_action.dart';
 import '../domain/actions/expense_update_action.dart';
 import '../domain/entities/expense.dart';
+import '../domain/entities/expense_history_report.dart';
+import '../domain/repositories/expense_history_pdf_repository.dart';
 import '../domain/repositories/expense_repository.dart';
 import '../domain/tasks/expense/delete_expense_task.dart';
+import '../domain/tasks/expense/export_expense_history_task.dart';
 import '../domain/tasks/expense/load_expenses_task.dart';
 import '../domain/tasks/expense/save_expense_task.dart';
 import '../domain/tasks/expense/load_expense_form_task.dart';
@@ -21,12 +26,30 @@ import '../ui/expense/view_models/expense_form_view_model.dart';
 import '../ui/expense/view_models/expense_home_view_model.dart';
 
 void configureExpenseDependencies(GetIt container) {
+  container.registerLazySingleton<ExpenseHistoryPdfRepository>(
+    () => const ExpenseHistoryPdfRepositoryImpl(),
+  );
+  container.registerFactoryParam<
+    ExpenseHistoryExportAction,
+    ExpenseHistoryReport,
+    bool
+  >(
+    (report, share) => ExpenseHistoryExportAction(
+      ExportExpenseHistoryTask(
+        container<ExpenseHistoryPdfRepository>(),
+        report,
+        share: share,
+      ),
+    ),
+  );
   container.registerFactory<LoadExpenseHistoryTask>(
     () => LoadExpenseHistoryTask(container<ExpenseRepository>()),
   );
   container.registerFactory<ExpenseHistoryViewModel>(
     () => ExpenseHistoryViewModel(
       createLoadTask: () => container<LoadExpenseHistoryTask>(),
+      createExportAction: (report, share) =>
+          container<ExpenseHistoryExportAction>(param1: report, param2: share),
     ),
   );
   container.registerLazySingleton<ExpenseLocalDataSource>(

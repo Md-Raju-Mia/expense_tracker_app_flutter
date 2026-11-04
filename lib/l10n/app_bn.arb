@@ -178,5 +178,9 @@
   "reminderBlocked": "নোটিফিকেশন বন্ধ আছে। রিমাইন্ডার পেতে Android সেটিংসে নোটিফিকেশনের অনুমতি দিন।",
   "reminderTiming": "Android নির্বাচিত সময়ের কিছু পরে রিমাইন্ডার পাঠাতে পারে।",
   "reminderError": "রিমাইন্ডার সেটিংস আপডেট করা যায়নি। আবার চেষ্টা করুন।",
-  "reminderTime": "রিমাইন্ডারের সময়: {time}"
+  "reminderTime": "রিমাইন্ডারের সময়: {time}",
+  "expenseHistoryExportPdf": "PDF এক্সপোর্ট করুন",
+  "expenseHistoryPdfSaved": "PDF সংরক্ষিত হয়েছে",
+  "expenseHistorySharePdf": "PDF শেয়ার করুন",
+  "expenseHistoryPdfError": "PDF প্রস্তুত করা যায়নি। আবার চেষ্টা করুন।"
 }

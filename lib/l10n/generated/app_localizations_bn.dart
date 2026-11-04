@@ -649,4 +649,17 @@ class AppLocalizationsBn extends AppLocalizations {
   String reminderTime(String time) {
     return 'রিমাইন্ডারের সময়: $time';
   }
+
+  @override
+  String get expenseHistoryExportPdf => 'PDF এক্সপোর্ট করুন';
+
+  @override
+  String get expenseHistoryPdfSaved => 'PDF সংরক্ষিত হয়েছে';
+
+  @override
+  String get expenseHistorySharePdf => 'PDF শেয়ার করুন';
+
+  @override
+  String get expenseHistoryPdfError =>
+      'PDF প্রস্তুত করা যায়নি। আবার চেষ্টা করুন।';
 }

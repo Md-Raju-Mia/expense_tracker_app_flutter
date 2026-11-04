@@ -627,4 +627,24 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get expenseHistoryChooseDate => 'Choose date';
+
+  @override
+  String get reminderTitle => 'Daily reminder';
+
+  @override
+  String get reminderBlocked =>
+      'Notifications are blocked. Allow them in Android settings to receive reminders.';
+
+  @override
+  String get reminderTiming =>
+      'Android may deliver the reminder after the selected time.';
+
+  @override
+  String get reminderError =>
+      'Could not update reminder settings. Please try again.';
+
+  @override
+  String reminderTime(String time) {
+    return 'Reminder time: $time';
+  }
 }

@@ -13,9 +13,11 @@ class UserPreferencesForm extends StatelessWidget {
     super.key,
     required this.model,
     required this.onSave,
+    required this.reminderSection,
   });
   final UserPreferencesViewModel model;
   final VoidCallback onSave;
+  final Widget reminderSection;
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +104,7 @@ class UserPreferencesForm extends StatelessWidget {
             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
           ),
         ),
+        reminderSection,
       ],
     );
   }

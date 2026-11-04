@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'expense_injection.dart';
 import 'categories_injection.dart';
 import 'preferences_injection.dart';
+import 'reminder_injection.dart';
 
 import '../core/config/app_config.dart';
 import '../core/network/api_client.dart';
@@ -50,6 +51,7 @@ void configureDependencies(
     SharedPreferencesAppPreferences.new,
   );
   configurePreferencesDependencies(container);
+  configureReminderDependencies(container);
   container.registerLazySingleton<Dio>(
     () => createDio(
       container<ApiConfig>(),

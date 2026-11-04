@@ -793,5 +793,30 @@
   "expenseHistoryChooseDate": "Choose date",
   "@expenseHistoryChooseDate": {
     "description": "Transaction history: expenseHistoryChooseDate"
+  },
+  "reminderTitle": "Daily reminder",
+  "@reminderTitle": {
+    "description": "Label for the daily reminder switch"
+  },
+  "reminderBlocked": "Notifications are blocked. Allow them in Android settings to receive reminders.",
+  "@reminderBlocked": {
+    "description": "Shown when Android blocks delivery"
+  },
+  "reminderTiming": "Android may deliver the reminder after the selected time.",
+  "@reminderTiming": {
+    "description": "Explains that Android can defer notification delivery"
+  },
+  "reminderError": "Could not update reminder settings. Please try again.",
+  "@reminderError": {
+    "description": "Shown when reminder settings could not be loaded or saved"
+  },
+  "reminderTime": "Reminder time: {time}",
+  "@reminderTime": {
+    "description": "Button to change the reminder time",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
   }
 }

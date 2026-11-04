@@ -1,0 +1,4 @@
+<resources>
+    <string name="daily_reminder_title">Daily expense reminder</string>
+    <string name="daily_reminder_message">Take a moment to record today’s transactions.</string>
+</resources>

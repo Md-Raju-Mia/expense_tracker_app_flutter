@@ -629,4 +629,24 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get expenseHistoryChooseDate => 'তারিখ বেছে নিন';
+
+  @override
+  String get reminderTitle => 'দৈনিক রিমাইন্ডার';
+
+  @override
+  String get reminderBlocked =>
+      'নোটিফিকেশন বন্ধ আছে। রিমাইন্ডার পেতে Android সেটিংসে নোটিফিকেশনের অনুমতি দিন।';
+
+  @override
+  String get reminderTiming =>
+      'Android নির্বাচিত সময়ের কিছু পরে রিমাইন্ডার পাঠাতে পারে।';
+
+  @override
+  String get reminderError =>
+      'রিমাইন্ডার সেটিংস আপডেট করা যায়নি। আবার চেষ্টা করুন।';
+
+  @override
+  String reminderTime(String time) {
+    return 'রিমাইন্ডারের সময়: $time';
+  }
 }

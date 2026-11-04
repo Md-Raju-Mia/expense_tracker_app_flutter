@@ -4,6 +4,7 @@ import 'support/memory_categories.dart';
 import 'support/test_categories.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences_platform_interface/in_memory_shared_preferences_async.dart';
@@ -38,8 +39,14 @@ Future<void> showApp(WidgetTester tester) async {
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   setUpAll(loadExpenseFonts);
+  const reminderChannel = MethodChannel('expense_tracker/daily_reminder');
+  final messenger =
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
   late FormExpenses expenses;
   setUp(() async {
+    messenger.setMockMethodCallHandler(reminderChannel, (_) async {
+      return {'enabled': false, 'allowed': false, 'minutes': 1200};
+    });
     SharedPreferencesAsyncPlatform.instance =
         InMemorySharedPreferencesAsync.empty();
     configureDependencies(getIt);
@@ -52,6 +59,7 @@ void main() {
     getIt.registerSingleton<ExpenseRepository>(expenses);
   });
   tearDown(() async {
+    messenger.setMockMethodCallHandler(reminderChannel, null);
     await getIt.reset();
     SharedPreferencesAsyncPlatform.instance = null;
   });

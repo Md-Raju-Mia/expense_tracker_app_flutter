@@ -173,5 +173,10 @@
   "expenseHistoryEmpty": "এই সময়ে কোনো লেনদেন নেই।",
   "expenseHistoryCurrencies": "প্রতিটি লেনদেন তার নিজস্ব মুদ্রায় দেখানো হয়েছে।",
   "expenseHistoryCount": "{count, plural, =0{কোনো লেনদেন নেই} =1{১টি লেনদেন} other{{count}টি লেনদেন}}",
-  "expenseHistoryChooseDate": "তারিখ বেছে নিন"
+  "expenseHistoryChooseDate": "তারিখ বেছে নিন",
+  "reminderTitle": "দৈনিক রিমাইন্ডার",
+  "reminderBlocked": "নোটিফিকেশন বন্ধ আছে। রিমাইন্ডার পেতে Android সেটিংসে নোটিফিকেশনের অনুমতি দিন।",
+  "reminderTiming": "Android নির্বাচিত সময়ের কিছু পরে রিমাইন্ডার পাঠাতে পারে।",
+  "reminderError": "রিমাইন্ডার সেটিংস আপডেট করা যায়নি। আবার চেষ্টা করুন।",
+  "reminderTime": "রিমাইন্ডারের সময়: {time}"
 }

@@ -1141,6 +1141,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Choose date'**
   String get expenseHistoryChooseDate;
+
+  /// Label for the daily reminder switch
+  ///
+  /// In en, this message translates to:
+  /// **'Daily reminder'**
+  String get reminderTitle;
+
+  /// Shown when Android blocks delivery
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications are blocked. Allow them in Android settings to receive reminders.'**
+  String get reminderBlocked;
+
+  /// Explains that Android can defer notification delivery
+  ///
+  /// In en, this message translates to:
+  /// **'Android may deliver the reminder after the selected time.'**
+  String get reminderTiming;
+
+  /// Shown when reminder settings could not be loaded or saved
+  ///
+  /// In en, this message translates to:
+  /// **'Could not update reminder settings. Please try again.'**
+  String get reminderError;
+
+  /// Button to change the reminder time
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder time: {time}'**
+  String reminderTime(String time);
 }
 
 class _AppLocalizationsDelegate

@@ -10,8 +10,13 @@ import '../view_models/user_preferences_view_model.dart';
 import '../widgets/user_preferences_form.dart';
 
 class UserPreferencesScreen extends BaseView<UserPreferencesViewModel> {
-  const UserPreferencesScreen({super.key, required this.onSaved});
+  const UserPreferencesScreen({
+    super.key,
+    required this.onSaved,
+    this.reminderSection = const SizedBox.shrink(),
+  });
   final ValueChanged<UserPreferences> onSaved;
+  final Widget reminderSection;
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +69,7 @@ class UserPreferencesScreen extends BaseView<UserPreferencesViewModel> {
     return AppPageContent(
       child: UserPreferencesForm(
         model: viewModel,
+        reminderSection: reminderSection,
         onSave: () async {
           final selected = viewModel.draft;
           final outcome = await viewModel.save();

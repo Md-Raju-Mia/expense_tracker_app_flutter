@@ -1,0 +1,4 @@
+<resources>
+    <string name="daily_reminder_title">দৈনিক খরচের রিমাইন্ডার</string>
+    <string name="daily_reminder_message">আজকের লেনদেনগুলো লিখে রাখুন।</string>
+</resources>

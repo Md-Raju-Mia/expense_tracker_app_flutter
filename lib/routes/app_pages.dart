@@ -15,7 +15,9 @@ import '../ui/expense/widgets/expense_journey.dart';
 import '../ui/categories/screens/categories_screen.dart';
 import '../ui/categories/view_models/categories_view_model.dart';
 import '../ui/preferences/screens/user_preferences_screen.dart';
+import '../ui/preferences/view_models/daily_reminder_view_model.dart';
 import '../ui/preferences/view_models/user_preferences_view_model.dart';
+import '../ui/preferences/widgets/daily_reminder_section.dart';
 import '../ui/posts/view_models/post_detail_view_model.dart';
 import '../ui/posts/view_models/posts_view_model.dart';
 import '../ui/posts/screens/post_detail_screen.dart';
@@ -121,7 +123,13 @@ class AppPages {
                   onPopInvokedWithResult: (didPop, result) {
                     if (didPop) preferences.discardChanges();
                   },
-                  child: UserPreferencesScreen(onSaved: (_) => context.pop()),
+                  child: ChangeNotifierProvider(
+                    create: (_) => getIt<DailyReminderViewModel>()..load(),
+                    child: UserPreferencesScreen(
+                      onSaved: (_) => context.pop(),
+                      reminderSection: const DailyReminderSection(),
+                    ),
+                  ),
                 );
               },
             ),

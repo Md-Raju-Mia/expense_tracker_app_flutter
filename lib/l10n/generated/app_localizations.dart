@@ -1195,6 +1195,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Could not prepare the PDF. Try again.'**
   String get expenseHistoryPdfError;
+
+  /// Button that opens Google advertising privacy choices
+  ///
+  /// In en, this message translates to:
+  /// **'Ad privacy options'**
+  String get adsPrivacyOptions;
+
+  /// Shown when the advertising privacy form fails to open
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open ad privacy options. Try again.'**
+  String get adsPrivacyError;
 }
 
 class _AppLocalizationsDelegate

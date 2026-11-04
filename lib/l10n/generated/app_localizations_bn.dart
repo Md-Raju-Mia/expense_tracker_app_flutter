@@ -662,4 +662,11 @@ class AppLocalizationsBn extends AppLocalizations {
   @override
   String get expenseHistoryPdfError =>
       'PDF প্রস্তুত করা যায়নি। আবার চেষ্টা করুন।';
+
+  @override
+  String get adsPrivacyOptions => 'বিজ্ঞাপনের গোপনীয়তা সেটিংস';
+
+  @override
+  String get adsPrivacyError =>
+      'বিজ্ঞাপনের গোপনীয়তা সেটিংস খোলা যায়নি। আবার চেষ্টা করুন।';
 }

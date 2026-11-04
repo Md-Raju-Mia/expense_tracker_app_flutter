@@ -4,6 +4,7 @@ import '../../../core/base/base_view.dart';
 import '../../../core/theme/expense_theme.dart';
 import '../../../l10n/l10n.dart';
 import '../view_models/expense_history_view_model.dart';
+import '../widgets/expense_history_banner.dart';
 import '../widgets/expense_history_pdf_buttons.dart';
 import '../widgets/expense_history_filters.dart';
 import '../widgets/expense_transaction_list.dart';
@@ -49,6 +50,14 @@ class ExpenseHistoryScreen extends BaseView<ExpenseHistoryViewModel> {
     }
     return null;
   }
+
+  @override
+  Widget? bottomNavigationBar(
+    BuildContext context,
+    ExpenseHistoryViewModel viewModel,
+  ) => viewModel.isLoading || viewModel.visibleExpenses.isEmpty
+      ? null
+      : const ExpenseHistoryBanner();
 
   @override
   Widget body(BuildContext context, ExpenseHistoryViewModel viewModel) {

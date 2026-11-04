@@ -7,6 +7,7 @@ import '../../../core/widgets/app_page_content.dart';
 import '../../../domain/entities/user_preferences.dart';
 import '../../../l10n/l10n.dart';
 import '../view_models/user_preferences_view_model.dart';
+import '../widgets/ads_privacy_button.dart';
 import '../widgets/user_preferences_form.dart';
 
 class UserPreferencesScreen extends BaseView<UserPreferencesViewModel> {
@@ -67,16 +68,22 @@ class UserPreferencesScreen extends BaseView<UserPreferencesViewModel> {
       );
     }
     return AppPageContent(
-      child: UserPreferencesForm(
-        model: viewModel,
-        reminderSection: reminderSection,
-        onSave: () async {
-          final selected = viewModel.draft;
-          final outcome = await viewModel.save();
-          if (context.mounted && outcome.status == ActionStatus.succeeded) {
-            onSaved(selected);
-          }
-        },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          UserPreferencesForm(
+            model: viewModel,
+            reminderSection: reminderSection,
+            onSave: () async {
+              final selected = viewModel.draft;
+              final outcome = await viewModel.save();
+              if (context.mounted && outcome.status == ActionStatus.succeeded) {
+                onSaved(selected);
+              }
+            },
+          ),
+          const AdsPrivacyButton(),
+        ],
       ),
     );
   }

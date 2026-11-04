@@ -834,5 +834,13 @@
   "expenseHistoryPdfError": "Could not prepare the PDF. Try again.",
   "@expenseHistoryPdfError": {
     "description": "Failure message for transaction history PDF export"
+  },
+  "adsPrivacyOptions": "Ad privacy options",
+  "@adsPrivacyOptions": {
+    "description": "Button that opens Google advertising privacy choices"
+  },
+  "adsPrivacyError": "Could not open ad privacy options. Try again.",
+  "@adsPrivacyError": {
+    "description": "Shown when the advertising privacy form fails to open"
   }
 }

@@ -659,4 +659,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get expenseHistoryPdfError => 'Could not prepare the PDF. Try again.';
+
+  @override
+  String get adsPrivacyOptions => 'Ad privacy options';
+
+  @override
+  String get adsPrivacyError => 'Could not open ad privacy options. Try again.';
 }

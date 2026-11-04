@@ -27,6 +27,27 @@ Both expense and income forms load active categories from storage. Manage catego
 
 History and charts load current category names/icons/colors, including archived categories. Renaming/restyling a category updates its presentation on past transactions without changing their amounts, type or category identity. Totals group by stable ID, not name; reusing an archived name does not merge distinct categories. Identical translated default/custom names are labeled distinctly, and archived history is marked. Active stored names remain unique within income/expense type; the form also rejects duplicate translated display names. Category names wrap for enlarged text. Income/expense type stays immutable after creation.
 
+## Android ads
+
+Transaction History can show an anchored adaptive AdMob banner when it contains
+transactions. The banner is separated from the scrollable content and disappears
+when unavailable. Saving and sharing PDFs are available independently of ads.
+
+Ads are off by default. To test with Google's demo app and banner unit, run
+`flutter run --dart-define=ADMOB_TEST_ADS=true`. This flag only enables test ads
+in debug or profile builds.
+
+For a production Android build, configure the app, History banner unit, and
+applicable privacy messages in AdMob. Pass the app and banner IDs from the same
+publisher to the release build:
+
+```powershell
+flutter build appbundle --release --dart-define=ADMOB_ANDROID_APP_ID=YOUR_APP_ID --dart-define=ADMOB_ANDROID_HISTORY_BANNER_ID=YOUR_BANNER_ID
+```
+
+Google's UMP SDK controls ad eligibility and whether the ad privacy entry appears
+in Settings. Requests contain no transaction or PDF data.
+
 ## Posts sample (/posts)
 
 Open /posts to load the first ten sample posts automatically. Scroll to discover more,
